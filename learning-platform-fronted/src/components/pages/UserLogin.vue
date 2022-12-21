@@ -1,6 +1,8 @@
 <template>
     <div class="container">
+
         <div class="login-contain">
+            <img src="../../assets/logo2.svg"/>
             <a-form
                     id="components-form-demo-normal-login"
                     :form="form"
@@ -85,13 +87,15 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        background-image: url("../../../public/background.png");
+        background-image: url("../../../public/background2.png");
+        /*background-image: url("@/assets/background2.png");*/
+
     }
 
     .login-contain {
         width: 20%;
         height: 20%;
-        margin: 10% auto;
+        margin: 5% auto;
     }
 
     #components-form-demo-normal-login .login-form {

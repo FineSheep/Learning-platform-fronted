@@ -12,7 +12,7 @@
                     <a-layout-content
                             :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
                     >
-                        <list-card/>
+                        <router-view/>
                     </a-layout-content>
                 </a-layout>
                 <a-layout-sider width="200" style="background: rgba(240,242,245)">
@@ -29,7 +29,7 @@
 
 <script>
 
-    import MenuSearch from "@/components/pages/MenuSearch";
+    import MenuSearch from "@/components/pages/search/MenuSearch";
     import ListCard from "@/components/pages/ListCard";
 
     export default {

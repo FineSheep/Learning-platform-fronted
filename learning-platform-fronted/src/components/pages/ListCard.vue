@@ -4,7 +4,7 @@
         <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
             <template v-for="{ type, text } in actions" slot="actions">
         <span :key="type">
-          <a-icon :type="type" style="margin-right: 8px" theme=""/>
+          <a-icon :type="type" style="margin-right: 8px" />
           {{ text }}
         </span>
             </template>
@@ -16,9 +16,12 @@
             />
             <a-list-item-meta :description="item.description">
                 <a slot="title" :href="item.href">{{ item.title }}</a>
-                <a-avatar slot="avatar" :src="item.avatar" />
+                <a-avatar slot="avatar" :src="item.avatar"/>
             </a-list-item-meta>
-            {{ item.content }}
+            <div class="box">
+                {{ item.content }}
+            </div>
+
         </a-list-item>
     </a-list>
 </template>
@@ -32,12 +35,15 @@
             description:
                 'Ant Design, a design language for background applications, is refined by Ant UED Team.',
             content:
-                'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
+                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
+                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
+                '你好你好你好你好你好你好你好你好你好你好',
         });
     }
 
     export default {
-        name:"ListCard",
+        name: "ListCard",
         data() {
             return {
                 listData,
@@ -48,12 +54,22 @@
                     pageSize: 3,
                 },
                 actions: [
-                    { type: 'star-o', text: '156' },
-                    { type: 'like-o', text: '156' },
-                    { type: 'message', text: '2' },
+                    {type: 'star-o', text: '156'},
+                    {type: 'like-o', text: '156'},
+                    {type: 'message', text: '2'},
                 ],
             };
         },
     };
 </script>
-<style></style>
+<style scoped>
+    .box {
+        overflow: hidden; /* 隐藏溢出文本 */
+        text-overflow: ellipsis; /* 溢出文本省略号显示 */
+        word-break: break-all; /* 在恰当的断字点进行自动换行 */
+        display: -webkit-box; /* 伸缩盒子 */
+        -webkit-box-orient: vertical; /* 伸缩盒子子元素的排列方式 */
+        -webkit-line-clamp: 2; /* 显示的行数 */
+    }
+
+</style>
