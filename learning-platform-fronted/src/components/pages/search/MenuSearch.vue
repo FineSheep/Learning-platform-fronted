@@ -2,8 +2,9 @@
     <div>
         <div>
             <div class="logo"/>
-            <a-menu v-model="current" mode="horizontal" class="ant-menu" @click="menuSearch">
-                <a-menu-item key="index">
+            <a-menu mode="horizontal" class="ant-menu"
+                    @click="menuSearch">
+                <a-menu-item key="">
                     首页
                 </a-menu-item>
                 <a-menu-item key="practice">
@@ -42,12 +43,12 @@
                                   @click="e => e.preventDefault()"
                         />
                         <a-menu slot="overlay">
-                            <a-menu-item>
-                                <a-icon type="user"/>
+                            <a-menu-item @click="toPersonCenter">
+                                <a-icon type="user" />
                                 个人中心
                             </a-menu-item>
                             <a-menu-item @click="offLogin">
-                                <a-icon type="poweroff" />
+                                <a-icon type="poweroff"/>
                                 退出登录
                             </a-menu-item>
                         </a-menu>
@@ -64,37 +65,37 @@
 
 <script>
 
+    import userJs from "@/userJs/user"
+
     export default {
         name: "MenuSearch",
-        mounted() {
-            const user = localStorage.getItem("user");
-            console.log(user)
+        async mounted() {
+            const user = await userJs.getCurrentUser();
             if (user == null) {
                 this.isLogin = false;
-
             } else {
                 this.isLogin = true;
-                this.user = JSON.parse(user);
-                console.log(this.user)
+                this.user = user;
             }
 
         },
         data() {
             return {
-                current: [],
                 isLogin: false,
                 show: true,
                 user: {}
             };
         },
         methods: {
+            toPersonCenter(){
+                this.$router.push(`/personCenter`)
+
+            },
             offLogin() {
-                console.log("--===")
-                localStorage.removeItem("user");
+                localStorage.removeItem("userId");
                 this.isLogin = false;
             },
             toLogin() {
-                console.log("-----------------")
                 this.$router.push("/LoginRegister")
             },
 
@@ -102,8 +103,9 @@
                 console.log(value);
             },
             menuSearch(e) {
-                console.log('click', e);
-                this.$router.push(`/${e.key}`)
+                if (e.key != 'personCenter') {
+                    this.$router.push(`/${e.key}`)
+                }
             }
         }
 
@@ -111,7 +113,7 @@
 </script>
 
 
-<style>
+<style scoped>
     .logo {
         width: 200px;
         height: 40px;

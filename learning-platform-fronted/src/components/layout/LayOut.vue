@@ -10,7 +10,7 @@
                 </a-layout-sider>
                 <a-layout style="padding: 0 24px 24px;margin-top: 20px">
                     <a-layout-content
-                            :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+                            :style="{ background: '#fff', padding: '24px', margin: 0}"
                     >
                         <router-view/>
                     </a-layout-content>

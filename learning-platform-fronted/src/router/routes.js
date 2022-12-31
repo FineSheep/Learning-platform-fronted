@@ -1,10 +1,12 @@
 import VueRouter from 'vue-router'
 import LayOut from "@/components/layout/LayOut";
-import ListCard from "@/components/pages/ListCard";
+import ListCard from "@/components/case/ListCard";
 import practiseQues from "@/components/pages/practiseQues";
 import personCenter from "@/components/pages/person/PersonCenter"
 import editPerson from '@/components/pages/person/EditPerson'
 import LoginRegister from "@/components/pages/person/LoginRegister";
+import PersonInfo from "@/components/pages/person/PersonInfo";
+import AccountSetting from "@/components/pages/person/AccountSetting";
 
 const routes = [
 
@@ -15,7 +17,7 @@ const routes = [
             [
                 {
                     component: ListCard,
-                    path: 'index'
+                    path: ''
                 },
                 {
                     component: practiseQues,
@@ -25,6 +27,20 @@ const routes = [
                     component: personCenter,
                     path: 'personCenter'
                 },
+                {
+                    component: editPerson,
+                    path: '/editPerson',
+                    children:
+                        [
+                            {
+                                component: PersonInfo,
+                                path: ''
+                            },
+                            {
+                                component: AccountSetting,
+                                path: 'accountSetting'
+                            }]
+                }
             ]
 
     },
@@ -32,10 +48,7 @@ const routes = [
         component: LoginRegister,
         path: '/LoginRegister'
     },
-    {
-        component: editPerson,
-        path: '/editPerson'
-    }
+
 ]
 
 const router = new VueRouter({

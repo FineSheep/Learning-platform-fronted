@@ -119,7 +119,6 @@
             loginByPassword(e) {
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
-                    console.log(values)
                     if (!err) {
                         const that = this;
                         myAxios.post('user/loginByPassword', {
@@ -128,7 +127,7 @@
                         }).then(function (res) {
                             console.log(res)
                             if (res.code == 0) {
-                                localStorage.setItem("user", JSON.stringify(res.data));
+                                localStorage.setItem("userId", JSON.stringify(res.data.id));
                                 that.$router.push("/");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
@@ -152,7 +151,8 @@
                         }).then(function (res) {
                             console.log(res)
                             if (res.code === 0) {
-                                localStorage.setItem("user", JSON.stringify(res.data));
+                                console.log("------------------")
+                                localStorage.setItem("userId", JSON.stringify(res.data.id));
                                 that.$router.push("/");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {

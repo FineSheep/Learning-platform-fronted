@@ -20,6 +20,7 @@
 
 <script>
     import moment from 'moment'
+    import userJs from "@/userJs/user"
 
     export default {
         name: "PersonCenter",
@@ -28,20 +29,17 @@
                 user: {},
             }
         },
-        created() {
-            this.user = JSON.parse(localStorage.getItem('user'))
+        async created() {
+            const user = await userJs.getCurrentUser();
+            this.user = user;
             this.user.createTime = moment(new Date(this.user.createTime)).format('YYYY-MM-DD')
+
         },
         methods: {
             editPerson() {
-                console.log("----------")
-                console.log(this.user)
                 this.$router.push(
                     {
                         path: '/editPerson',
-                        query: {
-                            "user": this.user
-                        }
                     }
                 )
             }
