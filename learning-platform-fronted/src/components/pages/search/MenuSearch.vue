@@ -1,5 +1,4 @@
 <template>
-    <div>
         <div>
             <div class="logo"/>
             <a-menu mode="horizontal" class="ant-menu"
@@ -58,8 +57,6 @@
                 </a-menu-item>
             </a-menu>
         </div>
-
-    </div>
 </template>
 
 

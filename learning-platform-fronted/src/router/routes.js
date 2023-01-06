@@ -1,12 +1,13 @@
 import VueRouter from 'vue-router'
 import LayOut from "@/components/layout/LayOut";
 import ListCard from "@/components/case/ListCard";
-import practiseQues from "@/components/pages/practiseQues";
 import personCenter from "@/components/pages/person/PersonCenter"
 import editPerson from '@/components/pages/person/EditPerson'
 import LoginRegister from "@/components/pages/person/LoginRegister";
 import PersonInfo from "@/components/pages/person/PersonInfo";
 import AccountSetting from "@/components/pages/person/AccountSetting";
+import ListNews from "@/components/case/ListNews";
+import ListView from "@/components/ListView";
 
 const routes = [
 
@@ -20,12 +21,16 @@ const routes = [
                     path: ''
                 },
                 {
-                    component: practiseQues,
-                    path: 'practice'
-                },
-                {
                     component: personCenter,
                     path: 'personCenter'
+                },
+                {
+                    component: ListNews,
+                    path: '/news'
+                },
+                {
+                    component: ListView,
+                    path: "/test"
                 },
                 {
                     component: editPerson,
@@ -48,6 +53,7 @@ const routes = [
         component: LoginRegister,
         path: '/LoginRegister'
     },
+
 
 ]
 

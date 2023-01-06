@@ -1,23 +1,18 @@
 <template>
     <div>
         <a-layout>
-            <a-layout-header style="background: white">
-                <menu-search/>
-            </a-layout-header>
+            <a-affix :offset-top="top">
+                <a-layout-header style="background: white">
+                    <menu-search/>
+                </a-layout-header>
+            </a-affix>
             <a-layout>
-                <a-layout-sider width="200" style="background: rgba(240,242,245)">
-                    侧边左
-                </a-layout-sider>
-                <a-layout style="padding: 0 24px 24px;margin-top: 20px">
-                    <a-layout-content
-                            :style="{ background: '#fff', padding: '24px', margin: 0}"
-                    >
-                        <router-view/>
-                    </a-layout-content>
-                </a-layout>
-                <a-layout-sider width="200" style="background: rgba(240,242,245)">
-                    侧边右
-                </a-layout-sider>
+                <a-layout-content
+                        class="context"
+                        style=" background-color: white;padding: 20px"
+                >
+                    <router-view/>
+                </a-layout-content>
             </a-layout>
         </a-layout>
 
@@ -33,9 +28,12 @@
 
     export default {
         name: "LayOut",
-        components: { MenuSearch}
+        components: {MenuSearch}
     }
 </script>
 <style scoped>
-
+    .context {
+        width: 70%;
+        margin: 20px auto;
+    }
 </style>

@@ -1,81 +1,104 @@
 <template>
-    <a-list item-layout="vertical" size="large"  :data-source="listData">
-        <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
-            <template v-for="{ type, text } in actions" slot="actions">
+
+    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+        <a-list item-layout="vertical" size="large" :data-source="data">
+            <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
+                <template v-for="{ type, text } in actions" slot="actions">
         <span :key="type">
           <a-icon :type="type" style="margin-right: 8px"/>
           {{ text }}
         </span>
-            </template>
-            <img
-                    slot="extra"
-                    width="272"
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-            />
-            <a-list-item-meta :description="item.putTime">
-                <a slot="title">{{ item.title }}</a>
-                <a-avatar slot="avatar" :src="item.avatar"/>
-            </a-list-item-meta>
-            <div class="box">
-                {{ item.content }}
-            </div>
-        </a-list-item>
-    </a-list>
+                </template>
+                <img
+                        slot="extra"
+                        width="272"
+                        alt="logo"
+                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                />
+                <a-list-item-meta :description="item.putTime">
+                    <a slot="title">{{ item.title }}</a>
+                    <a-avatar slot="avatar" :src="item.avatar"/>
+                </a-list-item-meta>
+                <div class="box">
+                    {{ item.content }}
+                </div>
+            </a-list-item>
+        </a-list>
+        <div v-if="loading && !busy" class="demo-loading-container">
+            <a-spin/>
+        </div>
+
+    </div>
+
 </template>
 <script>
-    import myAxios from "@/axios/myAxios";
+    import reqwest from 'reqwest';
+    import infiniteScroll from 'vue-infinite-scroll';
 
-    const listData = [];
-/*    for (let i = 0; i < 23; i++) {
-        listData.push({
-            href: 'https://www.antdv.com/',
-            title: `ant design vue part ${i}`,
-            avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-            description:
-                'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-            content:
-                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
-                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
-                '你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好你好' +
-                '你好你好你好你好你好你好你好你好你好你好',
-        });
-    }*/
-
+    const baseTitle = 'http://127.0.0.1:8080';
+    let curPage = 1;
+    let pageSize = 10;
+    let total = 20;
+    const fakeDataUrl = `${baseTitle}/information/getInfo?curPage=${curPage}&pageSize=${pageSize}`;
     export default {
         name: "ListCard",
+        directives: {infiniteScroll},
         data() {
             return {
-                listData,
-/*                pagination: {
-                    onChange: page => {
-                        console.log(page);
-                    },
-                    pageSize: 3,
-                },*/
+                data: [],
                 actions: [
                     {type: 'star-o', text: '156'},
                     {type: 'like-o', text: '156'},
                     {type: 'message', text: '2'},
                 ],
+                loading: false,
+                busy: false,
             };
         },
-        async mounted() {
-            const post = await myAxios.get(`/information/getInfo?curPage=${1}&pageSize=10`);
-            const records = post.data.records;
-            console.log(records)
-            for (let r in records) {
-                console.log(records[r])
-                listData.push({
-                    id: records[r].id,
-                    title: records[r].title,
-                    putTime: records[r].putTime,
-                    source: records[r].source,
-                    content: records[r].content,
-                    link: records[r].link,
-                    photo: records[r].photo
-                })
+        destroyed() {
+            console.log("销毁了")
+
+        },
+        mounted() {
+            console.log("挂载中。。。。")
+            this.fetchData(res => {
+                this.data = res.data.records;
+                total = res.data.total;
+            });
+            console.log(this.data.length)
+
+        },
+        methods: {
+            fetchData(callback) {
+                reqwest({
+                    url: fakeDataUrl,
+                    type: 'json',
+                    method: 'get',
+                    contentType: 'application/json',
+                    success: res => {
+                        callback(res);
+                    },
+                });
+            },
+            loadMore() {
+                console.log("滚动")
+                console.log(`当前第${curPage}页`)
+                curPage++;
+                console.log(`下一页是：${curPage}页`)
+                this.loading = true;
+                if (this.data.length >= total) {
+                    this.$message.warning("数据加载完毕！");
+                    this.busy = true;
+                    this.loading = false;
+                    return;
+                }
+                this.fetchData(res => {
+                    console.log(res)
+                    this.data = this.data.concat(res.data.records);
+                    this.loading = false;
+                });
             }
+
         }
     };
 </script>
@@ -87,6 +110,11 @@
         display: -webkit-box; /* 伸缩盒子 */
         -webkit-box-orient: vertical; /* 伸缩盒子子元素的排列方式 */
         -webkit-line-clamp: 2; /* 显示的行数 */
+    }
+
+    .demo-infinite-container {
+        height: 100%;
+        overflow-y: auto;
     }
 
 </style>
