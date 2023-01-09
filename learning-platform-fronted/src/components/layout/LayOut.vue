@@ -1,15 +1,14 @@
 <template>
     <div>
         <a-layout>
-            <a-affix :offset-top="top">
+            <a-affix :offset-top="0">
                 <a-layout-header style="background: white">
                     <menu-search/>
                 </a-layout-header>
             </a-affix>
-            <a-layout>
+            <a-layout style="background-color: rgb(247,248,249)">
                 <a-layout-content
                         class="context"
-                        style=" background-color: white;padding: 20px"
                 >
                     <router-view/>
                 </a-layout-content>
@@ -24,7 +23,7 @@
 
 <script>
 
-    import MenuSearch from "@/components/pages/search/MenuSearch";
+    import MenuSearch from "@/components/search/MenuSearch";
 
     export default {
         name: "LayOut",
@@ -34,6 +33,6 @@
 <style scoped>
     .context {
         width: 70%;
-        margin: 20px auto;
+        margin: 10px auto;
     }
 </style>

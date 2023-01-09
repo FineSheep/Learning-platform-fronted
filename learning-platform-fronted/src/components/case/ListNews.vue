@@ -3,6 +3,7 @@
             v-infinite-scroll="getData"
             :infinite-scroll-disabled="busy"
             :infinite-scroll-distance="2"
+            style="background-color: white; padding: 20px"
     >
         <a-list item-layout="vertical" size="large" :data-source="data">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
@@ -81,4 +82,5 @@
         padding: 8px 24px;
         height: 500px;
     }
+
 </style>

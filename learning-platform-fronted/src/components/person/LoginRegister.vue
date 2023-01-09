@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="login-contain">
-            <img src="../../../assets/logo2.svg"/>
+            <img src="../../assets/logo2.svg"/>
             <a-card
                     class="login-card"
                     :tab-list="tabListNoTitle"
@@ -189,7 +189,7 @@
         width: 100%;
         height: 100%;
         position: absolute;
-        background-image: url("../../../../public/background2.png");
+        background-image: url("../../../public/background2.png");
         background-size: 100%, 100%;
     }
 

@@ -6,7 +6,7 @@
                 <a-menu-item key="">
                     首页
                 </a-menu-item>
-                <a-menu-item key="practice">
+                <a-menu-item key="practiceIndex">
                     练习
                 </a-menu-item>
                 <a-menu-item key="news">
@@ -114,7 +114,7 @@
     .logo {
         width: 200px;
         height: 40px;
-        background: url("../../../../public/logo.svg");
+        background: url("../../../public/logo.svg");
         /*background-color: skyblue;*/
         margin-top: 5px;
         margin-right: 20px;

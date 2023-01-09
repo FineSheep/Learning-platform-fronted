@@ -1,13 +1,16 @@
 import VueRouter from 'vue-router'
 import LayOut from "@/components/layout/LayOut";
 import ListCard from "@/components/case/ListCard";
-import personCenter from "@/components/pages/person/PersonCenter"
-import editPerson from '@/components/pages/person/EditPerson'
-import LoginRegister from "@/components/pages/person/LoginRegister";
-import PersonInfo from "@/components/pages/person/PersonInfo";
-import AccountSetting from "@/components/pages/person/AccountSetting";
+import personCenter from "@/components/person/PersonCenter"
+import editPerson from '@/components/person/EditPerson'
+import LoginRegister from "@/components/person/LoginRegister";
+import PersonInfo from "@/components/person/PersonInfo";
+import AccountSetting from "@/components/person/AccountSetting";
 import ListNews from "@/components/case/ListNews";
 import ListView from "@/components/ListView";
+import PracticeIndex from "@/components/practice/PracticeIndex";
+import PersonPractice from "@/components/practice/PersonPractice";
+import PK from "@/components/practice/PK";
 
 const routes = [
 
@@ -45,6 +48,19 @@ const routes = [
                                 component: AccountSetting,
                                 path: 'accountSetting'
                             }]
+                },
+                {
+                    component: PracticeIndex,
+                    path: '/practiceIndex',
+                    children: [
+                        {
+                            component: PersonPractice,
+                            path: ''
+                        }, {
+                            component: PK,
+                            path: 'pk'
+                        },
+                    ]
                 }
             ]
 
