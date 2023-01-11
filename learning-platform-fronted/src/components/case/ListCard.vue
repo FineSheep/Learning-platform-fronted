@@ -1,7 +1,11 @@
 <template>
 
-    <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
-        <a-list item-layout="vertical" size="large" :data-source="data">
+    <div v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="busy"
+         infinite-scroll-distance="10"
+         style="background-color: white; padding: 20px"
+    >
+        <a-list item-layout="vertical" size="large" :data-source="data" >
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <template v-for="{ type, text } in actions" slot="actions">
         <span :key="type">

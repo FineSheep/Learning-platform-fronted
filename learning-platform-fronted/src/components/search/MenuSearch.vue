@@ -1,62 +1,58 @@
 <template>
-        <div>
-            <div class="logo"/>
-            <a-menu mode="horizontal" class="ant-menu"
-                    @click="menuSearch">
-                <a-menu-item key="">
-                    首页
-                </a-menu-item>
-                <a-menu-item key="practiceIndex">
-                    练习
-                </a-menu-item>
-                <a-menu-item key="news">
-                    资讯
-                </a-menu-item>
-                <a-menu-item key="feedBack">
-                    反馈
-                </a-menu-item>
-                <a-menu-item style="flex: 1;border: none"/>
-                <a-menu-item disabled>
-                    <div class="bottom">
-                        <a-input-search placeholder="input search text" enter-button @search="onSearch"/>
-                    </div>
-                </a-menu-item>
-                <a-menu-item key="mail" style="border: none">
-                    <div>
-                        <a-badge :dot="show">
-                            <a-icon type="mail"/>
-                        </a-badge>
-                        消息
-                    </div>
+    <div>
+        <div class="logo"/>
+        <a-menu mode="horizontal"
+                class="ant-menu"
+                @click="menuSearch">
+            <a-menu-item key="">
+                首页
+            </a-menu-item>
+            <a-menu-item key="practiceIndex">
+                练习
+            </a-menu-item>
+            <a-menu-item key="news">
+                资讯
+            </a-menu-item>
+            <a-menu-item key="feedBack">
+                反馈
+            </a-menu-item>
+            <a-menu-item style="flex: 1;border: none"/>
+            <a-menu-item key="mail" style="border: none">
+                <div>
+                    <a-badge :dot="show">
+                        <a-icon type="mail"/>
+                    </a-badge>
+                    消息中心
+                </div>
 
-                </a-menu-item>
-                <a-menu-item key="edit" style="border: none">
-                    <div>
-                        <a-icon type="edit"/>
-                        发布
-                    </div>
-                </a-menu-item>
-                <a-menu-item style="border: none" key="personCenter">
-                    <a-dropdown v-if="isLogin">
-                        <a-avatar :src="user.avatarUrl"
-                                  @click="e => e.preventDefault()"
-                        />
-                        <a-menu slot="overlay">
-                            <a-menu-item @click="toPersonCenter">
-                                <a-icon type="user" />
-                                个人中心
-                            </a-menu-item>
-                            <a-menu-item @click="offLogin">
-                                <a-icon type="poweroff"/>
-                                退出登录
-                            </a-menu-item>
-                        </a-menu>
-                    </a-dropdown>
-                    <a-button v-else @click="toLogin" type="primary">登录 | 注册
-                    </a-button>
-                </a-menu-item>
-            </a-menu>
-        </div>
+            </a-menu-item>
+            <a-menu-item key="edit" style="border: none">
+                <div>
+                    <a-icon type="edit"/>
+                    创作中心
+                </div>
+            </a-menu-item>
+            <a-menu-item style="border: none" key="personCenter">
+                <a-dropdown v-if="isLogin">
+                    <a-avatar :src="user.avatarUrl"
+                              @click="e => e.preventDefault()"
+                    />
+                    <a-menu slot="overlay">
+                        <a-menu-item @click="toPersonCenter">
+                            <a-icon type="user"/>
+                            个人中心
+                        </a-menu-item>
+                        <a-menu-item @click="offLogin">
+                            <a-icon type="poweroff"/>
+                            退出登录
+                        </a-menu-item>
+                    </a-menu>
+                </a-dropdown>
+                <a-button v-else @click="toLogin" type="primary">登录 | 注册
+                </a-button>
+            </a-menu-item>
+        </a-menu>
+    </div>
 </template>
 
 
@@ -84,7 +80,7 @@
             };
         },
         methods: {
-            toPersonCenter(){
+            toPersonCenter() {
                 this.$router.push(`/personCenter`)
 
             },
@@ -94,10 +90,6 @@
             },
             toLogin() {
                 this.$router.push("/LoginRegister")
-            },
-
-            onSearch(value) {
-                console.log(value);
             },
             menuSearch(e) {
                 if (e.key != 'personCenter') {
