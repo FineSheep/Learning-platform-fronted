@@ -14,8 +14,6 @@
                 </a-layout-content>
             </a-layout>
         </a-layout>
-
-
     </div>
 
 </template>

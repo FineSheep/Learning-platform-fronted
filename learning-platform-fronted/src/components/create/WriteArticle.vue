@@ -1,13 +1,99 @@
 <template>
-    
+    <div>
+        <div>
+            <a-input placeholder="请输入标题..." class="title-input" v-model="post.title"/>
+            <a-button type="primary" @click="show">
+                提交
+            </a-button>
+            <div style="position: relative;z-index: 1">
+                <confirm-model :is-visible="visible"  @transform="visibleTrans"/>
+            </div>
+        </div>
+        <div style="position: relative;z-index: 2">
+            <mavon-editor
+                    v-model="post.content"
+                    ref="md"
+                    @change="change"
+                    style="min-height: 600px"
+            />
+        </div>
+
+    </div>
 </template>
 
 <script>
+    // 导入组件 及 组件样式
+    import {mavonEditor} from 'mavon-editor'
+    import 'mavon-editor/dist/css/index.css'
+    import ConfirmModel from "@/components/create/ConfirmModel";
+
     export default {
-        name: "WriteArticle"
+        name: "WriteArticle",
+        // 注册
+        components: {
+            ConfirmModel,
+            mavonEditor,
+        },
+        data() {
+            return {
+                post: {
+                    title: '',
+                //    html: '',// 及时转的html
+                    content: '',// 输入的markdown
+                    userId: 0,
+                },
+                visible: false,
+                confirmLoading: false,
+            }
+        },
+        watch: {
+            post: {
+                deep: true,
+                handler() {
+                    this.$bus.$emit('getData', this.post)
+                }
+            }
+        },
+        methods: {
+            show() {
+                this.visible = true;
+            }
+            ,     // 所有操作都会被解析重新渲染
+            change(value, render) {
+                // render 为 markdown 解析后的结果[html]
+                this.post.html = render;
+            },
+
+            handleOk(e) {
+                this.ModalText = 'The modal will be closed after two seconds';
+                this.confirmLoading = true;
+                setTimeout(() => {
+                    this.visible = false;
+                    this.confirmLoading = false;
+                }, 2000);
+            },
+            handleCancel(e) {
+                console.log('Clicked cancel button');
+                this.visible = false;
+            },
+            visibleTrans(visible) {
+                this.visible = visible;
+            }
+
+        },
+        mounted() {
+            const userId = this.$route.query.userId;
+            this.post.userId = userId;
+        }
     }
 </script>
 
 <style scoped>
-
+    .title-input {
+        height: 50px;
+        border: none;
+        font-size: 20px;
+        font-weight: 600;
+        width: 90%;
+    }
 </style>

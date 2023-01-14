@@ -26,7 +26,7 @@
                 </div>
 
             </a-menu-item>
-            <a-menu-item key="edit" style="border: none">
+            <a-menu-item key="create" style="border: none">
                 <div>
                     <a-icon type="edit"/>
                     创作中心
