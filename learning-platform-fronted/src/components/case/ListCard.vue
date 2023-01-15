@@ -1,34 +1,41 @@
 <template>
 
-    <div v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="busy"
-         infinite-scroll-distance="10"
+    <div v-infinite-scroll="getData"
+         :infinite-scroll-disabled="busy"
+         :infinite-scroll-distance="10"
          style="background-color: white; padding: 20px"
     >
-        <a-list item-layout="vertical" size="large" :data-source="data" >
+        <a-list item-layout="vertical" size="large" :data-source="data">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
-                <template v-for="{ type, text } in actions" slot="actions">
-        <span :key="type">
-          <a-icon :type="type" style="margin-right: 8px"/>
-          {{ text }}
+                <template slot="actions">
+        <span>
+          <a-icon type="star-o" style="margin-right: 8px"/>
+          {{item.collectNum}}
+        </span><span>
+          <a-icon type="like-o" style="margin-right: 8px"/>
+          {{item.thumbNum}}
+        </span><span>
+          <a-icon type="message" style="margin-right: 8px"/>
+          {{ item.commentNum }}
         </span>
                 </template>
                 <img
                         slot="extra"
                         width="272"
+                        height="150"
                         alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                        :src="item.photo"
                 />
-                <a-list-item-meta :description="item.putTime">
+                <a-list-item-meta :description="item.createTime">
                     <a slot="title">{{ item.title }}</a>
-                    <a-avatar slot="avatar" :src="item.avatar"/>
+                    <a-avatar slot="avatar" :src="item.user.avatarUrl"/>
                 </a-list-item-meta>
                 <div class="box">
                     {{ item.content }}
                 </div>
             </a-list-item>
         </a-list>
-        <div v-if="loading && !busy" class="demo-loading-container">
+        <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
 
@@ -36,19 +43,16 @@
 
 </template>
 <script>
-    import reqwest from 'reqwest';
+    import myAxios from "@/axios/myAxios";
     import infiniteScroll from 'vue-infinite-scroll';
 
-    const baseTitle = 'http://127.0.0.1:8080';
-    let curPage = 1;
-    let pageSize = 10;
-    let total = 20;
-    const fakeDataUrl = `${baseTitle}/information/getInfo?curPage=${curPage}&pageSize=${pageSize}`;
     export default {
         name: "ListCard",
         directives: {infiniteScroll},
         data() {
             return {
+                pageSize: 10,
+                curPage: 0,
                 data: [],
                 actions: [
                     {type: 'star-o', text: '156'},
@@ -59,50 +63,25 @@
                 busy: false,
             };
         },
-        destroyed() {
-            console.log("销毁了")
-
-        },
-        mounted() {
-            console.log("挂载中。。。。")
-            this.fetchData(res => {
-                this.data = res.data.records;
-                total = res.data.total;
-            });
-            console.log(this.data.length)
-
-        },
         methods: {
-            fetchData(callback) {
-                reqwest({
-                    url: fakeDataUrl,
-                    type: 'json',
-                    method: 'get',
-                    contentType: 'application/json',
-                    success: res => {
-                        callback(res);
-                    },
-                });
+            async fetchData() {
+                const res = await myAxios.get(`/post/getPosts?curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                const data = res.data;
+                return data;
             },
-            loadMore() {
-                console.log("滚动")
-                console.log(`当前第${curPage}页`)
-                curPage++;
-                console.log(`下一页是：${curPage}页`)
-                this.loading = true;
-                if (this.data.length >= total) {
+            async getData() {
+                const data = await this.fetchData();
+                if (data.hasNext) {
+                    this.loading = true;
+                    this.data = [...this.data, ...data.records]
+                    this.loading = false;
+                    this.curPage++;
+                } else {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;
-                    return;
                 }
-                this.fetchData(res => {
-                    console.log(res)
-                    this.data = this.data.concat(res.data.records);
-                    this.loading = false;
-                });
             }
-
         }
     };
 </script>

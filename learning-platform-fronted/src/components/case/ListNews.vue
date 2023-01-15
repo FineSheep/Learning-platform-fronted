@@ -2,7 +2,7 @@
     <div
             v-infinite-scroll="getData"
             :infinite-scroll-disabled="busy"
-            :infinite-scroll-distance="2"
+            :infinite-scroll-distance="10"
             style="background-color: white; padding: 20px"
     >
         <a-list item-layout="vertical" size="large" :data-source="data">
@@ -15,12 +15,12 @@
                 </div>
             </a-list-item>
         </a-list>
-        <div v-if="loading && !busy" class="demo-loading-container">
+        <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
         <div>
-            <a-back-top />
-            <strong style="color: rgba(64, 64, 64, 0.6)">  </strong>
+            <a-back-top/>
+            <strong style="color: rgba(64, 64, 64, 0.6)"> </strong>
         </div>
     </div>
 </template>
@@ -43,19 +43,17 @@
         methods: {
             async fetchData() {
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
-                return data;
+                return data.data;
             },
             async getData() {
                 const data = await this.fetchData()
                 console.log(data)
-                if (data.data.hasNext) {
-                    console.log("加载中。。。")
+                if (data.hasNext) {
                     this.loading = true;
-                    this.data = this.data.concat(data.data.records);
+                    this.data = [...this.data, ...data.records]
                     this.loading = false;
                     this.curPage++;
                 } else {
-                    console.log("加载完毕")
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;

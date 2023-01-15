@@ -14,6 +14,7 @@ import PK from "@/components/practice/PK";
 import CreateIndex from "@/components/create/CreateIndex";
 import WriteArticle from "@/components/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
+import PostSpecific from "@/components/post/PostSpecific";
 
 const routes = [
 
@@ -84,6 +85,10 @@ const routes = [
     {
         component: ResultSuccess,
         path: '/successful'
+    },
+    {
+        component: PostSpecific,
+        path: '/post'
     }
 
 

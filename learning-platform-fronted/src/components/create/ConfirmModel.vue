@@ -22,7 +22,7 @@
             </a-form-item>
             <a-form-item label="编辑摘要">
                 <a-textarea :rows="4"
-                            v-decorator="['description', { rules: [{ required: true, message: '不能为空' }] }]"/>
+                            v-decorator="['description', { rules: [{ min:50,max:100,required: true, message: '摘要最少50字，最大100字' }] }]"/>
             </a-form-item>
         </a-form>
     </a-modal>
