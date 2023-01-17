@@ -15,6 +15,7 @@ import CreateIndex from "@/components/create/CreateIndex";
 import WriteArticle from "@/components/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
+import QuestionIndex from "@/components/practice/QuestionIndex";
 
 const routes = [
 
@@ -89,6 +90,10 @@ const routes = [
     {
         component: PostSpecific,
         path: '/post'
+    },
+    {
+        component: QuestionIndex,
+        path: '/questions/:userId/:difficulty/:source/:sum',
     }
 
 
