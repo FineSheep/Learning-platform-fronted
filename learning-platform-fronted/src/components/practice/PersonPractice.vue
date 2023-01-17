@@ -1,33 +1,36 @@
 <template>
     <div>
         <start-button/>
-        <div v-if="!isEmpty" style="">
-            <a-list :grid="{  column: 3}" :data-source="records">
-                <a-list-item slot="renderItem" slot-scope="item, index" >
-                    <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
-                        <a-card-meta :title="title">
-                        </a-card-meta>
-                        <br/>
-                        <!--                <a-icon type="hourglass"/>-->
-                        <div>
-                            <img src="../../assets/time.svg"/>
-                            用时：{{timeTransform(item.answerTime)}}
-                        </div>
-                        <div>
-                            <img src="../../assets/practice.svg"/>
-                            总数：{{item.sum}}道
-                        </div>
-                        <div>
-                            <img src="../../assets/correct.svg"/>
-                            正确：{{item.currectSum}}道
-                        </div>
-                    </a-card>
-                </a-list-item>
-            </a-list>
+        <div class="box">
+            <div v-if="!isEmpty">
+                <a-list :grid="{  column: 3}" :data-source="records">
+                    <a-list-item slot="renderItem" slot-scope="item, index">
+                        <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
+                            <a-card-meta :title="title">
+                            </a-card-meta>
+                            <br/>
+                            <!--                <a-icon type="hourglass"/>-->
+                            <div>
+                                <img src="../../assets/time.svg"/>
+                                用时：{{timeTransform(item.answerTime)}}
+                            </div>
+                            <div>
+                                <img src="../../assets/practice.svg"/>
+                                总数：{{item.sum}}道
+                            </div>
+                            <div>
+                                <img src="../../assets/correct.svg"/>
+                                正确：{{item.currectSum}}道
+                            </div>
+                        </a-card>
+                    </a-list-item>
+                </a-list>
+            </div>
+            <div class="item" v-else>
+                <a-empty description="暂无记录，快去练习吧。"></a-empty>
+            </div>
         </div>
-        <div v-else>
-            <a-empty description="暂无记录，快去练习吧。"></a-empty>
-        </div>
+
     </div>
 
 </template>
@@ -46,7 +49,7 @@
                 curPage: 0,
                 pageSize: 10,
                 records: [],
-                isEmpty:true
+                isEmpty: true
             }
         },
         methods: {
@@ -58,7 +61,7 @@
                 }
                 return (minute == 0 ? '' : minute + '分') + time + '秒';
             },
-            getRecord(id){
+            getRecord(id) {
                 console.log(id)
             }
         },
@@ -72,10 +75,20 @@
 </script>
 
 <style scoped>
-img{
-    height: 15px;
-    width: 15px;
-    margin-top: -3px;
-    margin-right: 2px;
-}
+    img {
+        height: 15px;
+        width: 15px;
+        margin-top: -3px;
+        margin-right: 2px;
+    }
+
+    .box {
+        margin-top: 20px;
+        background-color: white;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 </style>

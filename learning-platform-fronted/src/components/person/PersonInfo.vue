@@ -146,10 +146,12 @@
         color: #333;
         margin-bottom: 20px;
     }
+
     .avatar-uploader > .ant-upload {
         width: 128px;
         height: 128px;
     }
+
     .ant-upload-select-picture-card i {
         font-size: 32px;
         color: #999;

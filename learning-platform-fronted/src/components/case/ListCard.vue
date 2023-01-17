@@ -9,10 +9,14 @@
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <template slot="actions">
         <span>
-          <a-icon type="star-o" style="margin-right: 8px"/>
-          {{item.collectNum}}
+          <a-icon type="star" style="margin-right: 8px" @click="collectOrCancel(item)"
+                  v-if="item.collected" theme="filled"/>
+            <a-icon type="star" style="margin-right: 8px" @click="collectOrCancel(item)"
+                    v-else/>
+                    {{item.collectNum}}
         </span><span>
-          <a-icon type="like-o" style="margin-right: 8px"/>
+          <a-icon type="like" style="margin-right: 8px" theme="filled" v-if="item.thumbed" @click="thumb(item)"/>
+          <a-icon type="like" style="margin-right: 8px" @click="thumb(item)" v-else/>
           {{item.thumbNum}}
         </span><span>
           <a-icon type="message" style="margin-right: 8px"/>
@@ -22,16 +26,23 @@
                 <img
                         slot="extra"
                         width="272"
-                        height="150"
                         alt="logo"
                         :src="item.photo"
                 />
-                <a-list-item-meta :description="item.createTime">
+                <div v-for="tag in item.tagsName" :key="tag">
+                    <a-tag color="green" style="float: right">
+                        {{tag}}
+                    </a-tag>
+                </div>
+                <a-list-item-meta :description="timeFormat(item.createTime)">
+
                     <a slot="title">{{ item.title }}</a>
                     <a-avatar slot="avatar" :src="item.user.avatarUrl"/>
                 </a-list-item-meta>
+
                 <div class="box">
-                    {{ item.content }}
+                    {{ item.description }}
+
                 </div>
             </a-list-item>
         </a-list>
@@ -45,7 +56,9 @@
 <script>
     import myAxios from "@/axios/myAxios";
     import infiniteScroll from 'vue-infinite-scroll';
+    import moment from 'moment'
 
+    moment.locale('zh-cn');
     export default {
         name: "ListCard",
         directives: {infiniteScroll},
@@ -54,18 +67,45 @@
                 pageSize: 10,
                 curPage: 0,
                 data: [],
-                actions: [
-                    {type: 'star-o', text: '156'},
-                    {type: 'like-o', text: '156'},
-                    {type: 'message', text: '2'},
-                ],
                 loading: false,
                 busy: false,
+                collect: 'collect:',
+                personCoTh: {}
             };
         },
+        created() {
+        },
         methods: {
+            thumb(item) {
+                if (item.thumbed) {
+                    item.thumbed = false;
+                    item.thumbNum--;
+                } else {
+                    item.thumbed = true;
+                    item.thumbNum++;
+                }
+                const userId = Number(localStorage.getItem('userId'));
+                myAxios.get(`coTh/thumb?userId=${userId}&postId=${item.id}`)
+            },
+            timeFormat(time) {
+                return moment(time).startOf('hour').fromNow();
+
+            },
+            collectOrCancel(item) {
+                if (item.collected) {
+                    item.collected = false;
+                    item.collectNum--;
+
+                } else {
+                    item.collected = true;
+                    item.collectNum++;
+                }
+                const userId = Number(localStorage.getItem('userId'));
+                myAxios.get(`coTh/collect?userId=${userId}&postId=${item.id}`)
+            },
             async fetchData() {
-                const res = await myAxios.get(`/post/getPosts?curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                const userId = Number(localStorage.getItem('userId'));
+                const res = await myAxios.get(`/post/getPosts?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
                 const data = res.data;
                 return data;
             },

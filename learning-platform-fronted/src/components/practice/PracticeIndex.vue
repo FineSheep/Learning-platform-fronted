@@ -9,7 +9,8 @@
                     PK对战
                 </a-menu-item>
             </a-menu>
-            <router-view/>
+                <router-view/>
+
         </div>
 
     </div>

@@ -20,9 +20,9 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="编辑摘要">
+            <a-form-item label="文章介绍">
                 <a-textarea :rows="4"
-                            v-decorator="['description', { rules: [{ min:50,max:100,required: true, message: '摘要最少50字，最大100字' }] }]"/>
+                            v-decorator="['description', { rules: [{ min:50,max:100,required: true, message: '介绍最少50字，最多100字' }] }]"/>
             </a-form-item>
         </a-form>
     </a-modal>
