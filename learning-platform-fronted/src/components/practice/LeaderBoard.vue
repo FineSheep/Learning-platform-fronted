@@ -1,16 +1,17 @@
 <template>
     <div>
         <div class="leader">
-            <img src="../../assets/leaderBorder.png" style="width: 300px;border-radius: 10px"/>
+            <img src="../../assets/leaderBorder.png" style="width: 270px;border-radius: 10px"/>
             <div>
                 <p class="list" style="right: 80px" @click="typeDay" :class="{white:day_check}">日榜</p>
                 <p class="list" @click="typeTotal" :class="{white: total_check}">总榜</p>
             </div>
             <div v-if="list_type=='day'">
-                <leader-person/>
+                <leader-person :leaders="this.leaders.day"/>
             </div>
             <div v-else>
-                <a-empty/>
+                <leader-person :leaders="this.leaders.total"/>
+
             </div>
         </div>
     </div>
@@ -18,6 +19,7 @@
 
 <script>
     import LeaderPerson from "@/components/practice/LeaderPerson";
+    import myAxios from "@/axios/myAxios";
 
     export default {
         name: "LeaderBoard",
@@ -26,10 +28,22 @@
             return {
                 list_type: 'day',
                 day_check: true,
-                total_check: false
+                total_check: false,
+                leaders: {
+                    total: [],
+                    day: []
+                }
             }
         },
+        async mounted() {
+            await this.getLeader();
+        },
         methods: {
+            async getLeader() {
+                const res = await myAxios.get('/leader/getLeader');
+                this.leaders.day = res.data.day;
+                this.leaders.total = res.data.total;
+            },
             typeDay() {
                 this.list_type = 'day'
                 this.day_check = true
