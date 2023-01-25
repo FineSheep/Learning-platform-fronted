@@ -1,4 +1,4 @@
-<template xmlns:a-col="http://www.w3.org/1999/html">
+<template>
     <div>
         <a-button type="primary" @click="showModal">
             开始训练吧

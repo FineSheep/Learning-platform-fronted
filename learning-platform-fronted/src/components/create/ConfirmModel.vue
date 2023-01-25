@@ -32,6 +32,7 @@
 <script>
     import myAxios from "@/axios/myAxios";
 
+
     export default {
         name: "ConfirmModel",
         props: ['isVisible'],

@@ -46,17 +46,10 @@
                 confirmLoading: false,
             }
         },
-        watch: {
-            post: {
-                deep: true,
-                handler() {
-                    this.$bus.$emit('getData', this.post)
-                }
-            }
-        },
         methods: {
             show() {
                 this.visible = true;
+                this.$bus.$emit('getData', this.post)
             }
             ,     // 所有操作都会被解析重新渲染
             change(value, render) {
