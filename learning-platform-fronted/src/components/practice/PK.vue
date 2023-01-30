@@ -41,17 +41,21 @@
                 }, this.getWsData)
             },
             getWsData(res) {
+                console.log(res)
                 if (res.code == 0) {
-                    this.$message.success('匹配成功！');
-                    // this.$router.push('/pkExercise');
-                    this.$router.push({
-                            path: '/pkExercise',
-                            query: {
-                                user: Number(localStorage.getItem('userId')),
-                                opponent: Number(res.data)
+                    this.$message.success('匹配成功，3秒后进入游戏！');
+
+                    setTimeout(() => {
+                        this.$router.push({
+                                path: '/pkExercise',
+                                query: {
+                                    user: Number(localStorage.getItem('userId')),
+                                    opponent: Number(res.data)
+                                }
                             }
-                        }
-                    )
+                        )
+                    }, 3000)
+
                 } else {
                     this.$message.info('请重新匹配！');
 

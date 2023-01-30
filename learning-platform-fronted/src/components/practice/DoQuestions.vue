@@ -21,13 +21,14 @@
             }
         },
         async created() {
-            let ques = {
+            let req = {
                 userId: this.$route.params.userId,
                 difficulty: this.$route.params.difficulty,
                 source: this.$route.params.source,
                 sum: this.$route.params.sum
             }
-            const res = await myAxios.post('/question/getQuesBy', ques);
+            console.log(req)
+            const res = await myAxios.post('/question/getQuesBy', req);
             this.questions.radio = res.data[0];
             this.questions.mulChoice = res.data[1];
             console.log(this.questions)
