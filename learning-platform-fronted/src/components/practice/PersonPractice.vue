@@ -2,35 +2,43 @@
     <div>
         <start-button/>
         <div class="box">
-            <div v-if="!isEmpty">
-                <a-list :grid="{  column: 3}" :data-source="records">
-                    <a-list-item slot="renderItem" slot-scope="item, index">
-                        <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
-                            <a-card-meta :title="title">
-                            </a-card-meta>
-                            <br/>
-                            <!--                <a-icon type="hourglass"/>-->
-                            <div>
-                                <img src="../../assets/time.svg"/>
-                                用时：{{timeTransform(item.answerTime)}}
-                            </div>
-                            <div>
-                                <img src="../../assets/practice.svg"/>
-                                总数：{{item.sum}}道
-                            </div>
-                            <div>
-                                <img src="../../assets/correct.svg"/>
-                                正确：{{item.currectSum}}道
-                            </div>
-                        </a-card>
-                    </a-list-item>
-                </a-list>
-            </div>
-            <div class="item" v-else>
-                <a-empty description="暂无记录，快去练习吧。"></a-empty>
-            </div>
-        </div>
+            <div
+                    v-infinite-scroll="getData"
+                    :infinite-scroll-disabled="busy"
+                    :infinite-scroll-distance="10"
+                    style="background-color: white; padding: 20px"
+            >
+                <div v-if="!empty">
+                    <a-list :grid="{  column: 3}" :data-source="records">
+                        <a-list-item slot="renderItem" slot-scope="item, index">
+                            <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
+                                <a-card-meta :title="title">
+                                </a-card-meta>
+                                <br/>
+                                <div>
+                                    <img src="../../assets/time.svg"/>
+                                    用时：{{timeTransform(item.answerTime)}}
+                                </div>
+                                <div>
+                                    <img src="../../assets/practice.svg"/>
+                                    总数：{{item.sum}}道
+                                </div>
+                                <div>
+                                    <img src="../../assets/correct.svg"/>
+                                    正确：{{item.currectSum}}道
+                                </div>
+                            </a-card>
+                        </a-list-item>
+                    </a-list>
+                </div>
+                <div class="empty" v-else>
+                    <a-empty description="暂无记录，快去练习吧。"></a-empty>
+                </div>
 
+            </div>
+
+
+        </div>
     </div>
 
 </template>
@@ -39,20 +47,50 @@
 
     import myAxios from "@/axios/myAxios";
     import StartButton from "@/components/practice/StartButton";
+    import infiniteScroll from 'vue-infinite-scroll';
 
     export default {
         name: "PersonPractice",
         components: {StartButton},
+        directives: {infiniteScroll},
         data() {
             return {
                 title: '个人练习',
-                curPage: 0,
-                pageSize: 10,
                 records: [],
-                isEmpty: true
+                empty: true,
+                loading: false,
+                busy: false,
+                curPage: 1,
+                pageSize: 10,
+                count: 0
             }
         },
         methods: {
+            async fetchData() {
+                const uid = Number(localStorage.getItem('userId'));
+                const records = await myAxios.get(`/records/getRecords?uid=${uid}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                if (this.count == 0) {
+                    if (records.length != 0) {
+                        this.empty = false;
+                    }
+                }
+                console.log('records', records)
+                return records.data;
+            },
+            async getData() {
+                const data = await this.fetchData()
+                this.loading = true;
+                this.records = [...this.records, ...data.records]
+                this.loading = false;
+                this.curPage++;
+                console.log('this.records', this.records)
+                console.log('data', data)
+                if (!data.hasNext) {
+                    this.$message.warning("数据加载完毕！");
+                    this.busy = true;
+                    this.loading = false;
+                }
+            },
             timeTransform(time) {
                 let minute = 0;
                 while (time >= 64) {
@@ -65,12 +103,6 @@
                 console.log(id)
             }
         },
-        async mounted() {
-            const uid = Number(localStorage.getItem('userId'));
-            const records = await myAxios.get(`/records/getRecords?uid=${uid}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
-            this.records = records.data.records
-            console.log(this.records)
-        }
     }
 </script>
 
@@ -85,10 +117,12 @@
     .box {
         margin-top: 20px;
         background-color: white;
+    }
+
+    .empty {
         height: 400px;
         display: flex;
         justify-content: center;
         align-items: center;
     }
-
 </style>

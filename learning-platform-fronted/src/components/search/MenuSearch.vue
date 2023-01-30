@@ -13,9 +13,6 @@
             <a-menu-item key="news">
                 资讯
             </a-menu-item>
-            <a-menu-item key="feedBack">
-                反馈
-            </a-menu-item>
             <a-menu-item style="flex: 1;border: none"/>
             <a-menu-item key="mail" style="border: none">
                 <div>

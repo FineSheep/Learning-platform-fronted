@@ -48,12 +48,11 @@
             async getData() {
                 const data = await this.fetchData()
                 console.log(data)
-                if (data.hasNext) {
-                    this.loading = true;
-                    this.data = [...this.data, ...data.records]
-                    this.loading = false;
-                    this.curPage++;
-                } else {
+                this.loading = true;
+                this.data = [...this.data, ...data.records]
+                this.loading = false;
+                this.curPage++;
+                if (!data.hasNext) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;

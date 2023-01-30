@@ -41,7 +41,7 @@
                             </a-form-item>
                             <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
                                 <a-button type="primary" html-type="submit">
-                                    Submit
+                                    提交
                                 </a-button>
                             </a-form-item>
                         </a-form>
@@ -54,10 +54,9 @@
                             list-type="picture-card"
                             class="avatar-uploader"
                             :show-upload-list="false"
-                            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                             :before-upload="beforeUpload"
-                            @change="handleChange"
                             style="margin-top: 20%; margin-left: 50%"
+                            :customRequest="upload"
                     >
                         <a-avatar :size="100" icon="user" :src="user.avatarUrl" alt="avatar"/>
                     </a-upload>
@@ -65,17 +64,11 @@
             </a-layout>
         </a-layout-content>
     </div>
-
 </template>
 
 <script>
     import userJs from "@/userJs/user"
-
-    function getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-    }
+    import myAxios from "@/axios/myAxios";
 
     export default {
         name: "PersonInfo",
@@ -86,14 +79,11 @@
                 },
                 formLayout: 'horizontal',
                 form: this.$form.createForm(this, {name: 'coordinated'}),
-                loading: false,
-                imageUrl: '',
             }
         },
         async mounted() {
             const user = await userJs.getCurrentUser();
             this.user = user;
-            console.log(user);
             this.form.setFieldsValue({
                 username: user.username,
                 phone: user.phone,
@@ -102,29 +92,40 @@
             })
         },
         methods: {
-            handleChange(info) {
-                if (info.file.status === 'uploading') {
-                    this.loading = true;
-                    return;
-                }
-                if (info.file.status === 'done') {
-                    // Get this url from response in real world.
-                    getBase64(info.file.originFileObj, imageUrl => {
-                        this.imageUrl = imageUrl;
-                        this.loading = false;
-                    });
+            async upload(file) {
+                const form = new FormData()
+                const userId = Number(localStorage.getItem("userId"))
+                form.append('file', file.file)
+                form.append('userId', userId)
+                // console.log(form)
+                const res = await myAxios.post('/img/personUrl',
+                    form,
+                    {
+                        headers: {'Content-Type': 'multipart/form-data'},
+                    })
+                if (res.code == 0) {
+                    console.log(res.data)
+                    // 调用组件内方法, 设置为成功状态
+                    file.onSuccess(res, file.file);
+                    file.status = 'done';
+                    this.user.avatarUrl = res.data.url;
+                    this.$message.success("上传成功")
+                } else {
+                    file.onError()
+                    file.status = 'error'
                 }
             },
+
             beforeUpload(file) {
                 const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
                 if (!isJpgOrPng) {
-                    this.$message.error('You can only upload JPG file!');
+                    this.$message.error('只能上传jpg文件');
                 }
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isLt2M) {
-                    this.$message.error('Image must smaller than 2MB!');
+                const isLt5M = file.size / 1024 / 1024 < 5;
+                if (!isLt5M) {
+                    this.$message.error('图片大小不能超过5MB!');
                 }
-                return isJpgOrPng && isLt2M;
+                return isJpgOrPng && isLt5M;
             },
             handleSubmit(e) {
                 e.preventDefault();

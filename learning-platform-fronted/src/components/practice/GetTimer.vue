@@ -16,15 +16,17 @@
         },
         created() {
             this.start();
+            this.$bus.$on('sendTime', this.sendTime)
         },
         watch: {
+
             second() {
                 if (this.second >= 60) {
                     this.second -= 60
                     this.minute++;
                 }
             },
-            minute(){
+            minute() {
                 if (this.minute >= 60) {
                     this.minute -= 60
                     this.hour++;
@@ -32,6 +34,10 @@
             }
         },
         methods: {
+            sendTime() {
+                let time = this.hour * 60 + this.minute * 60 + this.second;
+                this.$bus.$emit('getTime', time);
+            },
             start() {
                 const that = this;
                 setInterval(function () {
@@ -50,7 +56,7 @@
     }
 
     .time-box {
-        background-color: rgb(238,240,241);
+        background-color: rgb(238, 240, 241);
         border-radius: 20px;
         width: 80px;
         text-align: center;

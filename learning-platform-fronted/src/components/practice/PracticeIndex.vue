@@ -9,12 +9,13 @@
                     PK对战
                 </a-menu-item>
             </a-menu>
-            <router-view/>
+            <div >
+                <router-view/>
+            </div>
         </div>
-        <div class="leader-border">
+        <a-affix :offset-top="120" :style="{'display': 'inline-block','position': 'absolute','margin-left': '20px','top':'100px'}">
             <leader-board/>
-
-        </div>
+        </a-affix>
     </div>
 </template>
 
@@ -42,8 +43,6 @@
     }
 
     .leader-border {
-        display: inline-block;
-        position: absolute;
-        margin-left: 20px;
+
     }
 </style>

@@ -6,7 +6,7 @@
                 提交
             </a-button>
             <div style="position: relative;z-index: 1">
-                <confirm-model :is-visible="visible"  @transform="visibleTrans"/>
+                <confirm-model :is-visible="visible" @transform="visibleTrans"/>
             </div>
         </div>
         <div style="position: relative;z-index: 2">
@@ -15,6 +15,7 @@
                     ref="md"
                     @change="change"
                     style="min-height: 600px"
+                    @imgAdd="imgAdd"
             />
         </div>
 
@@ -26,6 +27,7 @@
     import {mavonEditor} from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
     import ConfirmModel from "@/components/create/ConfirmModel";
+    import myAxios from "@/axios/myAxios";
 
     export default {
         name: "WriteArticle",
@@ -38,7 +40,7 @@
             return {
                 post: {
                     title: '',
-                //    html: '',// 及时转的html
+                    //    html: '',// 及时转的html
                     content: '',// 输入的markdown
                     userId: 0,
                 },
@@ -47,6 +49,22 @@
             }
         },
         methods: {
+            // 将图片上传到服务器，返回地址替换到md中
+            async imgAdd(pos, $file) {
+                var formdata = new FormData();
+                formdata.append('img', $file);
+                const res = await myAxios.post("/img/postImg", formdata, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                console.log(res);
+                if (res.code == 0) {
+                    var url = res.data.url;
+                    console.log(url);
+                    this.$refs.md.$img2Url(pos, url);
+                }
+            },
             show() {
                 this.visible = true;
                 this.$bus.$emit('getData', this.post)

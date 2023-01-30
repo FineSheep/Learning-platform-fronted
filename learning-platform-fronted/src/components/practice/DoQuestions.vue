@@ -1,23 +1,37 @@
 <template>
-    <a-anchor>
-        <a-anchor-link href="#components-anchor-demo-basic" title="Basic demo" />
-        <a-anchor-link href="#components-anchor-demo-static" title="Static demo" />
-        <a-anchor-link
-                href="#components-anchor-demo-basic"
-                title="Basic demo with Target"
-                target="_blank"
-        />
-        <a-anchor-link href="#API" title="API">
-            <a-anchor-link href="#Anchor-Props" title="Anchor Props" />
-            <a-anchor-link href="#Link-Props" title="Link Props" />
-        </a-anchor-link>
-    </a-anchor>
+    <div>
+        <question-index :radio="this.questions.radio" :mul-choice="this.questions.mulChoice"/>
+    </div>
 </template>
 
 
 <script>
+    import myAxios from "@/axios/myAxios";
+    import QuestionIndex from "@/components/practice/QuestionIndex";
+
     export default {
-        name: "DoQuestions"
+        name: "DoQuestions",
+        components: {QuestionIndex},
+        data() {
+            return {
+                questions: {
+                    radio: [],
+                    mulChoice: []
+                }
+            }
+        },
+        async created() {
+            let ques = {
+                userId: this.$route.params.userId,
+                difficulty: this.$route.params.difficulty,
+                source: this.$route.params.source,
+                sum: this.$route.params.sum
+            }
+            const res = await myAxios.post('/question/getQuesBy', ques);
+            this.questions.radio = res.data[0];
+            this.questions.mulChoice = res.data[1];
+            console.log(this.questions)
+        }
     }
 </script>
 

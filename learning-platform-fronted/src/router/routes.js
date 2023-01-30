@@ -16,6 +16,8 @@ import WriteArticle from "@/components/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
 import QuestionIndex from "@/components/practice/QuestionIndex";
+import PKExercise from "@/components/practice/PKExercise";
+import DoQuestions from "@/components/practice/DoQuestions";
 
 const routes = [
 
@@ -92,8 +94,12 @@ const routes = [
         path: '/post'
     },
     {
-        component: QuestionIndex,
+        component: DoQuestions,
         path: '/questions/:userId/:difficulty/:source/:sum',
+    },
+    {
+        component: PKExercise,
+        path: '/pkExercise'
     }
 
 

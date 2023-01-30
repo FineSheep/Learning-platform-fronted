@@ -11,11 +11,6 @@
                         <a-button type="primary" style="right: 100px;top: 20px" class="title-right" @click="confirm">
                             交卷
                         </a-button>
-                        <!--                        <a-modal v-model="visible" title="Basic Modal">
-                                                    <p>Some contents...</p>
-                                                    <p>Some contents...</p>
-                                                    <p>Some contents...</p>
-                                                </a-modal>-->
                         <get-timer class="title-right"/>
                     </div>
                 </a-page-header>
@@ -23,15 +18,11 @@
         </a-affix>
         <div>
             <div class="center">
-                <ques-list :radio="questions.radio" :mulChoice="questions.mulChoice"/>
+                <ques-list :radio="this.radio" :mulChoice="this.mulChoice"/>
             </div>
-
         </div>
     </div>
-
 </template>
-
-
 <script>
     import myAxios from "@/axios/myAxios";
     import GetTimer from "@/components/practice/GetTimer";
@@ -40,25 +31,30 @@
     export default {
         name: "QuestionIndex",
         components: {QuesList, GetTimer},
+        props: ['radio', 'mulChoice'],
         data() {
             return {
+                test1: this.radio,
+                test2: this.mulChoice,
                 visible: false,
-                questions: {
-                    radio: [],
-                    mulChoice: []
-                },
                 answer: {
                     answer: new Map(),
-                    quesIds: []
+                    quesIds: [],
+                    time: 0,
                 }
             }
         },
-        created() {
-            this.getQues()
-            this.$bus.$on('getAnswer', this.getAnswer)
+        mounted() {
+            console.log('test1', this.test1)
         },
-
+        created() {
+            this.$bus.$on('getAnswer', this.getAnswer);
+            this.$bus.$on('getTime', this.getTime);
+        },
         methods: {
+            getTime(time) {
+                this.answer.time = time;
+            },
             quesIds() {
                 for (let radioId of this.questions.radio) {
                     this.answer.quesIds.push(radioId.id);
@@ -80,10 +76,14 @@
                 myAxios.post('/question/putAnswer', {
                     quesIds: this.answer.quesIds,
                     answer: this._strMapToObj(this.answer.answer),
+                    userId: Number(localStorage.getItem('userId')),
+                    time: this.answer.time
                 })
+                this.$message.success("提交成功");
             },
             confirm() {
                 this.$bus.$emit('send');
+                this.$bus.$emit('sendTime');
                 const that = this;
                 this.$confirm({
                     content: '确认交卷吗？',
@@ -91,7 +91,7 @@
                     cancelText: '取消',
                     onOk() {
                         that.putAnswer();
-                        // that.$router.back();
+                        that.$router.back();
                     },
                     onCancel() {
                     },
@@ -105,21 +105,8 @@
                 e.preventDefault();
                 console.log(link);
             },
-            async getQues() {
-                let ques = {
-                    userId: this.$route.params.userId,
-                    difficulty: this.$route.params.difficulty,
-                    source: this.$route.params.source,
-                    sum: this.$route.params.sum
-                }
-                const res = await myAxios.post('/question/getQuesBy', ques);
-                this.questions.radio = res.data[0];
-                this.questions.mulChoice = res.data[1];
-                console.log(this.questions.radio, this.questions.mulChoice)
-
-            },
             back() {
-                this.$router.back();
+                this.confirm();
             }
         },
     }

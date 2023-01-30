@@ -11,6 +11,9 @@ Vue.use(VueRouter)
 
 //注入全局属性$message
 import {message} from 'ant-design-vue'
+import * as socket from './socket/Socket'
+
+Vue.prototype.$socket = socket;
 
 Vue.prototype.$message = message;
 message.config({
