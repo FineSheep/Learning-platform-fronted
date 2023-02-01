@@ -8,16 +8,16 @@ import PersonInfo from "@/components/person/PersonInfo";
 import AccountSetting from "@/components/person/AccountSetting";
 import ListNews from "@/components/case/ListNews";
 import ListView from "@/components/ListView";
-import PracticeIndex from "@/components/practice/PracticeIndex";
-import PersonPractice from "@/components/practice/PersonPractice";
-import PK from "@/components/practice/PK";
+import PracticeIndex from "@/components/practice/index/PracticeIndex";
+import PersonPractice from "@/components/practice/index/PersonPractice";
+import PK from "@/components/practice/PK/PK";
 import CreateIndex from "@/components/create/CreateIndex";
 import WriteArticle from "@/components/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
-import QuestionIndex from "@/components/practice/QuestionIndex";
-import PKExercise from "@/components/practice/PKExercise";
-import DoQuestions from "@/components/practice/DoQuestions";
+import QuestionIndex from "@/components/practice/individual/QuestionIndex";
+import PKExercise from "@/components/practice/PK/PKExercise";
+import DoQuestions from "@/components/practice/individual/DoQuestions";
 
 const routes = [
 

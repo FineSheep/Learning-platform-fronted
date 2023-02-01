@@ -1,4 +1,8 @@
 <template>
+
+    <!--    <div>
+            <question-index :radio="this.getRadio" :mul-choice="this.getMulChoice"/>
+        </div>-->
     <div style="background-color: rgb(248,248,248);">
         <a-affix>
             <div class="center">
@@ -18,40 +22,46 @@
         </a-affix>
         <div>
             <div class="center">
-                <ques-list :radio="this.radio" :mulChoice="this.mulChoice"/>
+                <ques-list :radio="this.getRadio" :mulChoice="this.getMulChoice"/>
             </div>
         </div>
     </div>
 </template>
+
 <script>
+    import GetTimer from "@/components/practice/individual/GetTimer";
+    import QuesList from "@/components/practice/individual/QuesList";
+    import {mapGetters} from 'vuex'
     import myAxios from "@/axios/myAxios";
-    import GetTimer from "@/components/practice/GetTimer";
-    import QuesList from "@/components/practice/QuesList";
 
     export default {
-        name: "QuestionIndex",
+        name: "PKExercise",
         components: {QuesList, GetTimer},
-        props: ['radio', 'mulChoice'],
         data() {
-            return {
-                test1: this.radio,
-                test2: this.mulChoice,
-                visible: false,
-                answer: {
-                    answer: new Map(),
-                    quesIds: [],
-                    time: 0,
-                }
-            }
+            return {}
+        },
+        computed: {
+            ...mapGetters('Exercise', ['getRadio', 'getMulChoice'])
         },
         mounted() {
-            console.log('test1', this.test1)
+            this.getInfo()
         },
         created() {
             this.$bus.$on('getAnswer', this.getAnswer);
             this.$bus.$on('getTime', this.getTime);
+            this.$bus.$on('putAnswer', this.putAnswer);
+        },
+        beforeDestroy() {
+            this.$bus.$off('getAnswer');
+            this.$bus.$off('getTime');
+            this.$bus.$off('putAnswer');
         },
         methods: {
+            getInfo() {
+                let user = this.$route.query.user;
+                let opponent = this.$route.query.opponent;
+                console.log(user, opponent)
+            },
             getTime(time) {
                 this.answer.time = time;
             },
@@ -77,7 +87,7 @@
                     quesIds: this.answer.quesIds,
                     answer: this._strMapToObj(this.answer.answer),
                     userId: Number(localStorage.getItem('userId')),
-                    time: this.answer.time
+                    time: this.answer.time,
                 })
                 this.$message.success("提交成功");
             },
@@ -101,20 +111,14 @@
                 this.answer.answer = answer
                 console.log(this.answer.answer)
             },
-            handleClick(e, link) {
-                e.preventDefault();
-                console.log(link);
-            },
             back() {
                 this.confirm();
             }
-        },
+        }
     }
 </script>
 
 <style scoped>
-
-
     .center {
         width: 60%;
         margin: 0 auto;

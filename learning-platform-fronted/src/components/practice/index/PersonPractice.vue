@@ -16,15 +16,15 @@
                                 </a-card-meta>
                                 <br/>
                                 <div>
-                                    <img src="../../assets/time.svg"/>
+                                    <img src="../../../assets/time.svg"/>
                                     用时：{{timeTransform(item.answerTime)}}
                                 </div>
                                 <div>
-                                    <img src="../../assets/practice.svg"/>
+                                    <img src="../../../assets/practice.svg"/>
                                     总数：{{item.sum}}道
                                 </div>
                                 <div>
-                                    <img src="../../assets/correct.svg"/>
+                                    <img src="../../../assets/correct.svg"/>
                                     正确：{{item.currectSum}}道
                                 </div>
                             </a-card>
@@ -46,7 +46,7 @@
 <script>
 
     import myAxios from "@/axios/myAxios";
-    import StartButton from "@/components/practice/StartButton";
+    import StartButton from "@/components/practice/index/StartButton";
     import infiniteScroll from 'vue-infinite-scroll';
 
     export default {

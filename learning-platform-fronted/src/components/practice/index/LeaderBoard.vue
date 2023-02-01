@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="leader">
-            <img src="../../assets/leaderBorder.png" style="width: 270px;border-radius: 10px"/>
+            <img src="../../../assets/leaderBorder.png" style="width: 270px;border-radius: 10px"/>
             <div>
                 <p class="list" style="right: 80px" @click="typeDay" :class="{white:day_check}">日榜</p>
                 <p class="list" @click="typeTotal" :class="{white: total_check}">总榜</p>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import LeaderPerson from "@/components/practice/LeaderPerson";
+    import LeaderPerson from "@/components/practice/index/LeaderPerson";
     import myAxios from "@/axios/myAxios";
 
     export default {

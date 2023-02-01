@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import LeaderBoard from "@/components/practice/LeaderBoard";
+    import LeaderBoard from "@/components/practice/index/LeaderBoard";
 
     export default {
         name: "PracticeIndex",

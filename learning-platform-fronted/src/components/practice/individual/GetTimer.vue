@@ -19,7 +19,6 @@
             this.$bus.$on('sendTime', this.sendTime)
         },
         watch: {
-
             second() {
                 if (this.second >= 60) {
                     this.second -= 60
@@ -27,6 +26,9 @@
                 }
             },
             minute() {
+                if (this.minute >= 10){
+                    this.$bus.$emit('putAnswer');
+                }
                 if (this.minute >= 60) {
                     this.minute -= 60
                     this.hour++;

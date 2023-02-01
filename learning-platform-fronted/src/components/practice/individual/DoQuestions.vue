@@ -7,7 +7,7 @@
 
 <script>
     import myAxios from "@/axios/myAxios";
-    import QuestionIndex from "@/components/practice/QuestionIndex";
+    import QuestionIndex from "@/components/practice/individual/QuestionIndex";
 
     export default {
         name: "DoQuestions",

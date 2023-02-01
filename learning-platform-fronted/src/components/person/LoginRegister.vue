@@ -59,6 +59,7 @@
           { rules: [{ type:'email',required: true, message: '请输入正确邮箱!' }] },
         ]"
                                     placeholder="请输入邮箱"
+                                    autocomplete
                             >
                                 <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)"/>
                             </a-input>

@@ -18,11 +18,11 @@
 </template>
 
 <script>
-    let img1 = require('../../assets/one.svg');
-    let img2 = require('../../assets/two.svg');
-    let img3 = require('../../assets/three.svg');
-    let img4 = require('../../assets/four.svg');
-    let img5 = require('../../assets/five.svg');
+    let img1 = require('../../../assets/one.svg');
+    let img2 = require('../../../assets/two.svg');
+    let img3 = require('../../../assets/three.svg');
+    let img4 = require('../../../assets/four.svg');
+    let img5 = require('../../../assets/five.svg');
     export default {
         name: "LeaderPerson",
         props: ['leaders'],

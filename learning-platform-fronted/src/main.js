@@ -4,6 +4,7 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import router from "@/router/routes";
 import VueRouter from 'vue-router'
+import store from './store/store'
 
 Vue.config.productionTip = false
 Vue.use(Antd);
@@ -25,6 +26,7 @@ message.config({
 new Vue({
     render: h => h(App),
     router,
+    store,
     beforeCreate() {
         Vue.prototype.$bus = this //安装全局事件总线，$bus就是当前应用的vm
     },
