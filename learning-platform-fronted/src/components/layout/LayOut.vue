@@ -13,6 +13,9 @@
                     <router-view/>
                 </a-layout-content>
             </a-layout>
+            <a-layout-footer style="text-align: center">
+                站长©finesheep
+            </a-layout-footer>
         </a-layout>
     </div>
 

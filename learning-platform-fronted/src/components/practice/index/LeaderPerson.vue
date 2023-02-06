@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="this.leaders!=null && this.leaders.length!=0">
-            <div style="margin: 20px 10px" v-for="(item,index) of leaders" :key="index">
+            <div style="padding: 10px 10px" v-for="(item,index) of leaders" :key="index">
                 <a-row>
                     <a-col :span="2">
                         <img :src="imgList[index]" style="width: 20px;height: 20px"/>
@@ -12,17 +12,17 @@
             </div>
         </div>
         <div v-else>
-            <a-empty description="暂无人上榜，快来当第一吧！"/>
+            <a-empty description="暂无人上榜，快来当第一吧！" style="padding: 10px"/>
         </div>
     </div>
 </template>
 
 <script>
-    let img1 = require('../../../assets/one.svg');
-    let img2 = require('../../../assets/two.svg');
-    let img3 = require('../../../assets/three.svg');
-    let img4 = require('../../../assets/four.svg');
-    let img5 = require('../../../assets/five.svg');
+    let img1 = require('@/assets/one.svg');
+    let img2 = require('@/assets/two.svg');
+    let img3 = require('@/assets/three.svg');
+    let img4 = require('@/assets/four.svg');
+    let img5 = require('@/assets/five.svg');
     export default {
         name: "LeaderPerson",
         props: ['leaders'],

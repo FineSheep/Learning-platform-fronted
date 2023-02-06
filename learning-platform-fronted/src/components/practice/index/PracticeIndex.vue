@@ -42,7 +42,4 @@
         display: inline-block;
     }
 
-    .leader-border {
-
-    }
 </style>

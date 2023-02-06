@@ -4,7 +4,7 @@
             <div class="answer-card">答题卡</div>
             <div v-if="hasRadio">
                 <div style="background-color:#fff;">
-                    单选题：
+                    &nbsp;&nbsp; 单选题：
                 </div>
                 <div class="number-list">
                     <div v-for="(item,index) in radio" :key="item.id">
@@ -15,12 +15,11 @@
                             {{index+1}}
                         </a>
                     </div>
-
                 </div>
             </div>
             <div v-if="hasMulChoice">
                 <div style="background-color:#fff;">
-                    多选题：
+                    &nbsp; &nbsp;多选题：
                 </div>
                 <div class="number-list">
                     <div v-for="(item,index ) in mulChoice" :key="item.id">
@@ -72,6 +71,7 @@
                 answer: new Map()
             }
         },
+
         mounted() {
             this.$bus.$on('send', this.send)
         },
@@ -85,8 +85,7 @@
         },
         methods: {
             send() {
-                console.log("send")
-                this.$bus.$emit('getAnswer', this.answer)
+                this.$store.commit('Exercise/userAnswer',this.answer);
             },
             isVisible(id) {
                 if (this.answer.get(id) === undefined) {

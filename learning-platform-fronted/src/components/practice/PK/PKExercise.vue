@@ -1,8 +1,4 @@
 <template>
-
-    <!--    <div>
-            <question-index :radio="this.getRadio" :mul-choice="this.getMulChoice"/>
-        </div>-->
     <div style="background-color: rgb(248,248,248);">
         <a-affix>
             <div class="center">
@@ -20,10 +16,25 @@
                 </a-page-header>
             </div>
         </a-affix>
-        <div>
-            <div class="center">
-                <ques-list :radio="this.getRadio" :mulChoice="this.getMulChoice"/>
+        <a-affix :style="{'position':'absolute','width': '300px', 'margin-top': '50px'}" :offset-top="100">
+            <div style="width: 150px;margin: auto auto">
+                <div class="PKWord">
+                    <a-avatar size="large" icon="user" :src="user.avatarUrl"/>
+                    <br/>
+                    <div class="word">{{user.username}}</div>
+                </div>
+                <div class="PKWord" style="left: 120px;top:10px">
+                    <img :src="pkUrl">
+                </div>
+                <div class="PKWord" style="left: 200px">
+                    <a-avatar size="large" icon="user" :src="opponent.avatarUrl"/>
+                    <br/>
+                    <div class="word">{{opponent.username}}</div>
+                </div>
             </div>
+        </a-affix>
+        <div class="center">
+            <ques-list :radio="this.getRadio" :mulChoice="this.getMulChoice"/>
         </div>
     </div>
 </template>
@@ -33,44 +44,63 @@
     import QuesList from "@/components/practice/individual/QuesList";
     import {mapGetters} from 'vuex'
     import myAxios from "@/axios/myAxios";
+    import pk from '@/assets/pk.svg'
+    import userJS from '@/userJs/user'
 
     export default {
         name: "PKExercise",
         components: {QuesList, GetTimer},
         data() {
-            return {}
+            return {
+                pkUrl: pk,
+                opponent: {},
+                user: {},
+                answer: {
+                    answer: new Map(),
+                    quesIds: [],
+                    time: 0,
+                }
+            }
         },
         computed: {
-            ...mapGetters('Exercise', ['getRadio', 'getMulChoice'])
-        },
-        mounted() {
-            this.getInfo()
+            ...mapGetters('Exercise', ['getRadio', 'getMulChoice', 'getAnswers', 'getTime'])
         },
         created() {
-            this.$bus.$on('getAnswer', this.getAnswer);
-            this.$bus.$on('getTime', this.getTime);
             this.$bus.$on('putAnswer', this.putAnswer);
         },
         beforeDestroy() {
-            this.$bus.$off('getAnswer');
-            this.$bus.$off('getTime');
             this.$bus.$off('putAnswer');
         },
+        mounted() {
+            this.getInfo()
+            this.$socket.sendSock({
+                'type': 'PLAY_GAME',
+                'receiver': this.$route.query.opponent
+            })
+        },
         methods: {
-            getInfo() {
+            async getInfo() {
                 let user = this.$route.query.user;
                 let opponent = this.$route.query.opponent;
-                console.log(user, opponent)
-            },
-            getTime(time) {
-                this.answer.time = time;
+                //从远程处获取用户信息
+                const opponentInfo = await myAxios.get("/user/userInfo/" + opponent);
+                if (opponentInfo.code == 0) {
+                    console.log(opponentInfo)
+                    this.opponent = opponentInfo.data;
+                }
+                let currentUser = await userJS.getCurrentUser();
+                this.user = currentUser;
             },
             quesIds() {
-                for (let radioId of this.questions.radio) {
-                    this.answer.quesIds.push(radioId.id);
+                if (this.getRadio != null) {
+                    for (let radioId of this.getRadio) {
+                        this.answer.quesIds.push(radioId.id);
+                    }
                 }
-                for (let mulId of this.questions.mulChoice) {
-                    this.answer.quesIds.push(mulId.id);
+                if (this.getMulChoice != null) {
+                    for (let mulId of this.getMulChoice) {
+                        this.answer.quesIds.push(mulId.id);
+                    }
                 }
             },
             _strMapToObj(strMap) {
@@ -83,17 +113,22 @@
             putAnswer() {
                 this.quesIds();
                 console.log(this.answer.quesIds)
-                myAxios.post('/question/putAnswer', {
-                    quesIds: this.answer.quesIds,
-                    answer: this._strMapToObj(this.answer.answer),
-                    userId: Number(localStorage.getItem('userId')),
-                    time: this.answer.time,
-                })
-                this.$message.success("提交成功");
-            },
-            confirm() {
                 this.$bus.$emit('send');
                 this.$bus.$emit('sendTime');
+                let userAnswer = {
+                    type: 'GAME_OVER',
+                    quesIds: this.answer.quesIds,
+                    answer: this._strMapToObj(this.getAnswers),
+                    userId: Number(localStorage.getItem('userId')),
+                    time: this.getTime,
+                    opponent: this.$route.query.opponent
+                }
+                this.$socket.sendSock(userAnswer, this.waiting);
+            },
+            waiting(res) {
+                this.$message.success(res.data);
+            },
+            confirm() {
                 const that = this;
                 this.$confirm({
                     content: '确认交卷吗？',
@@ -106,10 +141,6 @@
                     onCancel() {
                     },
                 });
-            },
-            getAnswer(answer) {
-                this.answer.answer = answer
-                console.log(this.answer.answer)
             },
             back() {
                 this.confirm();
@@ -130,5 +161,25 @@
         position: absolute;
         right: 0;
         top: 25px;
+    }
+
+    img {
+        width: 30px;
+        height: 30px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .word {
+        display: inline-block;
+        word-wrap: break-word;
+        width: 50px;
+    }
+
+    .PKWord {
+        display: inline-block;
+        height: 100px;
+        margin: auto auto;
+        position: absolute;
     }
 </style>

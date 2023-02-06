@@ -27,6 +27,7 @@
     import myAxios from "@/axios/myAxios";
     import GetTimer from "@/components/practice/individual/GetTimer";
     import QuesList from "@/components/practice/individual/QuesList";
+    import {mapGetters} from "vuex";
 
     export default {
         name: "QuestionIndex",
@@ -42,26 +43,26 @@
                 }
             }
         },
+        computed: {
+            ...mapGetters('Exercise', ['getAnswers', 'getTime'])
+        },
         created() {
-            this.$bus.$on('getAnswer', this.getAnswer);
-            this.$bus.$on('getTime', this.getTime);
             this.$bus.$on('putAnswer', this.putAnswer);
         },
         beforeDestroy() {
-            this.$bus.$off('getAnswer');
-            this.$bus.$off('getTime');
             this.$bus.$off('putAnswer');
         },
         methods: {
-            getTime(time) {
-                this.answer.time = time;
-            },
             quesIds() {
-                for (let radioId of this.questions.radio) {
-                    this.answer.quesIds.push(radioId.id);
+                if (this.radio != null) {
+                    for (let radioId of this.radio) {
+                        this.answer.quesIds.push(radioId.id);
+                    }
                 }
-                for (let mulId of this.questions.mulChoice) {
-                    this.answer.quesIds.push(mulId.id);
+                if (this.mulChoice != null) {
+                    for (let mulId of this.mulChoice) {
+                        this.answer.quesIds.push(mulId.id);
+                    }
                 }
             },
             _strMapToObj(strMap) {
@@ -74,17 +75,17 @@
             putAnswer() {
                 this.quesIds();
                 console.log(this.answer.quesIds)
+                this.$bus.$emit('send');
+                this.$bus.$emit('sendTime');
                 myAxios.post('/question/putAnswer', {
                     quesIds: this.answer.quesIds,
-                    answer: this._strMapToObj(this.answer.answer),
+                    answer: this._strMapToObj(this.getAnswers),
                     userId: Number(localStorage.getItem('userId')),
-                    time: this.answer.time,
+                    time: this.getTime,
                 })
                 this.$message.success("提交成功");
             },
             confirm() {
-                this.$bus.$emit('send');
-                this.$bus.$emit('sendTime');
                 const that = this;
                 this.$confirm({
                     content: '确认交卷吗？',
@@ -97,10 +98,6 @@
                     onCancel() {
                     },
                 });
-            },
-            getAnswer(answer) {
-                this.answer.answer = answer
-                console.log(this.answer.answer)
             },
             back() {
                 this.confirm();

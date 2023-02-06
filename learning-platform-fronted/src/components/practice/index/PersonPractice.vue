@@ -8,7 +8,7 @@
                     :infinite-scroll-distance="10"
                     style="background-color: white; padding: 20px"
             >
-                <div v-if="!empty">
+                <div v-if="records.length!=0">
                     <a-list :grid="{  column: 3}" :data-source="records">
                         <a-list-item slot="renderItem" slot-scope="item, index">
                             <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
@@ -34,7 +34,6 @@
                 <div class="empty" v-else>
                     <a-empty description="暂无记录，快去练习吧。"></a-empty>
                 </div>
-
             </div>
 
 
@@ -57,7 +56,6 @@
             return {
                 title: '个人练习',
                 records: [],
-                empty: true,
                 loading: false,
                 busy: false,
                 curPage: 1,
@@ -68,14 +66,9 @@
         methods: {
             async fetchData() {
                 const uid = Number(localStorage.getItem('userId'));
-                const records = await myAxios.get(`/records/getRecords?uid=${uid}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
-                if (this.count == 0) {
-                    if (records.length != 0) {
-                        this.empty = false;
-                    }
-                }
-                console.log('records', records)
-                return records.data;
+                const res = await myAxios.get(`/records/getRecords?uid=${uid}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                console.log('records', res)
+                return res.data;
             },
             async getData() {
                 const data = await this.fetchData()
@@ -117,10 +110,11 @@
     .box {
         margin-top: 20px;
         background-color: white;
+        height: 450px;
     }
 
     .empty {
-        height: 400px;
+        height: 350px;
         display: flex;
         justify-content: center;
         align-items: center;

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2e52bf4f-55b7-4d90-b88b-b29661e1c22b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/learning-platform-fronted/src/components/pages/person/EditPerson.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/learning-platform-fronted/src/components/pages/person/PersonCenter.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-platform-fronted/src/components/layout/LayOut.vue" beforeDir="false" afterPath="$PROJECT_DIR$/learning-platform-fronted/src/components/layout/LayOut.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-platform-fronted/src/components/pages/search/MenuSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/learning-platform-fronted/src/components/pages/search/MenuSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/learning-platform-fronted/src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/learning-platform-fronted/src/router/routes.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2IcSTjtmVa2m1Udt0ADecAkFNaq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/learning-platform-fronted" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2e52bf4f-55b7-4d90-b88b-b29661e1c22b" name="Default Changelist" comment="" />
+      <created>1670479387618</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670479387618</updated>
+      <workItem from="1670479390448" duration="30000" />
+      <workItem from="1671850114004" duration="6000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1670479419118">
+      <screen x="0" y="0" width="1536" height="816" />
+    </state>
+    <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816@0.0.1536.816" timestamp="1670479419118" />
+  </component>
+</project>

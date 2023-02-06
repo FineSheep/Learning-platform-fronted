@@ -26,7 +26,7 @@
                 }
             },
             minute() {
-                if (this.minute >= 10){
+                if (this.minute >= 10) {
                     this.$bus.$emit('putAnswer');
                 }
                 if (this.minute >= 60) {
@@ -38,7 +38,7 @@
         methods: {
             sendTime() {
                 let time = this.hour * 60 + this.minute * 60 + this.second;
-                this.$bus.$emit('getTime', time);
+                this.$store.commit('Exercise/totalTime', time);
             },
             start() {
                 const that = this;

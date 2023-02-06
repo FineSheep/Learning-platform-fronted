@@ -4,6 +4,10 @@ const ip = `ws://127.0.0.1:8080//game/match/${localStorage.getItem('userId')}`
 
 
 function initWebSocket() { //初始化weosocket
+    if (localStorage.getItem('userId') == null) {
+        console.log('请登录');
+        return;
+    }
     websocket = new WebSocket(ip);
     websocket.onmessage = function (e) {
         websocketOnMessage(e);
@@ -35,6 +39,7 @@ function sendSock(agentData, callback) {
     } else {
         // 若未开启 ，则等待1s后重新调用
         setTimeout(function () {
+            initWebSocket();
             sendSock(agentData, callback);
         }, 1000);
     }
@@ -57,10 +62,10 @@ function websocketClose(e) {
 
 function websocketOpen(e) {
     console.log("连接成功");
-/*    setInterval(() => {
-        const ping = {"type": "PING"};
-        websocketSend(ping);
-    }, 5000)*/
+    /*    setInterval(() => {
+            const ping = {"type": "PING"};
+            websocketSend(ping);
+        }, 5000)*/
 }
 
 initWebSocket();
