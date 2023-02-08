@@ -31,6 +31,10 @@ const routes = [
                     path: ''
                 },
                 {
+                    component: PostSpecific,
+                    path: 'post'
+                },
+                {
                     component: personCenter,
                     path: 'personCenter'
                 },
@@ -89,10 +93,7 @@ const routes = [
         component: ResultSuccess,
         path: '/successful'
     },
-    {
-        component: PostSpecific,
-        path: '/post'
-    },
+
     {
         component: DoQuestions,
         path: '/questions/:userId/:difficulty/:source/:sum',

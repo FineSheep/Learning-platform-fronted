@@ -8,7 +8,7 @@
         <a-list item-layout="vertical" size="large" :data-source="data">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <a-list-item-meta :description="item.putTime">
-                    <a slot="title">{{ item.title }}</a>
+                    <a slot="title" @click="toHtml(item.id)">{{ item.title }}</a>
                 </a-list-item-meta>
                 <div class="box">
                     {{ item.content }}
@@ -18,10 +18,7 @@
         <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
-        <div>
-            <a-back-top/>
-            <strong style="color: rgba(64, 64, 64, 0.6)"> </strong>
-        </div>
+
     </div>
 </template>
 <script>
@@ -41,6 +38,9 @@
             };
         },
         methods: {
+            toHtml(id) {
+                console.log(id)
+            },
             async fetchData() {
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                 return data.data;

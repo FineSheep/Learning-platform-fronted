@@ -36,7 +36,7 @@
                 </div>
                 <a-list-item-meta :description="timeFormat(item.createTime)">
 
-                    <a slot="title">{{ item.title }}</a>
+                    <a slot="title" @click="toHtml(item)">{{ item.title }}</a>
                     <a-avatar slot="avatar" :src="item.user.avatarUrl"/>
                 </a-list-item-meta>
 
@@ -49,7 +49,9 @@
         <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
-
+        <div>
+            <a-back-top/>
+        </div>
     </div>
 
 </template>
@@ -76,6 +78,21 @@
         created() {
         },
         methods: {
+            toHtml(item) {
+                const id = item.id;
+                const thumbNum = item.thumbNum;
+                const collectNum = item.collectNum;
+                const thumbed = item.thumbed;
+                const collected = item.collected;
+                this.$router.push({
+                    query: {
+                        postId: id,
+                        type: 'post',
+                        thumbNum,thumbed,collectNum,collected
+                    },
+                    path: '/post'
+                })
+            },
             thumb(item) {
                 if (item.thumbed) {
                     item.thumbed = false;
