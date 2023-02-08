@@ -56,8 +56,8 @@
 
     import {mapMutations} from 'vuex'
     import myAxios from "@/axios/myAxios";
-    import number1 from '@/assets/chaimping.svg'
-    import fighting from '@/assets/fighting.svg'
+    import number1 from '@/assets/practice/chaimping.svg'
+    import fighting from '@/assets/practice/fighting.svg'
 
     export default {
         name: "PK",

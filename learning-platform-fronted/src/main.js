@@ -9,7 +9,6 @@ import store from './store/store'
 Vue.config.productionTip = false
 Vue.use(Antd);
 Vue.use(VueRouter)
-
 //注入全局属性$message
 import {message} from 'ant-design-vue'
 import * as socket from './socket/Socket'

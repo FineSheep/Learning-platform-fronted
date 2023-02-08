@@ -80,15 +80,10 @@
         methods: {
             toHtml(item) {
                 const id = item.id;
-                const thumbNum = item.thumbNum;
-                const collectNum = item.collectNum;
-                const thumbed = item.thumbed;
-                const collected = item.collected;
                 this.$router.push({
                     query: {
                         postId: id,
                         type: 'post',
-                        thumbNum,thumbed,collectNum,collected
                     },
                     path: '/post'
                 })
@@ -148,7 +143,7 @@
         word-break: break-all; /* 在恰当的断字点进行自动换行 */
         display: -webkit-box; /* 伸缩盒子 */
         -webkit-box-orient: vertical; /* 伸缩盒子子元素的排列方式 */
-        -webkit-line-clamp: 2; /* 显示的行数 */
+        -webkit-line-clamp: 3; /* 显示的行数 */
     }
 
     .demo-infinite-container {
