@@ -1,63 +1,94 @@
 <template>
-    <Comment
-            v-model="data"
-            :user="currentUser"
-            :before-submit="addComment"
-            :before-delete="deleteComment"
-            :before-like="likeComment"
-            :upload-img="uploadOrCopyImg"
-            :props="props"
-    />
+    <div>
+        <j-comment
+                :key-map="keyMap"
+                :showNumber="2"
+                :comment-datas="commentDatas"
+                @submitComment="submitComment">
+        </j-comment>
+    </div>
 </template>
 <script>
-    import Comment from 'vue-juejin-comment'
-
     export default {
         name: 'ListView',
-        components: {Comment},
         data() {
             return {
-                data: [],
-                props: {},
-                currentUser: {
-                    name: '',
-                    avatar: '',
-                    author: false,
+                code: "",
+                keyMap: {
+                    pid: "parent_comment_id",
+                    id: "id",
+                    isAdmin: "admin_comment"
                 },
-            }
+                commentDatas: [
+                    {
+                        id: 1,
+                        admin_comment: 1,
+                        avatar:
+                            "https://img2.baidu.com/it/u=134769530,4268043097&fm=253&fmt=auto&app=138&f=JPEG?w=533&h=333",
+                        create_time: "2020-05-31 23:03:55",
+                        email: "",
+                        nickname: "nickname1",
+                        parent_comment_id: null,
+                        content: "我是评论1"
+                    },
+                    {
+                        id: 2,
+                        admin_comment: 0,
+                        avatar:
+                            "https://img2.baidu.com/it/u=3133697304,2308274678&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=313",
+                        create_time: "2020-06-1 23:03:55",
+                        email: "",
+                        nickname: "nickname2",
+                        parent_comment_id: 1,
+                        content: "我是评论2"
+                    },
+                    {
+                        id: 3,
+                        admin_comment: 0,
+                        avatar:
+                            "https://img2.baidu.com/it/u=3772577665,2044310843&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=727",
+                        create_time: "2020-05-2 23:03:55",
+                        email: "",
+                        nickname: "nickname3",
+                        parent_comment_id: null,
+                        content: "我是评论3"
+                    },
+                    {
+                        id: 4,
+                        admin_comment: 0,
+                        avatar:
+                            "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
+                        create_time: "2020-06-2 23:03:55",
+                        email: "",
+                        nickname: "nickname4",
+                        parent_comment_id: 2,
+                        content:
+                            "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
+                            "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" +
+                            "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"  }
+                ],
+            };
         },
         methods: {
-            addComment(comment, parent, add) {
-                // ...
-                console.log(comment )
-             const newComment ={
-                 id: '', // 唯一 id，必需
-                 content: '111', // 评论内容，必需
-                 imgSrc: '', // 评论中的图片地址，非必需
-                 children: [], // 子评论（回复），非必需
-                 likes: 0, // 点赞数，非必需
-                 liked: false, // 是否已点赞，非必需
-                 reply: null, // 子评论（回复）人信息，非必需
-                 createAt: null, // 评论时间，必需
-                 user: { // 评论人信息，必需
-                     author: true // 是否为作者，类型为 Boolean，非必需
-                 }
-             }
-                // 需调用 add 函数，并传入 newComment 对象
-                add(newComment)
-            },
-            deleteComment(comment, parent) {
-                // ...
-            },
-            likeComment(comment) {
-                // ...
-            },
-            uploadOrCopyImg({file, callback}) {
-                // ...
-                this.$message.error("此功能正在开发中....尽情期待")
-               // callback(imgUrl) // 图片地址必传
-            },
-        },
+            submitComment(item) {
+                console.log("item: ", item);
+                if (item.content) {
+                    let comment = {
+                        id: 4,
+                        admin_comment: 0,
+                        avatar:
+                            "https://img0.baidu.com/it/u=3966731730,957573008&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500",
+                        create_time: "2020-06-2 23:03:55",
+                        email: "",
+                        nickname: "nickname4",
+                        parent_comment_id: item.pid,
+                        content: item.content
+                    }
+                    this.commentDatas.push(comment)
+                }
+
+            }
+        }
     }
 </script>
 <style scoped>

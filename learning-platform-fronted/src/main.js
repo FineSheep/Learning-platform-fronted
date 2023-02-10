@@ -5,13 +5,18 @@ import 'ant-design-vue/dist/antd.css';
 import router from "@/router/routes";
 import VueRouter from 'vue-router'
 import store from './store/store'
-
+import {message} from 'ant-design-vue'
+import * as socket from './socket/Socket'
+//引入组件库
+import jvuewheel from '@jyeontu/jvuewheel'
+//引入样式
+import '@jyeontu/jvuewheel/lib/jvuewhell.css'
+Vue.use(jvuewheel);
 Vue.config.productionTip = false
 Vue.use(Antd);
 Vue.use(VueRouter)
 //注入全局属性$message
-import {message} from 'ant-design-vue'
-import * as socket from './socket/Socket'
+
 
 Vue.prototype.$socket = socket;
 
