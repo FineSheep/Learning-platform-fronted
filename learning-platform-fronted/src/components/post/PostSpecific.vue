@@ -55,6 +55,12 @@
                             that.markdown = res.data.content
                         })
 
+                } else if (type == 'news') {
+                    myAxios.get('/information/getNewById?id=' + id)
+                        .then(function (res) {
+                            console.log(res.data)
+                            that.markdown = res.data.content
+                        })
                 }
             },
 

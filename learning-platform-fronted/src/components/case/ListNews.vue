@@ -40,6 +40,13 @@
         methods: {
             toHtml(id) {
                 console.log(id)
+                this.$router.push({
+                    query: {
+                        postId: id,
+                        type: 'news',
+                    },
+                    path: '/post'
+                })
             },
             async fetchData() {
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
