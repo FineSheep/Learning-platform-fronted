@@ -74,7 +74,7 @@
                 const content = item.content;
                 const parentId = item.pid;
                 const postId = this.currentPost.postId;
-                const userId = this.currentPost.userId;
+                const userId = localStorage.getItem('userId');
                 let comment = {
                     id: id,
                     isAdmin: author,
