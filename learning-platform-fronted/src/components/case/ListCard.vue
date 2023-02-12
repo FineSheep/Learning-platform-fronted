@@ -83,7 +83,6 @@
                 this.$router.push({
                     query: {
                         postId: id,
-                        type: 'post',
                     },
                     path: '/post'
                 })

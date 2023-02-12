@@ -17,6 +17,10 @@ import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
 import PKExercise from "@/components/practice/PK/PKExercise";
 import DoQuestions from "@/components/practice/individual/DoQuestions";
+import PostNews from "@/components/post/PostNews";
+import PersonPost from "@/components/person/menu/PersonPost";
+import PersonThumb from "@/components/person/menu/PersonThumb";
+import PersonCollect from "@/components/person/menu/PersonCollect";
 
 const routes = [
 
@@ -31,11 +35,28 @@ const routes = [
                 },
                 {
                     component: PostSpecific,
-                    path: 'post'
+                    path: '/post'
+                },
+                {
+                    component: PostNews,
+                    path: "/postNews"
                 },
                 {
                     component: personCenter,
-                    path: 'personCenter'
+                    path: '/personCenter',
+                    children: [
+                        {
+                            component: PersonPost,
+                            path: ""
+                        },
+                        {
+                            component: PersonThumb,
+                            path: 'personThumb'
+                        },{
+                        component: PersonCollect,
+                            path: 'personCollect'
+                        }
+                    ]
                 },
                 {
                     component: ListNews,
@@ -44,6 +65,10 @@ const routes = [
                 {
                     component: ListView,
                     path: "/test"
+                },
+                {
+                    component: CreateIndex,
+                    path: '/create'
                 },
                 {
                     component: editPerson,
@@ -73,10 +98,7 @@ const routes = [
                         },
                     ]
                 },
-                {
-                    component: CreateIndex,
-                    path: 'create'
-                },
+
             ]
 
     },

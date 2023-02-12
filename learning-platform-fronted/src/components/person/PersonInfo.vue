@@ -32,6 +32,9 @@
                                     </a-radio>
                                 </a-radio-group>
                             </a-form-item>
+                            <a-form-item label="生日">
+                                <a-date-picker v-decorator="['birthday']" @change="birthday"/>
+                            </a-form-item>
                             <a-form-item label="简介">
                                 <a-textarea
                                         v-decorator="['profile', { rules: [] }]"
@@ -69,6 +72,7 @@
 <script>
     import userJs from "@/userJs/user"
     import myAxios from "@/axios/myAxios";
+    import moment from 'moment'
 
     export default {
         name: "PersonInfo",
@@ -84,14 +88,19 @@
         async mounted() {
             const user = await userJs.getCurrentUser();
             this.user = user;
+            console.log(user)
             this.form.setFieldsValue({
                 username: user.username,
                 phone: user.phone,
                 profile: user.profile,
-                gender: user.gender
+                gender: user.gender,
+                birthday: moment(user.birthday,'YYYY-MM-DD')
             })
         },
         methods: {
+            birthday(date, dateString) {
+                console.log(date, dateString);
+            },
             async upload(file) {
                 const form = new FormData()
                 const userId = Number(localStorage.getItem("userId"))
@@ -131,7 +140,9 @@
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        console.log('Received values of form: ', values);
+                        let user = {...values, userId: localStorage.getItem('userId')}
+                        myAxios.post('/user/updateUserInfo', user)
+                        this.$message.success("修改成功")
                     }
                 });
             },

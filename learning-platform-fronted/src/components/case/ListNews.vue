@@ -43,9 +43,8 @@
                 this.$router.push({
                     query: {
                         postId: id,
-                        type: 'news',
                     },
-                    path: '/post'
+                    path: '/postNews'
                 })
             },
             async fetchData() {
