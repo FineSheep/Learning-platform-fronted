@@ -18,18 +18,44 @@
                     </a-button>
                 </div>
                 <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions">删除</a>
+                    <a slot="actions">
+                        <a-popconfirm title="确认删除吗？" ok-text="Yes" cancel-text="No" @confirm="confirm(index,item.id)">
+                            <a> 删除</a>
+                        </a-popconfirm>
+                    </a>
                     <a slot="actions">更多</a>
                     <a-list-item-meta
                             :description="item.description"
                     >
-                        <a slot="title" href="https://www.antdv.com/">{{ item.username }}</a>
                         <a-avatar
                                 slot="avatar"
                                 :src="item.user.avatarUrl"
                         />
                     </a-list-item-meta>
-                    <div>{{item.createTime}}</div>
+
+                    <div>
+                        <a-tag v-if="item.reviewStatus==0" color="orange">
+                            正在审核
+                        </a-tag>
+                        <div v-if="item.reviewStatus==2">
+                            <a-tag color="red" @click="showDrawer"  class="point">
+                                审核失败(点击查看原因)
+                            </a-tag>
+                            <a-drawer
+                                    title="失败原因"
+                                    placement="right"
+                                    :closable="false"
+                                    :visible="visible"
+                                    @close="onClose"
+                                    destroyOnClose="true"
+                            >
+                                <p>{{item.reviewMessage}}</p>
+                            </a-drawer>
+                        </div>
+                        <a-tag v-if="item.reviewStatus==1" color="green">
+                            审核通过
+                        </a-tag>
+                    </div>
                 </a-list-item>
             </a-list>
         </div>
@@ -53,30 +79,48 @@
                 loadingMore: false,
                 showLoadingMore: true,
                 data: [],
+                finish: false,
+                visible: false,
             }
         },
         mounted() {
             this.getPost()
         },
         methods: {
+            showDrawer() {
+                this.visible = true;
+            },
+            onClose() {
+                this.visible = false;
+            },
+            confirm(index, id) {
+                this.data.splice(index, 1)
+                this.$message.success('删除成功')
+                console.log(id)
+                myAxios.get('post/deletePost?postId=' + id)
+            },
             onLoadMore() {
                 this.getPost();
             },
             getPost() {
+                if (this.finish) {
+                    this.$message.info('暂无数据，请勿重复点击');
+                    return;
+                }
                 const that = this;
                 const userId = localStorage.getItem('userId');
                 this.curPage++;
-                console.log(this.curPage)
                 myAxios.get(`post/getPostByUserId?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
+                        if (res.data.length == 0) {
+                            that.finish = true;
+                        }
                         that.loadingMore = true;
                         that.loading = true;
                         that.data = [...that.data, ...res.data]
                         console.log(res.data)
                         that.loadingMore = false;
                         that.loading = false;
-
-
                     })
             }
         }
@@ -84,6 +128,9 @@
 </script>
 
 <style scoped>
+    .point:hover {
+        cursor: pointer;
+    }
     .empty {
         display: flex;
         justify-content: center;
