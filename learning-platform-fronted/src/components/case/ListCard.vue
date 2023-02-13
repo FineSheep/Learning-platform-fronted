@@ -1,7 +1,7 @@
 <template>
 
     <div v-infinite-scroll="getData"
-         :infinite-scroll-disabled="busy"
+         infinite-scroll-disabled="busy"
          :infinite-scroll-distance="10"
          style="background-color: white; padding: 20px"
     >
@@ -71,7 +71,6 @@
                 data: [],
                 loading: false,
                 busy: false,
-                collect: 'collect:',
                 personCoTh: {}
             };
         },
@@ -123,10 +122,10 @@
             async getData() {
                 const data = await this.fetchData();
                 this.loading = true;
-                this.data = [...this.data, ...data.records]
+                this.data = [...this.data, ...data]
                 this.loading = false;
                 this.curPage++;
-                if (!data.hasNext) {
+                if (data.length == 0) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;

@@ -4,8 +4,8 @@ import ListCard from "@/components/case/ListCard";
 import personCenter from "@/components/person/PersonCenter"
 import editPerson from '@/components/search/EditPerson'
 import LoginRegister from "@/components/person/LoginRegister";
-import PersonInfo from "@/components/person/PersonInfo";
-import AccountSetting from "@/components/person/AccountSetting";
+import PersonInfo from "@/components/person/update/PersonInfo";
+import AccountSetting from "@/components/person/update/AccountSetting";
 import ListNews from "@/components/case/ListNews";
 import ListView from "@/components/ListView";
 import PracticeIndex from "@/components/practice/index/PracticeIndex";

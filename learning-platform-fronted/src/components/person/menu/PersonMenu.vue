@@ -30,7 +30,6 @@
         },
         methods: {
             location(e){
-               console.log(e.key)
                 this.$router.push("/personCenter/"+e.key)
             }
         }

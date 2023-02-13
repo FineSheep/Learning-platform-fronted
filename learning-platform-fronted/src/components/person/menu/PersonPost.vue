@@ -38,7 +38,7 @@
                             正在审核
                         </a-tag>
                         <div v-if="item.reviewStatus==2">
-                            <a-tag color="red" @click="showDrawer"  class="point">
+                            <a-tag color="red" @click="showDrawer" class="point">
                                 审核失败(点击查看原因)
                             </a-tag>
                             <a-drawer
@@ -47,7 +47,7 @@
                                     :closable="false"
                                     :visible="visible"
                                     @close="onClose"
-                                    destroyOnClose="true"
+                                    destroyOnClose
                             >
                                 <p>{{item.reviewMessage}}</p>
                             </a-drawer>
@@ -114,6 +114,7 @@
                     .then(function (res) {
                         if (res.data.length == 0) {
                             that.finish = true;
+                            that.$message.info('暂无数据，请勿重复点击');
                         }
                         that.loadingMore = true;
                         that.loading = true;
@@ -131,6 +132,7 @@
     .point:hover {
         cursor: pointer;
     }
+
     .empty {
         display: flex;
         justify-content: center;

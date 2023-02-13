@@ -1,7 +1,7 @@
 <template>
     <div
             v-infinite-scroll="getData"
-            :infinite-scroll-disabled="busy"
+            infinite-scroll-disabled="busy"
             :infinite-scroll-distance="10"
             style="background-color: white; padding: 20px"
     >
@@ -18,7 +18,9 @@
         <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
-
+        <div>
+            <a-back-top/>
+        </div>
     </div>
 </template>
 <script>
@@ -49,16 +51,17 @@
             },
             async fetchData() {
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                console.log(data)
                 return data.data;
             },
             async getData() {
                 const data = await this.fetchData()
                 console.log(data)
                 this.loading = true;
-                this.data = [...this.data, ...data.records]
+                this.data = [...this.data, ...data]
                 this.loading = false;
                 this.curPage++;
-                if (!data.hasNext) {
+                if (data.length == 0) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;

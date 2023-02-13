@@ -32,7 +32,7 @@
     import moment from 'moment'
     import userJs from "@/userJs/user"
     import PersonMenu from "@/components/person/menu/PersonMenu";
-    import PersonCard from "@/components/person/PersonCard";
+    import PersonCard from "@/components/person/update/PersonCard";
 
     export default {
         name: "PersonCenter",
