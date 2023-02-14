@@ -101,7 +101,15 @@
                             }
                         })
                 } else {
-
+                    myAxios.get(`post/getPostCollect?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                        .then(function (res) {
+                            if (res.data.length == 0) {
+                                that.finish = true;
+                                that.$message.info('暂无数据，请勿重复点击');
+                            } else {
+                                that.data = [...that.data, ...res.data];
+                            }
+                        })
                 }
             },
         }

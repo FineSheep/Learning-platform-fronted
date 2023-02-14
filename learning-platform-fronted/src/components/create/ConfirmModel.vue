@@ -20,6 +20,27 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
+            <a-form-item label="封面">
+                <div>
+                    <a-upload
+                            name="avatar"
+                            list-type="picture-card"
+                            class="avatar-uploader"
+                            :show-upload-list="false"
+                            :before-upload="beforeUpload"
+                            :customRequest="upload"
+                            v-decorator="['img', { rules: [{ required: true, message: '请上传封面' }] }]"
+                    >
+                        <img v-if="post.photo" :src="post.photo" style="width: 100px;height: 100px"/>
+                        <div v-else>
+                            <a-icon type="plus"/>
+                            <div class="ant-upload-text">
+                                点击上传
+                            </div>
+                        </div>
+                    </a-upload>
+                </div>
+            </a-form-item>
             <a-form-item label="文章介绍">
                 <a-textarea :rows="4"
                             v-decorator="['description', { rules: [{ min:50,max:100,required: true, message: '介绍最少50字，最多100字' }] }]"/>
@@ -65,6 +86,40 @@
 
         },
         methods: {
+            async upload(file) {
+                const form = new FormData()
+                const userId = Number(localStorage.getItem("userId"))
+                form.append('file', file.file)
+                form.append('userId', userId)
+                // console.log(form)
+                const res = await myAxios.post('/img/personUrl',
+                    form,
+                    {
+                        headers: {'Content-Type': 'multipart/form-data'},
+                    })
+                if (res.code == 0) {
+                    console.log(res.data)
+                    // 调用组件内方法, 设置为成功状态
+                    file.onSuccess(res, file.file);
+                    file.status = 'done';
+                    this.post.photo = res.data.url;
+                    this.$message.success("上传成功")
+                } else {
+                    file.onError()
+                    file.status = 'error'
+                }
+            },
+            beforeUpload(file) {
+                const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+                if (!isJpgOrPng) {
+                    this.$message.error('只能上传jpg文件');
+                }
+                const isLt5M = file.size / 1024 / 1024 < 5;
+                if (!isLt5M) {
+                    this.$message.error('图片大小不能超过5MB!');
+                }
+                return isJpgOrPng && isLt5M;
+            },
             getData(data) {
                 this.post.userId = Number(data.userId);
                 this.post.content = data.content;

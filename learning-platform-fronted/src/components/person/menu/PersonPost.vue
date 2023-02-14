@@ -113,8 +113,12 @@
                 myAxios.get(`post/getPostByUserId?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (res.data.length == 0) {
+                            if (that.curPage == 1) {
+                                that.isEmpty = true;
+                                return;
+                            }
                             that.finish = true;
-                            that.$message.info('暂无数据，请勿重复点击');
+                            that.$message.info('暂无数据');
                         }
                         that.loadingMore = true;
                         that.loading = true;
@@ -131,6 +135,15 @@
 <style scoped>
     .point:hover {
         cursor: pointer;
+    }
+
+    .box {
+        overflow: hidden; /* 隐藏溢出文本 */
+        text-overflow: ellipsis; /* 溢出文本省略号显示 */
+        word-break: break-all; /* 在恰当的断字点进行自动换行 */
+        display: -webkit-box; /* 伸缩盒子 */
+        -webkit-box-orient: vertical; /* 伸缩盒子子元素的排列方式 */
+        -webkit-line-clamp: 3; /* 显示的行数 */
     }
 
     .empty {

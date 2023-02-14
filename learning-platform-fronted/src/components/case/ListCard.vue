@@ -98,7 +98,7 @@
                 myAxios.get(`coTh/thumb?userId=${userId}&postId=${item.id}`)
             },
             timeFormat(time) {
-                return moment(time).startOf('hour').fromNow();
+                return moment(time).startOf('minute').fromNow();
 
             },
             collectOrCancel(item) {

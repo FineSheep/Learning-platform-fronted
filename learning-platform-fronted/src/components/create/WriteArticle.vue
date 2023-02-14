@@ -60,8 +60,8 @@
                 })
                 console.log(res);
                 if (res.code == 0) {
-                    var url = res.data.url;
-                    console.log(url);
+                    var url = res.data.thUrl;
+
                     this.$refs.md.$img2Url(pos, url);
                 }
             },
@@ -95,6 +95,10 @@
         mounted() {
             const userId = this.$route.query.userId;
             this.post.userId = userId;
+            this.$message.warning("请查看右上角语法文档！！")
+            setTimeout(()=>{
+                this.$message.warning("请查看右上角语法文档！！")
+            },1000)
         }
     }
 </script>
