@@ -26,7 +26,7 @@
     // 导入组件 及 组件样式
     import {mavonEditor} from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
-    import ConfirmModel from "@/components/create/ConfirmModel";
+    import ConfirmModel from "@/components/postCenter/create/ConfirmModel";
     import myAxios from "@/axios/myAxios";
 
     export default {
