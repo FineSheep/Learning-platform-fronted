@@ -27,10 +27,9 @@
                     </div>
                 </div>
             </a-layout-sider>
-            <a-layout-content class="content">
-                <div style="padding: 10px">
-                    <router-view/>
-                </div>
+            <a-layout-content>
+                <router-view/>
+                <a-back-top/>
             </a-layout-content>
         </a-layout>
     </div>
@@ -58,9 +57,5 @@
 </script>
 
 <style scoped>
-    .content {
-        background-color: #fff;
-        margin-left: 20px;
-        height: 550px;
-    }
+
 </style>

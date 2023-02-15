@@ -40,9 +40,10 @@
             return {
                 post: {
                     title: '',
-                    //    html: '',// 及时转的html
+                    html: '',// 及时转的html
                     content: '',// 输入的markdown
                     userId: 0,
+                    postId: ""
                 },
                 visible: false,
                 confirmLoading: false,
@@ -74,31 +75,28 @@
                 // render 为 markdown 解析后的结果[html]
                 this.post.html = render;
             },
-
-            handleOk(e) {
-                this.ModalText = 'The modal will be closed after two seconds';
-                this.confirmLoading = true;
-                setTimeout(() => {
-                    this.visible = false;
-                    this.confirmLoading = false;
-                }, 2000);
-            },
-            handleCancel(e) {
-                console.log('Clicked cancel button');
-                this.visible = false;
-            },
             visibleTrans(visible) {
                 this.visible = visible;
             }
-
         },
         mounted() {
             const userId = this.$route.query.userId;
+            const postId = this.$route.query.postId;
+            const that = this;
+            if (postId != undefined) {
+                this.post.postId = postId;
+                myAxios.get(`/post/getPost?postId=${postId}&userId=${userId}`)
+                    .then(function (res) {
+                        console.log(res.data)
+                        that.post.content = res.data.content
+                        that.post.title = res.data.title
+                    })
+            }
             this.post.userId = userId;
             this.$message.warning("请查看右上角语法文档！！")
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.$message.warning("请查看右上角语法文档！！")
-            },1000)
+            }, 1000)
         }
     }
 </script>

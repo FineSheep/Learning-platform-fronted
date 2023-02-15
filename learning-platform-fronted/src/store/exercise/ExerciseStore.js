@@ -3,17 +3,13 @@ export default {
     actions: {},
     mutations: {
         PKExercise(state, value) {
-            console.log('-----', value);
             state.exercise = value;
-            console.log('-----', state.exercise);
         },
         userAnswer(state, value) {
             state.answer = value;
-            console.log('存储store，', state.answer)
         },
         totalTime(state, value) {
             state.time = value;
-            console.log("存储time", state.time)
         }
     },
     state: {

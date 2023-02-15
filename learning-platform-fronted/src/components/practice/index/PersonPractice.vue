@@ -4,7 +4,7 @@
         <div class="box">
             <div
                     v-infinite-scroll="getData"
-                    :infinite-scroll-disabled="busy"
+                    infinite-scroll-disabled="busy"
                     :infinite-scroll-distance="10"
                     style="background-color: white; padding: 20px"
             >
@@ -71,18 +71,16 @@
                 return res.data;
             },
             async getData() {
-                const data = await this.fetchData()
                 this.loading = true;
-                this.records = [...this.records, ...data.records]
-                this.loading = false;
-                this.curPage++;
-                console.log('this.records', this.records)
-                console.log('data', data)
-                if (!data.hasNext) {
+                const data = await this.fetchData()
+                if (data.length == 0) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;
                 }
+                this.records = [...this.records, ...data]
+                this.loading = false;
+                this.curPage++;
             },
             timeTransform(time) {
                 let minute = 0;
