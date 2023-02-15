@@ -2,22 +2,34 @@
     <div style="background-color:#fff; padding: 20px">
         <div style="margin: 20px">
             <a-space size="large">
+                <a-button style="width: 100px" type="primary" block @click="article"> 写文章</a-button>
                 <a-range-picker @change="onChange" :locale="locale" style="width: 200px"/>
-                <a-select
-                        mode="multiple"
-                        style="width: 200px"
-                        placeholder="请选择标签"
-                        @change="tagChange"
-                >
-                    <a-select-option v-for="item in tags" :key="item.id">
-                        {{item.tagName}}
-                    </a-select-option>
-                </a-select>
-                <a-button type="primary">搜索</a-button>
+                <!--                <a-select
+                                        mode="multiple"
+                                        style="width: 200px"
+                                        placeholder="请选择标签"
+                                        @change="tagChange"
+                                >
+                                    <a-select-option v-for="item in tags" :key="item.id">
+                                        {{item.tagName}}
+                                    </a-select-option>
+                                </a-select>-->
+                <a-button type="primary" @click="search">搜索</a-button>
             </a-space>
         </div>
         <div>
             <data-list :data-list="dataList"/>
+            <div
+                    v-if="showLoadingMore"
+                    slot="loadMore"
+                    :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }"
+            >
+                <a-spin v-if="loadingMore"/>
+                <a-button v-else @click="onLoadMore">
+                    加载更多
+                </a-button>
+            </div>
+            <a-back-top/>
         </div>
     </div>
 </template>
@@ -26,6 +38,7 @@
     import locale from 'ant-design-vue/es/date-picker/locale/zh_CN';
     import myAxios from "@/axios/myAxios";
     import DataList from "@/components/postCenter/manager/DataList";
+    import moment from 'moment'
 
     export default {
         name: "ContentManager",
@@ -38,8 +51,15 @@
                 selectActions: {
                     startTime: '',
                     endTime: '',
-                    tags: []
-                }
+                    tags: [],
+                    curPage: 0,
+                    pageSize: 10,
+                    userId: localStorage.getItem('userId')
+                },
+                loading: true,
+                loadingMore: false,
+                showLoadingMore: true,
+                finish: false
             }
         },
         mounted() {
@@ -47,13 +67,43 @@
             this.getPost()
         },
         methods: {
+            search() {
+                this.selectActions.curPage = 0;
+                this.dataList = []
+                this.finish = false
+                this.getPost();
+            },
+            onLoadMore() {
+                this.getPost();
+            },
+            article() {
+                const route = this.$router.resolve({
+                    path: '/writeArticle',
+                    query: {
+                        userId: localStorage.getItem("userId")
+                    }
+                })
+                window.open(route.href, '_blank');//打开新的窗口
+            },
             getPost() {
+                if (this.finish) {
+                    this.$message.warning('暂无数据，请勿重复点击');
+                    return;
+                }
                 const that = this;
-                const userId = localStorage.getItem('userId');
-                myAxios.get(`post/getPostByUserId?userId=${userId}&curPage=1&pageSize=10`)
+                this.selectActions.curPage++;
+                that.loadingMore = true;
+                that.loading = true;
+                myAxios.post(`post/getPostActions`, this.selectActions)
                     .then(function (res) {
-                        that.dataList = res.data;
-                        // console.log(that.dataList)
+                        if (res.data.length == 0) {
+                            that.finish = true;
+                            that.$message.warning('暂无数据');
+                        }
+                        that.dataList = [...that.dataList, ...res.data]
+                        console.log(res.data)
+                        that.loadingMore = false;
+                        that.loading = false;
                     })
             },
             getTags() {
@@ -69,9 +119,8 @@
             },
             onChange(date, dateString) {
                 console.log(date, dateString);
-                console.log(date[0]._d)
-                this.selectActions.startTime = date[0]._d;
-                this.selectActions.endTime = date[1]._d;
+                this.selectActions.startTime = moment(dateString[0]);
+                this.selectActions.endTime = moment(dateString[1]);
             },
         },
     }

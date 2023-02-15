@@ -2,16 +2,16 @@
     <div>
         <div v-if="data.length!=0">
             <div v-for="(item,index) in data" :key="item.id">
-                <div style="position: relative;">
-                    <div class="box">
-                        <div class="left">{{item.title}}</div>
-                        <div class="right">{{time(item.createTime)}}</div>
+                <div>
+                    <div>
+                        <div>{{item.title}}</div>
+                        <div style="float: right">{{time(item.createTime)}}</div>
                     </div>
-                    <div class="box">
-                        <div class="left">
-                            <a-tag color="green" v-for="(tag,index) in item.tagsName" :key="tag">{{tag}}</a-tag>
+                    <div>
+                        <div style="width: 80%;margin: 10px">
+                            {{item.description}}
                         </div>
-                        <div class="right">
+                        <div>
                             <a-tag v-if="item.reviewStatus==0" color="orange">
                                 正在审核
                             </a-tag>
@@ -35,8 +35,7 @@
                             </a-tag>
                         </div>
                     </div>
-
-                    <div class="box">
+                    <div>
                         <a-space style="margin-left: 10px;color: lightgrey">
                             <span>点赞：{{item.thumbNum}}</span>
                             <span>收藏 ：{{item.collectNum}}</span>
@@ -52,17 +51,6 @@
                     </div>
                     <a-divider dashed/>
                 </div>
-
-            </div>
-            <div
-                    v-if="showLoadingMore"
-                    slot="loadMore"
-                    :style="{ textAlign: 'center', marginTop: '12px', height: '32px', lineHeight: '32px' }"
-            >
-                <a-spin v-if="loadingMore"/>
-                <a-button v-else @click="onLoadMore">
-                    加载更多
-                </a-button>
             </div>
         </div>
         <div v-else class="center">
@@ -82,13 +70,7 @@
         data() {
             return {
                 data: [],
-                tagsList: [],
-                loading: true,
-                loadingMore: false,
-                showLoadingMore: true,
                 finish: false,
-                curPage: 1,
-                pageSize: 10,
                 visible: false
             }
         },
@@ -96,11 +78,7 @@
             dataList() {
                 this.data = this.dataList;
             },
-            tags() {
-                this.tagsList = this.tags;
-            }
         },
-
         methods: {
             editArticle(id) {
                 const route = this.$router.resolve({
@@ -136,33 +114,6 @@
             time(time) {
                 return moment(time).format('yyyy-MM-DD HH:mm:ss')
             },
-            onLoadMore() {
-                this.getPost();
-            },
-            getPost() {
-                if (this.finish) {
-                    this.$message.warning('暂无数据，请勿重复点击');
-                    return;
-                }
-                const that = this;
-                const userId = localStorage.getItem('userId');
-                this.curPage++;
-                myAxios.get(`post/getPostByUserId?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
-                    .then(function (res) {
-                        if (res.data.length == 0) {
-                            that.finish = true;
-                            that.$message.warning('暂无数据，请勿重复点击');
-
-                        }
-                        that.loadingMore = true;
-                        that.loading = true;
-                        that.data = [...that.data, ...res.data]
-                        console.log(res.data)
-                        that.loadingMore = false;
-                        that.loading = false;
-                    })
-            }
-
         }
     }
 </script>
@@ -178,20 +129,5 @@
 
     span:hover {
         cursor: pointer;
-    }
-
-    .box {
-        height: 20px;
-        margin: 10px;
-    }
-
-    .left {
-        position: absolute;
-        left: 10px;
-    }
-
-    .right {
-        position: absolute;
-        right: 10px;
     }
 </style>

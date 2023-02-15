@@ -11,7 +11,6 @@ import ListView from "@/components/ListView";
 import PracticeIndex from "@/components/practice/index/PracticeIndex";
 import PersonPractice from "@/components/practice/index/PersonPractice";
 import PK from "@/components/practice/PK/PK";
-import CreateIndex from "@/components/postCenter/CreateIndex";
 import WriteArticle from "@/components/postCenter/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
@@ -22,8 +21,6 @@ import PersonPost from "@/components/person/menu/PersonPost";
 import PersonThumb from "@/components/person/menu/PersonThumb";
 import PersonCollect from "@/components/person/menu/PersonCollect";
 import ContentManager from "@/components/postCenter/manager/ContentManager";
-import CommentManager from "@/components/postCenter/manager/CommentManager";
-import DataManager from "@/components/postCenter/manager/DataManager";
 
 const routes = [
 
@@ -70,22 +67,8 @@ const routes = [
                     path: "/test"
                 },
                 {
-                    component: CreateIndex,
-                    path: '/create',
-                    children: [
-                        {
-                            component: ContentManager,
-                            path: ''
-                        },
-                        {
-                            component: CommentManager,
-                            path: 'comment'
-                        },
-                        {
-                            component: DataManager,
-                            path: 'data'
-                        }
-                    ]
+                    component: ContentManager,
+                    path: '/content'
                 },
                 {
                     component: editPerson,
