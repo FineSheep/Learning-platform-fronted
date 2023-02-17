@@ -56,6 +56,7 @@
 <script>
 
     import userJs from "@/userJs/user"
+    import myAxios from "@/axios/myAxios";
 
     export default {
         name: "MenuSearch",
@@ -67,19 +68,18 @@
                 this.isLogin = true;
                 this.user = user;
             }
-
+            this.dotMessage();
         },
         data() {
             return {
                 isLogin: false,
-                show: true,
+                show: false,
                 user: {}
             };
         },
         methods: {
             toPersonCenter() {
                 this.$router.push(`/personCenter`)
-
             },
             offLogin() {
                 localStorage.removeItem("userId");
@@ -92,6 +92,15 @@
                 if (e.key != 'personCenter') {
                     this.$router.push(`/${e.key}`)
                 }
+            },
+            dotMessage() {
+                const that = this;
+                myAxios.get('/message/dotMessage?userId=' + localStorage.getItem('userId'))
+                    .then(function (res) {
+                        if (res.data != 0) {
+                            that.show = true;
+                        }
+                    })
             }
         }
 

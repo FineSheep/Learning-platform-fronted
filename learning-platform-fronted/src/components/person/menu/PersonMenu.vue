@@ -11,7 +11,7 @@
                 收藏
             </a-menu-item>
         </a-menu>
-        <div style="background-color:#fff; margin-top: 10px;">
+        <div style="background-color:#fff; margin-top: 10px; min-height: 300px">
             <router-view/>
         </div>
     </div>

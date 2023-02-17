@@ -50,6 +50,7 @@
                 })
             },
             async fetchData() {
+                this.curPage++;
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                 console.log(data)
                 return data.data;
@@ -60,7 +61,6 @@
                 this.loading = true;
                 this.data = [...this.data, ...data]
                 this.loading = false;
-                this.curPage++;
                 if (data.length == 0) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;

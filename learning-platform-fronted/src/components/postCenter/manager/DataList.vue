@@ -124,7 +124,7 @@
         justify-content: center;
         align-items: center;
         margin-top: 100px;
-        height: 550px;
+        height: 300px;
     }
 
     span:hover {

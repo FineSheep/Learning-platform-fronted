@@ -64,10 +64,12 @@
                 return currentId === this.currentPost.userId ? 1 : 0;
             },
             submitComment(item) {
-                if (item.content.length > 100) {
+/*                if (item.content.length > 100) {
+                    console.log("====")
+                    // alert("sssss")
                     this.$message.warning("文字过长");
                     return
-                }
+                }*/
                 console.log("item: ", item);
                 const author = this.isAdmin(this.current.id);
                 const id = nanoid(10);
@@ -79,8 +81,8 @@
                     id: id,
                     isAdmin: author,
                     avatar: this.current.avatarUrl,
-                    create_time: moment().startOf('minute').fromNow(),
                     nickname: this.current.username,
+                    create_time: moment().startOf('minute').fromNow(),
                     parentId: parentId,
                     content: content
                 }

@@ -9,7 +9,7 @@
                     PK对战
                 </a-menu-item>
             </a-menu>
-            <div >
+            <div style="min-height: 600px">
                 <router-view/>
             </div>
         </div>

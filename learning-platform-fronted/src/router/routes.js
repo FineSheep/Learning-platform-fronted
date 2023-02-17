@@ -21,6 +21,8 @@ import PersonPost from "@/components/person/menu/PersonPost";
 import PersonThumb from "@/components/person/menu/PersonThumb";
 import PersonCollect from "@/components/person/menu/PersonCollect";
 import ContentManager from "@/components/postCenter/manager/ContentManager";
+import MailIndex from "@/components/mail/MailIndex";
+import CommentIndex from "@/components/mail/comment/CommentIndex";
 
 const routes = [
 
@@ -29,6 +31,16 @@ const routes = [
         path: '/',
         children:
             [
+                {
+                    component: MailIndex,
+                    path: '/mail',
+                    children: [
+                        {
+                            component: CommentIndex,
+                            path: ''
+                        }
+                    ]
+                },
                 {
                     component: ListCard,
                     path: ''

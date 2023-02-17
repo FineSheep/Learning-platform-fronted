@@ -23,7 +23,7 @@
                             <a> 删除</a>
                         </a-popconfirm>
                     </a>
-                    <a slot="actions">更多</a>
+                    <a slot="actions" @click="more">更多</a>
                     <a-list-item-meta
                             :description="item.description"
                     >
@@ -87,6 +87,9 @@
             this.getPost()
         },
         methods: {
+            more(){
+                this.$router.push('/content');
+            },
             showDrawer() {
                 this.visible = true;
             },

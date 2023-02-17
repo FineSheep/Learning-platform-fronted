@@ -74,8 +74,6 @@
                 personCoTh: {}
             };
         },
-        created() {
-        },
         methods: {
             toHtml(item) {
                 const id = item.id;
@@ -114,6 +112,7 @@
                 myAxios.get(`coTh/collect?userId=${userId}&postId=${item.id}`)
             },
             async fetchData() {
+                this.curPage++;
                 const userId = Number(localStorage.getItem('userId'));
                 const res = await myAxios.get(`/post/getPosts?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
                 const data = res.data;
@@ -121,15 +120,16 @@
             },
             async getData() {
                 const data = await this.fetchData();
-                this.loading = true;
-                this.data = [...this.data, ...data]
-                this.loading = false;
-                this.curPage++;
                 if (data.length == 0) {
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;
+                    return ;
                 }
+                this.loading = true;
+                this.data = [...this.data, ...data]
+                this.loading = false;
+
             }
         }
     };
