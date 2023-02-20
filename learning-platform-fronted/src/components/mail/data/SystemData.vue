@@ -1,25 +1,24 @@
 <template>
     <div>
         <div v-for="(item,index) in dataList" :key="item.messageId">
+            <a-modal v-model="visible" :title="item.title" @ok="hideModal">
+                <p> {{item.content}}</p>
+            </a-modal>
             <div>
                 <a-row align="top">
-                    <a-col :span="2">
-                        <a-avatar :src="item.sendAvatar" size="large"/>
-                    </a-col>
-                    <a-col :span="19">
+                    <a-col :span="21">
                         <a-space>
-                            {{item.sendName}}
-                            <span style="color:rgb(165,153,170)">{{msg}}</span>
+                            <span class="link" @click="showModal(item)">
+                            【{{item.title}}】
+                        </span>
+                            <span style="color:rgb(165,153,170)">来自管理员的通知：</span>
                             <div style="display: inline-block" v-if="item.isRead">
                                 <img class="newMessage" :src="newMessage">
                             </div>
                         </a-space>
-                        <div class="word" @click="toPost(item)">
+                        <div class="word">
                             {{item.content}}
                         </div>
-                        <span class="link" @click="toPost(item)">
-                            【{{item.title}}】
-                        </span>
                     </a-col>
                     <a-col :span="3">
                         <div style="display: flex;flex-direction: column;justify-content: flex-end">
@@ -35,7 +34,6 @@
                                 {{time(item.time)}}
                             </p>
                         </div>
-
                     </a-col>
                 </a-row>
                 <a-divider/>
@@ -50,13 +48,13 @@
     import myAxios from "@/axios/myAxios";
 
     export default {
-        name: "DataList",
-        props: ['data', 'msg'],
+        name: "SystemData",
+        props: ['data'],
         data() {
             return {
+                visible: false,
                 dataList: [],
                 newMessage
-
             }
         },
         watch: {
@@ -65,16 +63,14 @@
             }
         },
         methods: {
-            toPost(item) {
-                const id =item.postId;
-                const messageId =item.id;
+            hideModal() {
+                this.visible = false;
+            },
+            showModal(item) {
+                const messageId =item.messageId
+                item.isRead = 0
                 myAxios.get(`/message/readMessage?messageId=${messageId}`)
-                this.$router.push({
-                    query: {
-                        postId: id,
-                    },
-                    path: '/post'
-                })
+                this.visible = true;
             },
             deleteMessage(index, id) {
                 this.dataList.splice(index, 1)
@@ -104,9 +100,7 @@
     }
 
     .link {
-        display: inline-block;
         cursor: pointer;
-        margin-top: 8px;
     }
 
     .word:hover {

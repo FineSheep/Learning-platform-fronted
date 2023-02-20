@@ -1,6 +1,6 @@
 <template>
     <div style="position: relative">
-        <a-affix class="card-box">
+        <div class="card-box">
             <div class="answer-card">答题卡</div>
             <div v-if="hasRadio">
                 <div style="background-color:#fff;">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </a-affix>
+        </div>
 
         <div v-for="(item,index) in radio" :key="item.id">
             <a-tag :id="item.id" color="blue" style="margin-bottom: 10px">
@@ -160,10 +160,9 @@
     }
 
     .card-box {
-        position: absolute;
-        top: 20px;
-        right: -250px;
-
+        position: fixed;
+        z-index: 0;
+        right: 50px;
     }
 
     .number-list {

@@ -10,7 +10,6 @@
             >
                 <p v-if="noTitleKey === 'password'">
                     <a-form
-                            id="components-form-demo-normal-login"
                             :form="form"
                             class="login-form"
                             @submit="loginByPassword"
@@ -18,10 +17,10 @@
                         <a-form-item>
                             <a-input
                                     v-decorator="[
-          'emailByPass',
-          { rules: [{ type:'email',required: true, message: '请输入正确邮箱!' }] },
-        ]"
-                                    placeholder="请输入登录邮箱"
+                                  'emailByPass',
+                                  { rules: [{ type:'email',required: true, message: '请输入正确邮箱!' }] },
+                                ]"
+                                    placeholder="请输入邮箱"
                             >
                                 <a-icon slot="prefix" type="mail" style="color: rgba(0,0,0,.25)"/>
                             </a-input>
@@ -29,11 +28,19 @@
                         <a-form-item>
                             <a-input
                                     v-decorator="[
-          'passwordByPass',
-          { rules: [{ min:6,max:10,required: true, message: '密码长度6到10位！' }] },
-        ]"
+                                    'passwordByPass',
+                                    { rules:
+                                        [
+                                            { min:6,
+                                            max:10,
+                                            required: true,
+                                            message: '密码长度6到10位！'
+                                            }
+                                        ]
+                                        },
+                                                ]"
                                     type="password"
-                                    placeholder="请输入登录密码"
+                                    placeholder="请输入密码"
                             >
                                 <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)"/>
                             </a-input>
@@ -47,7 +54,6 @@
                 </p>
                 <p v-else-if="noTitleKey === 'code'">
                     <a-form
-                            id="components-form-demo-normal-login-2"
                             :form="form"
                             class="login-form"
                             @submit="loginOrRegister"
@@ -65,23 +71,23 @@
                             </a-input>
                         </a-form-item>
                         <a-form-item>
-                            <a-input
-                                    v-decorator="['codeByCode',]"
-                                    type="text"
-                                    placeholder="请输入验证码"
-                            >
-                            </a-input>
+                            <a-space>
+                                <a-input
+                                        v-decorator="['codeByCode',]"
+                                        type="text"
+                                        placeholder="请输入验证码"
+                                        style="padding: 5px"
+                                >
+                                </a-input>
+                                <vue-get-code :getCode="getCode"/>
+                            </a-space>
                         </a-form-item>
                         <a-form-item>
-                            <a-button type="primary" class="login-form-button" @click="getCode">
-                                获取验证码
-                            </a-button>
                             <a-button type="primary" html-type="submit" class="login-form-button">
                                 登录 | 注册
                             </a-button>
                         </a-form-item>
                     </a-form>
-
                 </p>
             </a-card>
         </div>
@@ -91,9 +97,13 @@
 
 <script>
     import myAxios from "@/axios/myAxios";
+    import VueGetCode from 'vue-get-code'
 
     export default {
         name: 'LoginRegister',
+        components: {
+            VueGetCode
+        },
         data() {
             return {
                 tabListNoTitle: [
@@ -207,28 +217,17 @@
         text-align: center
     }
 
-    #components-form-demo-normal-login .login-form {
-        max-width: 300px;
-    }
-
-    #components-form-demo-normal-login .login-form-forgot {
-        float: right;
-    }
-
-    #components-form-demo-normal-login .login-form-button {
+    .login-form-button {
         width: 100%;
     }
 
-    #components-form-demo-normal-login-2 {
-        max-width: 300px;
+    .vue-get-code {
+        color: #1092ed;
+        cursor: pointer;
+        width: 100px;
     }
 
-    #components-form-demo-normal-login-2 .login-form-forgot {
-        float: right;
-    }
-
-
-    #components-form-demo-normal-login-2 .login-form-button {
-        width: 100%;
+    .vue-get-code.enable-countdown {
+        cursor: not-allowed;
     }
 </style>

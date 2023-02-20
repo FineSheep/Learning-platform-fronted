@@ -1,7 +1,7 @@
 <template>
     <div v-if="!isEmpty" class="box">
         <div style="position: relative">
-            <div style="font-size: 20px;font-weight: 600">评论</div>
+            <div style="font-size: 20px;font-weight: 600">点赞（收藏）</div>
             <a-space style="position: absolute;right: 10px">
                 <a @click="readAll">一键已读</a>
                 <a-popconfirm
@@ -16,7 +16,7 @@
         </div>
         <a-divider/>
         <div style="min-height: 450px">
-            <DataList :data="data" msg="回复了你的评论"/>
+            <DataList :data="data" msg="点赞（收藏）你的帖子"/>
         </div>
         <div v-if="total!=0" class="bottom">
             <a-pagination v-model="curPage" :total="total" :defaultPageSize="pageSize" size="small" @change="onChange"/>
@@ -32,33 +32,32 @@
     import DataList from "@/components/mail/data/DataList";
 
     export default {
-        name: "CommentIndex",
+        name: "ThumbAndCollectIndex",
         components: {DataList},
         data() {
             return {
                 curPage: 1,
-                pageSize: 3,
+                pageSize: 10,
                 data: [],
                 total: 0,
                 isEmpty: false
             }
         },
         mounted() {
-            this.getComment()
+            this.getThumbCollect();
         },
         methods: {
             removeAll() {
-                myAxios.get(`/message/removeAllComment?userId=${localStorage.getItem('userId')}`);
+                myAxios.get(`/message/removeAllThumb?userId=${localStorage.getItem('userId')}`);
                 this.isEmpty = true;
             },
             readAll() {
-                myAxios.get(`/message/readAllComment?userId=${localStorage.getItem('userId')}`)
-                this.getComment()
+                myAxios.get(`/message/readAllThumbCollectMessage?userId=${localStorage.getItem('userId')}`)
+                this.getThumbCollect()
             },
-            getComment() {
+            getThumbCollect() {
                 const that = this;
-                myAxios.get(`/message/commentMessage?userId=${localStorage.getItem('userId')}
-                &curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`/message/thumbCollectMessage?userId=${localStorage.getItem('userId')}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (that.curPage == 1) {
                             if (res.data.data.length == 0) {
@@ -66,13 +65,14 @@
                                 return;
                             }
                         }
+                        console.log(res.data)
                         that.data = res.data.data
                         that.total = res.data.count
                     })
             },
             onChange(current) {
                 this.current = current;
-                this.getComment();
+                this.getThumbCollect();
             },
         }
     }

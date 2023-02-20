@@ -23,6 +23,8 @@ import PersonCollect from "@/components/person/menu/PersonCollect";
 import ContentManager from "@/components/postCenter/manager/ContentManager";
 import MailIndex from "@/components/mail/MailIndex";
 import CommentIndex from "@/components/mail/comment/CommentIndex";
+import ThumbAndCollectIndex from "@/components/mail/thumbAndCollect/ThumbAndCollectIndex";
+import SystemIndex from "@/components/mail/system/SystemIndex";
 
 const routes = [
 
@@ -38,6 +40,14 @@ const routes = [
                         {
                             component: CommentIndex,
                             path: ''
+                        },
+                        {
+                            component: ThumbAndCollectIndex,
+                            path: 'thumbAndCollect'
+                        },
+                        {
+                            component: SystemIndex,
+                            path: 'system'
                         }
                     ]
                 },
@@ -83,20 +93,6 @@ const routes = [
                     path: '/content'
                 },
                 {
-                    component: editPerson,
-                    path: '/editPerson',
-                    children:
-                        [
-                            {
-                                component: PersonInfo,
-                                path: ''
-                            },
-                            {
-                                component: AccountSetting,
-                                path: 'accountSetting'
-                            }]
-                },
-                {
                     component: PracticeIndex,
                     path: '/practiceIndex',
                     children: [
@@ -110,7 +106,20 @@ const routes = [
                         },
                     ]
                 },
-
+                {
+                    component: editPerson,
+                    path: '/editPerson',
+                    children:
+                        [
+                            {
+                                component: PersonInfo,
+                                path: ''
+                            },
+                            {
+                                component: AccountSetting,
+                                path: 'accountSetting'
+                            }]
+                },
             ]
 
     },

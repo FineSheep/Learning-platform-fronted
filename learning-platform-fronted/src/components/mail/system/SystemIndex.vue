@@ -1,7 +1,7 @@
 <template>
     <div v-if="!isEmpty" class="box">
         <div style="position: relative">
-            <div style="font-size: 20px;font-weight: 600">评论</div>
+            <div style="font-size: 20px;font-weight: 600">系统通知</div>
             <a-space style="position: absolute;right: 10px">
                 <a @click="readAll">一键已读</a>
                 <a-popconfirm
@@ -16,7 +16,7 @@
         </div>
         <a-divider/>
         <div style="min-height: 450px">
-            <DataList :data="data" msg="回复了你的评论"/>
+            <system-data :data="data"/>
         </div>
         <div v-if="total!=0" class="bottom">
             <a-pagination v-model="curPage" :total="total" :defaultPageSize="pageSize" size="small" @change="onChange"/>
@@ -29,36 +29,35 @@
 
 <script>
     import myAxios from "@/axios/myAxios";
-    import DataList from "@/components/mail/data/DataList";
+    import SystemData from "@/components/mail/data/SystemData";
 
     export default {
-        name: "CommentIndex",
-        components: {DataList},
+        name: "SystemIndex",
+        components: {SystemData},
         data() {
             return {
                 curPage: 1,
-                pageSize: 3,
+                pageSize: 10,
                 data: [],
                 total: 0,
                 isEmpty: false
             }
         },
         mounted() {
-            this.getComment()
+            this.systemMessage();
         },
         methods: {
             removeAll() {
-                myAxios.get(`/message/removeAllComment?userId=${localStorage.getItem('userId')}`);
+                myAxios.get(`/message/removeAllSystem?userId=${localStorage.getItem('userId')}`);
                 this.isEmpty = true;
             },
             readAll() {
-                myAxios.get(`/message/readAllComment?userId=${localStorage.getItem('userId')}`)
-                this.getComment()
+                myAxios.get(`/message/readAllSystemMessage?userId=${localStorage.getItem('userId')}`)
+                this.systemMessage()
             },
-            getComment() {
+            systemMessage() {
                 const that = this;
-                myAxios.get(`/message/commentMessage?userId=${localStorage.getItem('userId')}
-                &curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`/message/systemMessage?userId=${localStorage.getItem('userId')}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (that.curPage == 1) {
                             if (res.data.data.length == 0) {
@@ -66,13 +65,14 @@
                                 return;
                             }
                         }
+                        console.log(res.data)
                         that.data = res.data.data
                         that.total = res.data.count
                     })
             },
             onChange(current) {
                 this.current = current;
-                this.getComment();
+                this.getThumbCollect();
             },
         }
     }

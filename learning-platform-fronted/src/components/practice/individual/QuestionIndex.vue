@@ -7,12 +7,19 @@
                         title="退出答题"
                         @back="back()"
                 >
-                    <div>
-                        <a-button type="primary" style="right: 100px;top: 20px" class="title-right" @click="confirm">
+                    <a-space class="title-right">
+                        <a-button type="primary"  @click="confirm">
                             交卷
                         </a-button>
-                        <get-timer class="title-right"/>
-                    </div>
+                        <count-down
+                                class=" time-box time-font"
+                                v-on:end_callback="countDownE_cb"
+                                :currentTime="start"
+                                :startTime="start"
+                                :endTime="endTime"
+                                minutesTxt="分:"
+                                secondsTxt="秒"/>
+                    </a-space>
                 </a-page-header>
             </div>
         </a-affix>
@@ -25,13 +32,14 @@
 </template>
 <script>
     import myAxios from "@/axios/myAxios";
-    import GetTimer from "@/components/practice/individual/GetTimer";
     import QuesList from "@/components/practice/individual/QuesList";
     import {mapGetters} from "vuex";
+    import CountDown from 'vue2-countdown'
+    import moment from 'moment'
 
     export default {
         name: "QuestionIndex",
-        components: {QuesList, GetTimer},
+        components: {QuesList, CountDown},
         props: ['radio', 'mulChoice'],
         data() {
             return {
@@ -39,20 +47,31 @@
                 answer: {
                     answer: new Map(),
                     quesIds: [],
-                    time: 0,
+                    startTime: {},
                 }
             }
         },
         computed: {
-            ...mapGetters('Exercise', ['getAnswers', 'getTime'])
+            ...mapGetters('Exercise', ['getAnswers']),
+            start() {
+                return moment(this.startTime).valueOf();
+            },
+            endTime() {
+                return moment(this.startTime).add(10, 'minutes').valueOf();
+            }
         },
         created() {
+            this.startTime = moment();
             this.$bus.$on('putAnswer', this.putAnswer);
         },
         beforeDestroy() {
             this.$bus.$off('putAnswer');
         },
         methods: {
+            countDownE_cb: function () {
+                this.putAnswer();
+                this.$router.back();
+            },
             quesIds() {
                 if (this.radio != null) {
                     for (let radioId of this.radio) {
@@ -76,12 +95,12 @@
                 this.quesIds();
                 console.log(this.answer.quesIds)
                 this.$bus.$emit('send');
-                this.$bus.$emit('sendTime');
+                const time = moment().diff(this.startTime) / 1000// 返回秒数
                 myAxios.post('/question/putAnswer', {
                     quesIds: this.answer.quesIds,
                     answer: this._strMapToObj(this.getAnswers),
-                    userId: Number(localStorage.getItem('userId')),
-                    time: this.getTime,
+                    userId: localStorage.getItem('userId'),
+                    time: time,
                 })
                 this.$message.success("提交成功");
             },
@@ -118,5 +137,16 @@
         position: absolute;
         right: 0;
         top: 25px;
+    }
+
+    .time-font {
+        font-family: Helvetica Neue;
+        font-weight: 600;
+    }
+
+    .time-box {
+        background-color: rgb(238, 240, 241);
+        border-radius: 20px;
+        padding: 0 10px;
     }
 </style>
