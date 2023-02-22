@@ -46,14 +46,11 @@
         },
         methods: {
             handleClick(e) {
-                this.$router.push("/create/"+e.key);
+                this.$router.push("/create/" + e.key);
             },
             article() {
                 const route = this.$router.resolve({
                     path: '/writeArticle',
-                    query: {
-                        userId: localStorage.getItem("userId")
-                    }
                 })
                 window.open(route.href, '_blank');//打开新的窗口
             }

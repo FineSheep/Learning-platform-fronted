@@ -16,7 +16,7 @@
                             </div>
                             <div class="img-box" v-else>
                                 <img class="img-size-1" :src="img.fighting">
-                               继续努力吧！
+                                继续努力吧！
                             </div>
                             <div>
                                 <img class="img-card" src="../../../assets/time.svg"/>
@@ -101,7 +101,6 @@
                         this.$router.push({
                                 path: '/pkExercise',
                                 query: {
-                                    user: Number(localStorage.getItem('userId')),
                                     opponent: Number(res.data.opponent)
                                 }
                             }
@@ -112,7 +111,7 @@
                 }
             },
             async getPKRecord() {
-                const res = await myAxios.get(`/records/pkRecords?uid=${localStorage.getItem('userId')}`);
+                const res = await myAxios.get(`/records/pkRecords`);
                 console.log(res);
                 this.records = res.data;
             },
@@ -125,7 +124,12 @@
                 return (minute == 0 ? '' : minute + '分') + time + '秒';
             },
             getRecord(id) {
-                console.log(id)
+                this.$router.push({
+                    query: {
+                        recordId: id
+                    },
+                    path: '/pkRecord'
+                })
             }
         }
     }
@@ -186,10 +190,12 @@
         width: 50px;
         height: 50px;
     }
+
     .img-size-1 {
         width: 40px;
         height: 40px;
     }
+
     .img-box {
         position: absolute;
         top: 0;

@@ -1,7 +1,6 @@
 <template>
     <div>
         <mavon-editor
-                class="md"
                 :value="markdown"
                 :subfield="false"
                 :defaultOpen="'preview'"
@@ -50,7 +49,7 @@
                 const that = this;
                 const id = this.$route.query.postId;
                 this.post.postId = id;
-                myAxios.get(`/post/getPost?postId=${id}&userId=${localStorage.getItem('userId')}`)
+                myAxios.get(`/post/getPost?postId=${id}`)
                     .then(function (res) {
                         that.post.userId = res.data.user.id
                         that.markdown = res.data.content

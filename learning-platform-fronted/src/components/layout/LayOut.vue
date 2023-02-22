@@ -33,7 +33,8 @@
 </script>
 <style scoped>
     .context {
-        width: 70%;
+        width: 80%;
         margin: 10px auto;
+        padding-left: 20px;
     }
 </style>

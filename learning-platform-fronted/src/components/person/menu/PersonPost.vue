@@ -111,9 +111,8 @@
                     return;
                 }
                 const that = this;
-                const userId = localStorage.getItem('userId');
                 this.curPage++;
-                myAxios.get(`post/getPostByUserId?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`post/getPostByUserId?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (res.data.length == 0) {
                             if (that.curPage == 1) {

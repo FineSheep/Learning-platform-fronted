@@ -83,12 +83,9 @@
                 this.visible = true;
             },
             async handleOK() {
-                this.ques.userId = Number(localStorage.getItem('userId'))
-                // const res = await myAxios.post('/question/getQuesBy', this.ques);
                 this.$router.push({
-                    path: `/questions/${this.ques.userId}/${this.ques.difficulty}/${this.ques.source}/${this.ques.sum}`,
-                    params: {
-                        userId: this.ques.userId,
+                    path: `/questions`,
+                    query: {
                         difficulty: this.ques.difficulty,
                         source: this.ques.source,
                         sum: this.ques.sum

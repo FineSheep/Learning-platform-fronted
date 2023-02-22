@@ -76,7 +76,6 @@
                 const content = item.content;
                 const parentId = item.pid;
                 const postId = this.currentPost.postId;
-                const userId = localStorage.getItem('userId');
                 let comment = {
                     id: id,
                     isAdmin: author,
@@ -88,7 +87,7 @@
                 }
                 this.commentDatas.unshift(comment)
                 myAxios.post('comment/addComment', {
-                    id, content, parentId, postId, userId
+                    id, content, parentId, postId
                 })
             }
         },

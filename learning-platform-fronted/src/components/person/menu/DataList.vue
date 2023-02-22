@@ -75,11 +75,10 @@
                 this.data.splice(index, 1)
                 this.$message.success('删除成功')
                 console.log(id)
-                const userId = localStorage.getItem('userId')
                 if (this.type == 'thumb') {
-                    myAxios.get(`coTh/thumb?userId=${userId}&postId=${id}`)
+                    myAxios.get(`coTh/thumb?postId=${id}`)
                 } else {
-                    myAxios.get(`coTh/collect?userId=${userId}&postId=${id}`)
+                    myAxios.get(`coTh/collect?postId=${id}`)
                 }
             },
             onLoadMore() {
@@ -88,10 +87,9 @@
                     return;
                 }
                 const that = this;
-                const userId = localStorage.getItem('userId')
                 this.curPage++;
                 if (this.type == 'thumb') {
-                    myAxios.get(`post/getPostThumb?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                    myAxios.get(`post/getPostThumb?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                         .then(function (res) {
                             if (res.data.length == 0) {
                                 that.finish = true;
@@ -101,7 +99,7 @@
                             }
                         })
                 } else {
-                    myAxios.get(`post/getPostCollect?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                    myAxios.get(`post/getPostCollect?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                         .then(function (res) {
                             if (res.data.length == 0) {
                                 that.finish = true;

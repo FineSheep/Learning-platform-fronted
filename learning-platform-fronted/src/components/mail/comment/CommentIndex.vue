@@ -48,17 +48,16 @@
         },
         methods: {
             removeAll() {
-                myAxios.get(`/message/removeAllComment?userId=${localStorage.getItem('userId')}`);
+                myAxios.get(`/message/removeAllComment`);
                 this.isEmpty = true;
             },
             readAll() {
-                myAxios.get(`/message/readAllComment?userId=${localStorage.getItem('userId')}`)
+                myAxios.get(`/message/readAllComment`)
                 this.getComment()
             },
             getComment() {
                 const that = this;
-                myAxios.get(`/message/commentMessage?userId=${localStorage.getItem('userId')}
-                &curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`/message/commentMessage?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (that.curPage == 1) {
                             if (res.data.data.length == 0) {

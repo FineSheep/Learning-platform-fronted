@@ -83,7 +83,7 @@
         methods: {
             getCode() {
                 const that = this;
-                myAxios.get(`user/getCodeById?userId=${localStorage.getItem("userId")}`).then(function (res) {
+                myAxios.get(`user/getCodeById`).then(function (res) {
                     console.log(res)
                     if (res.code === 0) {
                         that.$message.success(res.data)
@@ -104,7 +104,6 @@
                 if (onePass === twoPass) {
                     this.$message.success("修改成功，请重新登录")
                     myAxios.post('/user/updatePassword', {
-                        userId: localStorage.getItem('userId'),
                         onePass, twoPass, code,
                     })
                     return

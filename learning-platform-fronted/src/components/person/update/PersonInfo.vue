@@ -103,9 +103,7 @@
             },
             async upload(file) {
                 const form = new FormData()
-                const userId = Number(localStorage.getItem("userId"))
                 form.append('file', file.file)
-                form.append('userId', userId)
                 // console.log(form)
                 const res = await myAxios.post('/img/personUrl',
                     form,
@@ -140,7 +138,7 @@
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
-                        let user = {...values, userId: localStorage.getItem('userId')}
+                        let user = {...values}
                         myAxios.post('/user/updateUserInfo', user)
                         this.$message.success("修改成功")
                     }

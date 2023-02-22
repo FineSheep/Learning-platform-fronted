@@ -48,16 +48,16 @@
         },
         methods: {
             removeAll() {
-                myAxios.get(`/message/removeAllSystem?userId=${localStorage.getItem('userId')}`);
+                myAxios.get(`/message/removeAllSystem`);
                 this.isEmpty = true;
             },
             readAll() {
-                myAxios.get(`/message/readAllSystemMessage?userId=${localStorage.getItem('userId')}`)
+                myAxios.get(`/message/readAllSystemMessage`)
                 this.systemMessage()
             },
             systemMessage() {
                 const that = this;
-                myAxios.get(`/message/systemMessage?userId=${localStorage.getItem('userId')}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`/message/systemMessage?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (that.curPage == 1) {
                             if (res.data.data.length == 0) {

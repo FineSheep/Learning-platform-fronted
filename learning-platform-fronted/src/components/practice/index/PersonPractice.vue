@@ -65,8 +65,7 @@
         },
         methods: {
             async fetchData() {
-                const uid = Number(localStorage.getItem('userId'));
-                const res = await myAxios.get(`/records/getRecords?uid=${uid}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                const res = await myAxios.get(`/records/getRecords?curPage=${this.curPage}&pageSize=${this.pageSize}`);
                 console.log('records', res)
                 return res.data;
             },
@@ -91,7 +90,12 @@
                 return (minute == 0 ? '' : minute + '分') + time + '秒';
             },
             getRecord(id) {
-                console.log(id)
+                this.$router.push({
+                    query:{
+                        recordId:id
+                    },
+                    path:'/record'
+                })
             }
         },
     }

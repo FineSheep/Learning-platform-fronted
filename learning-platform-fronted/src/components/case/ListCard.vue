@@ -92,8 +92,7 @@
                     item.thumbed = true;
                     item.thumbNum++;
                 }
-                const userId = Number(localStorage.getItem('userId'));
-                myAxios.get(`coTh/thumb?userId=${userId}&postId=${item.id}`)
+                myAxios.get(`coTh/thumb?postId=${item.id}`)
             },
             timeFormat(time) {
                 return moment(time).startOf('minute').fromNow();
@@ -108,13 +107,11 @@
                     item.collected = true;
                     item.collectNum++;
                 }
-                const userId = Number(localStorage.getItem('userId'));
-                myAxios.get(`coTh/collect?userId=${userId}&postId=${item.id}`)
+                myAxios.get(`coTh/collect?&postId=${item.id}`)
             },
             async fetchData() {
                 this.curPage++;
-                const userId = Number(localStorage.getItem('userId'));
-                const res = await myAxios.get(`/post/getPosts?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`);
+                const res = await myAxios.get(`/post/getPosts?&curPage=${this.curPage}&pageSize=${this.pageSize}`);
                 const data = res.data;
                 return data;
             },

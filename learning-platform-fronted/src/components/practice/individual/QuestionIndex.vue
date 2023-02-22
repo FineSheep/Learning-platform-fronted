@@ -99,8 +99,7 @@
                 myAxios.post('/question/putAnswer', {
                     quesIds: this.answer.quesIds,
                     answer: this._strMapToObj(this.getAnswers),
-                    userId: localStorage.getItem('userId'),
-                    time: time,
+                    time: Math.floor(time),
                 })
                 this.$message.success("提交成功");
             },

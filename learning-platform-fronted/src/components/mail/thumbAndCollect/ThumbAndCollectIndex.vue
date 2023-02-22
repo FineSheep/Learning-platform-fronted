@@ -48,16 +48,16 @@
         },
         methods: {
             removeAll() {
-                myAxios.get(`/message/removeAllThumb?userId=${localStorage.getItem('userId')}`);
+                myAxios.get(`/message/removeAllThumb`);
                 this.isEmpty = true;
             },
             readAll() {
-                myAxios.get(`/message/readAllThumbCollectMessage?userId=${localStorage.getItem('userId')}`)
+                myAxios.get(`/message/readAllThumbCollectMessage`)
                 this.getThumbCollect()
             },
             getThumbCollect() {
                 const that = this;
-                myAxios.get(`/message/thumbCollectMessage?userId=${localStorage.getItem('userId')}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`/message/thumbCollectMessage?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (that.curPage == 1) {
                             if (res.data.data.length == 0) {

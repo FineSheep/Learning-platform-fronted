@@ -138,10 +138,12 @@
 
 <style scoped>
     .option {
-        display: inline-block;
+        display: block;
         width: 100%;
         height: 40px;
         padding-top: 10px;
+        padding-left: 10px;
+        /*lineHeight: 30px,*/
     }
 
     .option:hover {

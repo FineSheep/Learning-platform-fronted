@@ -88,11 +88,9 @@
         methods: {
             async upload(file) {
                 const form = new FormData()
-                const userId = Number(localStorage.getItem("userId"))
                 form.append('file', file.file)
-                form.append('userId', userId)
                 // console.log(form)
-                const res = await myAxios.post('/img/personUrl',
+                const res = await myAxios.post('/img/postImg',
                     form,
                     {
                         headers: {'Content-Type': 'multipart/form-data'},

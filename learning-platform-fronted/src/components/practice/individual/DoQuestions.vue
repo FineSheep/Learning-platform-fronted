@@ -22,10 +22,9 @@
         },
         async created() {
             let req = {
-                userId: this.$route.params.userId,
-                difficulty: this.$route.params.difficulty,
-                source: this.$route.params.source,
-                sum: this.$route.params.sum
+                difficulty: this.$route.query.difficulty,
+                source: this.$route.query.source,
+                sum: this.$route.query.sum
             }
             console.log(req)
             const res = await myAxios.post('/question/getQuesBy', req);

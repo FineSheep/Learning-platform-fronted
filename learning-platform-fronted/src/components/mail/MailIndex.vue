@@ -45,7 +45,7 @@
             },
             getCounts() {
                 const that = this;
-                myAxios.get(`/message/dotMessageAll?userId=${localStorage.getItem('userId')}`)
+                myAxios.get(`/message/dotMessageAll`)
                     .then(function (res) {
                         that.data = res.data;
                         console.log(res.data)

@@ -7,12 +7,19 @@
                         title="退出答题"
                         @back="back()"
                 >
-                    <div>
-                        <a-button type="primary" style="right: 100px;top: 20px" class="title-right" @click="confirm">
+                    <a-space class="title-right">
+                        <a-button type="primary" @click="confirm">
                             交卷
                         </a-button>
-                        <get-timer class="title-right"/>
-                    </div>
+                        <count-down
+                                class=" time-box time-font"
+                                v-on:end_callback="countDownE_cb"
+                                :currentTime="start"
+                                :startTime="start"
+                                :endTime="endTime"
+                                minutesTxt="分:"
+                                secondsTxt="秒"/>
+                    </a-space>
                 </a-page-header>
             </div>
         </a-affix>
@@ -40,16 +47,17 @@
 </template>
 
 <script>
-    import GetTimer from "@/components/practice/individual/GetTimer";
     import QuesList from "@/components/practice/individual/QuesList";
     import {mapGetters} from 'vuex'
     import myAxios from "@/axios/myAxios";
     import pk from '@/assets/pk.svg'
     import userJS from '@/userJs/user'
+    import CountDown from 'vue2-countdown'
+    import moment from "moment";
 
     export default {
         name: "PKExercise",
-        components: {QuesList, GetTimer},
+        components: {QuesList, CountDown},
         data() {
             return {
                 pkUrl: pk,
@@ -58,15 +66,23 @@
                 answer: {
                     answer: new Map(),
                     quesIds: [],
-                    time: 0,
+                    startTime: {},
                 }
             }
         },
         computed: {
-            ...mapGetters('Exercise', ['getRadio', 'getMulChoice', 'getAnswers', 'getTime'])
+            ...mapGetters('Exercise', ['getRadio', 'getMulChoice', 'getAnswers', 'getTime']),
+            start() {
+                return moment(this.startTime).valueOf();
+
+            },
+            endTime() {
+                return moment(this.startTime).add(10, 'minutes').valueOf();
+            }
         },
         created() {
             this.$bus.$on('putAnswer', this.putAnswer);
+            this.startTime = moment();
         },
         beforeDestroy() {
             this.$bus.$off('putAnswer');
@@ -79,13 +95,16 @@
             })
         },
         methods: {
+            countDownE_cb: function () {
+                this.putAnswer();
+                this.$router.back();
+            },
             async getInfo() {
-                let user = this.$route.query.user;
                 let opponent = this.$route.query.opponent;
+                console.log(opponent)
                 //从远程处获取用户信息
-                const opponentInfo = await myAxios.get("/user/userInfo/" + opponent);
+                const opponentInfo = await myAxios.get("/user/person?personId=" + opponent);
                 if (opponentInfo.code == 0) {
-                    console.log(opponentInfo)
                     this.opponent = opponentInfo.data;
                 }
                 let currentUser = await userJS.getCurrentUser();
@@ -112,16 +131,16 @@
             },
             putAnswer() {
                 this.quesIds();
-                console.log(this.answer.quesIds)
                 this.$bus.$emit('send');
-                this.$bus.$emit('sendTime');
+                const time = moment().diff(this.startTime) / 1000// 返回秒数
+                console.log(time)
                 let userAnswer = {
                     type: 'GAME_OVER',
                     quesIds: this.answer.quesIds,
                     answer: this._strMapToObj(this.getAnswers),
-                    userId: Number(localStorage.getItem('userId')),
-                    time: this.getTime,
-                    opponent: this.$route.query.opponent
+                    time: Math.floor(time),
+                    opponent: this.$route.query.opponent,
+                    userId: localStorage.getItem("userId")
                 }
                 this.$socket.sendSock(userAnswer, this.waiting);
             },

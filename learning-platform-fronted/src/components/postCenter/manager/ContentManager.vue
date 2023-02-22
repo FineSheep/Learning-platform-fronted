@@ -54,7 +54,6 @@
                     tags: [],
                     curPage: 0,
                     pageSize: 10,
-                    userId: localStorage.getItem('userId')
                 },
                 loading: true,
                 loadingMore: false,
@@ -79,9 +78,6 @@
             article() {
                 const route = this.$router.resolve({
                     path: '/writeArticle',
-                    query: {
-                        userId: localStorage.getItem("userId")
-                    }
                 })
                 window.open(route.href, '_blank');//打开新的窗口
             },

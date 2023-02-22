@@ -34,8 +34,7 @@
         methods: {
             getThumb() {
                 const that = this;
-                const userId = localStorage.getItem('userId')
-                myAxios.get(`post/getPostThumb?userId=${userId}&curPage=${this.curPage}&pageSize=${this.pageSize}`)
+                myAxios.get(`post/getPostThumb?curPage=${this.curPage}&pageSize=${this.pageSize}`)
                     .then(function (res) {
                         if (res.data.length == 0) {
                             that.isEmpty = true;

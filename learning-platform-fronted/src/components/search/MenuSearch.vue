@@ -83,6 +83,7 @@
             },
             offLogin() {
                 localStorage.removeItem("userId");
+                localStorage.removeItem("token");
                 this.isLogin = false;
             },
             toLogin() {
@@ -95,7 +96,7 @@
             },
             dotMessage() {
                 const that = this;
-                myAxios.get('/message/dotMessage?userId=' + localStorage.getItem('userId'))
+                myAxios.get('/message/dotMessage')
                     .then(function (res) {
                         if (res.data != 0) {
                             that.show = true;

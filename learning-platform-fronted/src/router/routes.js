@@ -25,6 +25,8 @@ import MailIndex from "@/components/mail/MailIndex";
 import CommentIndex from "@/components/mail/comment/CommentIndex";
 import ThumbAndCollectIndex from "@/components/mail/thumbAndCollect/ThumbAndCollectIndex";
 import SystemIndex from "@/components/mail/system/SystemIndex";
+import RecordIndex from "@/components/practice/record/RecordIndex";
+import PKRecordIndex from "@/components/practice/record/PKRecordIndex";
 
 const routes = [
 
@@ -124,6 +126,14 @@ const routes = [
 
     },
     {
+      component: RecordIndex,
+      path: '/record'
+    },
+    {
+        component: PKRecordIndex,
+        path: '/pkRecord'
+    },
+    {
         component: LoginRegister,
         path: '/LoginRegister'
     },
@@ -138,7 +148,7 @@ const routes = [
 
     {
         component: DoQuestions,
-        path: '/questions/:userId/:difficulty/:source/:sum',
+        path: '/questions',
     },
     {
         component: PKExercise,

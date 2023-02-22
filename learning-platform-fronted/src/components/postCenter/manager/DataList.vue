@@ -84,7 +84,6 @@
                 const route = this.$router.resolve({
                     path: '/writeArticle',
                     query: {
-                        userId: localStorage.getItem("userId"),
                         postId: id
                     }
                 })
