@@ -10,7 +10,7 @@
             >
                 <p v-if="noTitleKey === 'password'">
                     <a-form
-                            :form="form"
+                            :form="passwordForm"
                             class="login-form"
                             @submit="loginByPassword"
                     >
@@ -54,16 +54,16 @@
                 </p>
                 <p v-else-if="noTitleKey === 'code'">
                     <a-form
-                            :form="form"
+                            :form="codeForm"
                             class="login-form"
                             @submit="loginOrRegister"
                     >
                         <a-form-item>
                             <a-input
                                     v-decorator="[
-          'emailByCode',
-          { rules: [{ type:'email',required: true, message: '请输入正确邮箱!' }] },
-        ]"
+                                    'emailByCode',
+                                    { rules: [{ type:'email',required: true, message: '请输入正确邮箱!' }] },
+                                        ]"
                                     placeholder="请输入邮箱"
                                     autocomplete
                             >
@@ -106,6 +106,8 @@
         },
         data() {
             return {
+                passwordForm:this.$form.createForm(this, {name: 'normal_login'}),
+                codeForm:this.$form.createForm(this, {name: 'codeForm'}),
                 tabListNoTitle: [
                     {
                         key: 'code',
@@ -119,9 +121,6 @@
                 noTitleKey: 'code',
             };
         },
-        beforeCreate() {
-            this.form = this.$form.createForm(this, {name: 'normal_login'});
-        },
         methods: {
             onTabChange(key, type) {
                 // console.log(key, type);
@@ -129,30 +128,30 @@
             },
             loginByPassword(e) {
                 e.preventDefault();
-                this.form.validateFields((err, values) => {
+                this.passwordForm.validateFields((err, values) => {
                     if (!err) {
                         const that = this;
                         myAxios.post('user/loginByPassword', {
                             'email': values.emailByPass,
                             'password': values.passwordByPass
                         }).then(function (res) {
-                            console.log(res)
                             if (res.code == 0) {
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
-                                that.$router.push("/");
+                                that.$store.commit('user/storeUser',res.data)
+                                localStorage.setItem('user',JSON.stringify(res.data))
+                                that.$router.push("/index");
+                                // that.$router.push("/index");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
                                 that.$message.error("用户名或密码错误，请重试！");
                             }
-
-
                         })
                     }
                 });
             },
             loginOrRegister(e) {
                 e.preventDefault();
-                this.form.validateFields((err, values) => {
+                this.codeForm.validateFields((err, values) => {
                     console.log(values)
                     if (!err) {
                         const that = this;
@@ -162,9 +161,11 @@
                         }).then(function (res) {
                             console.log(res)
                             if (res.code === 0) {
-                                console.log("------------------")
+                                console.log(res.data)
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
-                                that.$router.push("/");
+                                // this.$store.commit('user/storeUser',res.data)
+                                localStorage.setItem('user',res.data)
+                                that.$router.push("/index");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
                                 that.$message.error(res.description)

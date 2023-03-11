@@ -62,7 +62,7 @@ function websocketClose(e) {
 
 function websocketOpen(e) {
     console.log("连接成功");
-    /*    setInterval(() => {
+/*        setInterval(() => {
             const ping = {"type": "PING"};
             websocketSend(ping);
         }, 5000)*/

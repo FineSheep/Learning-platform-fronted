@@ -8,17 +8,17 @@
                 <a-row align="top">
                     <a-col :span="21">
                         <a-space>
-                            <span class="link" @click="showModal(item)">
-                            【{{item.title}}】
-                        </span>
+                            <span class="link">
+                                亲爱的：【{{user.username}}】
+                            </span>
                             <span style="color:rgb(165,153,170)">来自管理员的通知：</span>
                             <div style="display: inline-block" v-if="item.isRead">
                                 <img class="newMessage" :src="newMessage">
                             </div>
                         </a-space>
-                        <div class="word">
+                        <a class="word" @click="showModal(item)">
                             {{item.content}}
-                        </div>
+                        </a>
                     </a-col>
                     <a-col :span="3">
                         <div style="display: flex;flex-direction: column;justify-content: flex-end">
@@ -46,6 +46,7 @@
     import moment from 'moment'
     import newMessage from '@/assets/message/newMessage.svg'
     import myAxios from "@/axios/myAxios";
+    import userJs from '@/userJs/user'
 
     export default {
         name: "SystemData",
@@ -54,6 +55,7 @@
             return {
                 visible: false,
                 dataList: [],
+                user: {},
                 newMessage
             }
         },
@@ -62,12 +64,15 @@
                 this.dataList = this.data;
             }
         },
+        async mounted() {
+            this.user = await userJs.getCurrentUser()
+        },
         methods: {
             hideModal() {
                 this.visible = false;
             },
             showModal(item) {
-                const messageId =item.messageId
+                const messageId = item.messageId
                 item.isRead = 0
                 myAxios.get(`/message/readMessage?messageId=${messageId}`)
                 this.visible = true;

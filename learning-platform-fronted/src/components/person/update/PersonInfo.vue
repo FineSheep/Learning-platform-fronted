@@ -16,7 +16,6 @@
                             <a-form-item label="手机号">
                                 <a-input
                                         v-decorator="['phone', { rules: [
-                                { required: false, message: '请输入昵称!' },
                                 { pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号码!'}
                                 ] }]"
                                         placeholder="请输入手机号码"
@@ -88,7 +87,7 @@
         async mounted() {
             const user = await userJs.getCurrentUser();
             this.user = user;
-            console.log(user)
+            // console.log(user)
             this.form.setFieldsValue({
                 username: user.username,
                 phone: user.phone,

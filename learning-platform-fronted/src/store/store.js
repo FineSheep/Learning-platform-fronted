@@ -3,6 +3,7 @@ import Vue from 'vue'
 //引入Vuex
 import Vuex from 'vuex'
 import Exercise from './exercise/ExerciseStore'
+import userStore from "@/store/user/userStore";
 //应用Vuex插件
 Vue.use(Vuex)
 
@@ -11,5 +12,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
         Exercise: Exercise,
+        user: userStore
     }
 })

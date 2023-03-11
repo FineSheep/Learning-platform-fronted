@@ -25,7 +25,6 @@ myAxios.interceptors.response.use(function (response) {
         localStorage.setItem("token", response.headers.token);
     }
     if (response.data.code == 40001) {
-        // alert("ssss")
         message.error("登录信息过期，请重新登录")
         router.replace("/LoginRegister")
     }

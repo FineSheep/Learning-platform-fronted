@@ -4,7 +4,7 @@
         <a-menu mode="horizontal"
                 class="ant-menu"
                 @click="menuSearch">
-            <a-menu-item key="">
+            <a-menu-item key="index">
                 首页
             </a-menu-item>
             <a-menu-item key="practiceIndex">
@@ -13,7 +13,32 @@
             <a-menu-item key="news">
                 资讯
             </a-menu-item>
-            <a-menu-item style="flex: 1;border: none"/>
+            <a-menu-item v-if="user.userRole" key="sysUser">
+                <img class="sys-img" :src="sys" />
+                用户管理
+            </a-menu-item>
+            <a-menu-item v-if="user.userRole" key="sysPost">
+                <img class="sys-img" :src="sys"/>
+                帖子管理
+            </a-menu-item>
+            <a-menu-item v-if="user.userRole" key="sysQues">
+                <img class="sys-img" :src="sys"/>
+                题库管理
+            </a-menu-item>
+            <a-sub-menu v-if="user.userRole">
+                <span slot="title" class="submenu-title-wrapper" >
+                 <img class="sys-img" :src="sys"/>
+                消息反馈
+                </span>
+                <a-menu-item key="mesaage/send">
+                    消息发送
+                </a-menu-item>
+                <a-menu-item key="message/accept">
+                    消息接受
+                </a-menu-item>
+            </a-sub-menu>
+
+            <a-menu-item style="flex: 1;border: none" key="none"/>
             <a-menu-item key="mail" style="border: none">
                 <div>
                     <a-badge :dot="show">
@@ -57,11 +82,13 @@
 
     import userJs from "@/userJs/user"
     import myAxios from "@/axios/myAxios";
+    import sys from '@/assets/system/system.svg'
 
     export default {
         name: "MenuSearch",
         async mounted() {
             const user = await userJs.getCurrentUser();
+            console.log(user)
             if (user == null) {
                 this.isLogin = false;
             } else {
@@ -74,7 +101,8 @@
             return {
                 isLogin: false,
                 show: false,
-                user: {}
+                user: {},
+                sys
             };
         },
         methods: {
@@ -85,12 +113,13 @@
                 localStorage.removeItem("userId");
                 localStorage.removeItem("token");
                 this.isLogin = false;
+                this.$router.push("/");
             },
             toLogin() {
                 this.$router.push("/LoginRegister")
             },
             menuSearch(e) {
-                if (e.key != 'personCenter') {
+                if (e.key != 'personCenter' && e.key != 'none') {
                     this.$router.push(`/${e.key}`)
                 }
             },
@@ -110,6 +139,10 @@
 
 
 <style scoped>
+    .sys-img{
+        height: 15px;
+        width: 15px;
+    }
     .logo {
         width: 200px;
         height: 40px;

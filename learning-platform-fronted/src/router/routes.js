@@ -7,7 +7,7 @@ import LoginRegister from "@/components/person/LoginRegister";
 import PersonInfo from "@/components/person/update/PersonInfo";
 import AccountSetting from "@/components/person/update/AccountSetting";
 import ListNews from "@/components/case/ListNews";
-import ListView from "@/components/ListView";
+import webIndex from "@/components/WebIndex";
 import PracticeIndex from "@/components/practice/index/PracticeIndex";
 import PersonPractice from "@/components/practice/index/PersonPractice";
 import PK from "@/components/practice/PK/PK";
@@ -27,12 +27,17 @@ import ThumbAndCollectIndex from "@/components/mail/thumbAndCollect/ThumbAndColl
 import SystemIndex from "@/components/mail/system/SystemIndex";
 import RecordIndex from "@/components/practice/record/RecordIndex";
 import PKRecordIndex from "@/components/practice/record/PKRecordIndex";
+import UserSys from "@/components/system/UserSys";
+import PostSys from "@/components/system/PostSys";
+import QuestionSys from "@/components/system/QuestionSys";
+import MessSend from "@/components/system/message/MessSend";
+import MessAccept from "@/components/system/message/MessAccept";
 
 const routes = [
 
     {
         component: LayOut,
-        path: '/',
+        path: '/index',
         children:
             [
                 {
@@ -87,10 +92,6 @@ const routes = [
                     path: '/news'
                 },
                 {
-                    component: ListView,
-                    path: "/test"
-                },
-                {
                     component: ContentManager,
                     path: '/content'
                 },
@@ -122,12 +123,37 @@ const routes = [
                                 path: 'accountSetting'
                             }]
                 },
+                {
+                    component: UserSys,
+                    path: '/sysUser'
+                },
+                {
+                    component: PostSys,
+                    path: '/sysPost'
+                },
+                {
+                    component: QuestionSys,
+                    path: '/sysQues'
+                },
+                {
+                    component: MessSend,
+                    path: "/mesaage/send"
+                },
+                {
+                component: MessAccept,
+                path: "/message/accept"
+            },
             ]
 
     },
     {
-      component: RecordIndex,
-      path: '/record'
+        component: webIndex,
+        path: "/"
+    },
+
+    {
+        component: RecordIndex,
+        path: '/record'
     },
     {
         component: PKRecordIndex,
@@ -153,7 +179,7 @@ const routes = [
     {
         component: PKExercise,
         path: '/pkExercise'
-    }
+    },
 
 
 ]
