@@ -4,7 +4,7 @@ import {message} from 'ant-design-vue'
 // Set config defaults when creating the instance
 const isDev = process.env.NODE_ENV === 'development';
 const myAxios = axios.create({
-    baseURL: isDev ? 'http://127.0.0.1:9001' : 'http://43.139.90.246:9001',
+    baseURL: isDev ? 'http://127.0.0.1:9001' : 'http://www.haoyang666.fun:9001',
 
 });
 myAxios.defaults.withCredentials = true; // 允许携带 cookie
