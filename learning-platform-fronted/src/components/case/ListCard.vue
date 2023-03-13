@@ -5,6 +5,14 @@
          :infinite-scroll-distance="10"
          style="background-color: white; padding: 20px"
     >
+        <a-modal
+                title="举报"
+                :visible="visible"
+                @ok="handleOk"
+                @cancel="handleCancel"
+        >
+            <a-textarea placeholder="输入举报理由....." :rows="4" v-model="report.content"/>
+        </a-modal>
         <a-list item-layout="vertical" size="large" :data-source="data">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <template slot="actions">
@@ -26,17 +34,11 @@
         </span>
                     <span>
             <a-icon type="warning" @click="showModel(item.id)"/>
-            <a-modal
-                    title="举报"
-                    :visible="visible"
-                    @ok="handleOk"
-                    @cancel="handleCancel"
-            >
-           <a-textarea placeholder="输入举报理由....." :rows="4" v-model="report.content"/>
-             </a-modal>
+
         </span>
                 </template>
                 <img
+                        v-if="item.photo != undefined && item.photo.length != 0"
                         slot="extra"
                         width="272"
                         alt="logo"
@@ -49,7 +51,7 @@
                 </div>
                 <a-list-item-meta :description="timeFormat(item.createTime)">
 
-                    <a slot="title" @click="toHtml(item)">{{ item.title }}</a>
+                    <a slot="title" @click="toHtml(item)" style="font-weight: 600">{{ item.title }}</a>
                     <a-avatar slot="avatar" :src="item.user.avatarUrl"/>
                 </a-list-item-meta>
 
@@ -91,11 +93,11 @@
         },
         methods: {
             handleOk() {
-                if (this.report.content==undefined || this.report.content.length==0){
+                if (this.report.content == undefined || this.report.content.length == 0) {
                     this.$message.error("请输入信息")
                     return
-                }else {
-                    myAxios.post('/message/reportPost',this.report)
+                } else {
+                    myAxios.post('/message/reportPost', this.report)
                     this.$message.success("举报成功，等待管理员处理")
                     this.visible = false
                 }

@@ -69,90 +69,91 @@
                  >
                  <a style="color: red">删除</a>
                      </a-popconfirm>
-                       <a-modal
-                               title="修改题目"
-                               :visible="visible"
-                               :confirm-loading="confirmLoading"
-                               @ok="update"
-                               @cancel="cancel"
-                       >
-            <a-form :form="updateForm" layout="horizontal" :label-col="{span:4}" :wrapper-col="{span:18}">
-                <a-form-item label="编号" hidden>
-                    <a-input v-decorator="[`id`]" disabled/>
-                </a-form-item>
-                <a-form-item label="题目内容">
-                    <a-textarea
-                            :auto-size="{ minRows: 1, maxRows: 4 }"
-                            v-decorator="[`content`,{
+
+            </span>
+            </a-table>
+            <a-modal
+                    title="修改题目"
+                    :visible="visible"
+                    :confirm-loading="confirmLoading"
+                    @ok="update"
+                    @cancel="cancel"
+            >
+                <a-form :form="updateForm" layout="horizontal" :label-col="{span:4}" :wrapper-col="{span:18}">
+                    <a-form-item label="编号" hidden>
+                        <a-input v-decorator="[`id`]" disabled/>
+                    </a-form-item>
+                    <a-form-item label="题目内容">
+                        <a-textarea
+                                :auto-size="{ minRows: 1, maxRows: 4 }"
+                                v-decorator="[`content`,{
                                                 rules:[{
                                                     required:true,
                                                     message:'请输入题目内容'
                                                 }]
                                             }]"
-                            placeholder="请输入"
-                    />
-                </a-form-item>
-                <a-form-item label="答案A">
-                    <a-textarea
-                            :auto-size="{ minRows: 1, maxRows: 4 }"
-                            v-decorator="[`optionA`,{
+                                placeholder="请输入"
+                        />
+                    </a-form-item>
+                    <a-form-item label="答案A">
+                        <a-textarea
+                                :auto-size="{ minRows: 1, maxRows: 4 }"
+                                v-decorator="[`optionA`,{
                                                 rules:[{
                                                     required:true,
                                                      message:'请输入选项A'
                                                 }]
                                             }]"
-                            placeholder="请输入"
-                    />
-                </a-form-item>
-                <a-form-item label="答案B">
-                    <a-textarea
-                            :auto-size="{ minRows: 1, maxRows: 4 }"
-                            v-decorator="[`optionB`,{
+                                placeholder="请输入"
+                        />
+                    </a-form-item>
+                    <a-form-item label="答案B">
+                        <a-textarea
+                                :auto-size="{ minRows: 1, maxRows: 4 }"
+                                v-decorator="[`optionB`,{
                                                 rules:[{
                                                     required:true,
                                                      message:'请输入选项B'
                                                 }]
                                             }]"
-                            placeholder="请输入"
-                    />
-                </a-form-item>
-                <a-form-item label="答案C">
-                    <a-textarea
-                            :auto-size="{ minRows: 1, maxRows: 4 }"
-                            v-decorator="[`optionC`,{
+                                placeholder="请输入"
+                        />
+                    </a-form-item>
+                    <a-form-item label="答案C">
+                        <a-textarea
+                                :auto-size="{ minRows: 1, maxRows: 4 }"
+                                v-decorator="[`optionC`,{
                                             }]"
-                            placeholder="请输入"
-                    />
-                </a-form-item>
-                <a-form-item label="答案D">
-                    <a-textarea
-                            :auto-size="{ minRows: 1, maxRows: 4 }"
-                            v-decorator="[`optionD`,{
+                                placeholder="请输入"
+                        />
+                    </a-form-item>
+                    <a-form-item label="答案D">
+                        <a-textarea
+                                :auto-size="{ minRows: 1, maxRows: 4 }"
+                                v-decorator="[`optionD`,{
                                             }]"
-                            placeholder="请输入"
-                    />
-                </a-form-item>
-                <a-form-item label="正确选项">
-                    <a-select
-                            placeholder="选择"
-                            mode="multiple"
-                            v-decorator="[`correct`,{
+                                placeholder="请输入"
+                        />
+                    </a-form-item>
+                    <a-form-item label="正确选项">
+                        <a-select
+                                placeholder="选择"
+                                mode="multiple"
+                                v-decorator="[`correct`,{
                                                 rules:[{
                                                     required:true,
                                                      message:'请选择答案'
                                                 }]
                                             }]"
-                    >
-                        <a-select-option key="A">A</a-select-option>
-                        <a-select-option key="B">B</a-select-option>
-                        <a-select-option key="C">C</a-select-option>
-                        <a-select-option key="D">D</a-select-option>
-                    </a-select>
-                </a-form-item>
-            </a-form>
-        </a-modal>
-            </span>
-            </a-table>
+                        >
+                            <a-select-option key="A">A</a-select-option>
+                            <a-select-option key="B">B</a-select-option>
+                            <a-select-option key="C">C</a-select-option>
+                            <a-select-option key="D">D</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
         </div>
     </div>
 </template>

@@ -139,7 +139,7 @@
                     this.$message.error("请输入信息")
                     return
                 }else {
-                    // myAxios.post('/message/reportPost',this.report)
+                    myAxios.post('/message/reportPost',this.report)
                     this.$message.success("提交成功，等待管理员处理")
                     this.visible = false
                 }

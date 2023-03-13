@@ -8,7 +8,7 @@
         <a-list item-layout="vertical" size="large" :data-source="data">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item, index">
                 <a-list-item-meta :description="item.putTime">
-                    <a slot="title" @click="toHtml(item.id)">{{ item.title }}</a>
+                    <a slot="title" @click="toHtml(item.id)" style="font-weight: 600">{{ item.title }}</a>
                 </a-list-item-meta>
                 <div class="box">
                     {{ item.content }}

@@ -19,7 +19,7 @@
                                 mode="multiple"
                                 style="width: 80%; display: inline-block"
                                 placeholder="请选择标签"
-                                v-decorator="['tags', { rules: [{ required: true, message: '请选择标签' }] }]"
+                                v-decorator="['tags', { rules: [{ required: false, message: '请选择标签' }] }]"
                         >
                             <a-select-option v-for="item in tags" :key="item.id">
                                 {{item.tagName}}
@@ -49,7 +49,7 @@
                     </a-form-item>
                     <a-form-item label="文章介绍">
                         <a-textarea :rows="4"
-                                    v-decorator="['description', { rules: [{ min:25,max:100,required: true, message: '介绍最少25字，最多100字' }] }]"/>
+                                    v-decorator="['description', { rules: [{ min:25,max:300,required: true, message: '介绍最少25字，最多300字' }] }]"/>
                     </a-form-item>
                 </a-form>
             </a-modal>

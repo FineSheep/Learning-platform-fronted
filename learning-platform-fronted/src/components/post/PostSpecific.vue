@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="width: 80%; margin: 0 auto">
         <mavon-editor
                 :value="markdown"
                 :subfield="false"

@@ -1,7 +1,9 @@
 var websocket = null;
 var global_callback = null;
 //todo 更换环境
-const ip = `ws://www.haoyang666.fun:9001/game/match/${localStorage.getItem('userId')}`
+const isDev = process.env.NODE_ENV === 'development';
+const baseURL = isDev ? '127.0.0.1:9001' : 'www.haoyang666.fun:9001';
+const ip = `ws://${baseURL}/game/match/${localStorage.getItem('userId')}`
 
 
 function initWebSocket() { //初始化weosocket
@@ -63,10 +65,10 @@ function websocketClose(e) {
 
 function websocketOpen(e) {
     console.log("连接成功");
-/*        setInterval(() => {
-            const ping = {"type": "PING"};
-            websocketSend(ping);
-        }, 5000)*/
+    /*        setInterval(() => {
+                const ping = {"type": "PING"};
+                websocketSend(ping);
+            }, 5000)*/
 }
 
 initWebSocket();
