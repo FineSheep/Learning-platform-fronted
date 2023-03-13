@@ -5,7 +5,7 @@
         </a-button>
         <div class="box-context">
             <div v-if="records.length!=0">
-                <a-list :grid="{  column: 3}" :data-source="records">
+                <a-list :grid="{  column: 4}" :data-source="records">
                     <a-list-item slot="renderItem" slot-scope="item, index">
                         <a-card hoverable style="width: 200px;margin-left: 20px;margin-top: 20px; position: relative"
                                 @click="getRecord(item.id)">
@@ -95,7 +95,7 @@
                         this.$message.warning('答题期间请勿刷新或退出，否则自动提交！！！');
 
                     }, 1000);
-                    console.log(res);
+
                     this.PKExercise(res.data.ques);
                     setTimeout(() => {
                         this.$router.push({
@@ -112,7 +112,7 @@
             },
             async getPKRecord() {
                 const res = await myAxios.get(`/records/pkRecords`);
-                console.log(res);
+
                 this.records = res.data;
             },
             timeTransform(time) {

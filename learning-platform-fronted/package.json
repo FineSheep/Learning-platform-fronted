@@ -9,12 +9,15 @@
   },
   "dependencies": {
     "@jyeontu/jvuewheel": "^0.6.0",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^1.0.2",
     "ant-design-vue": "^1.7.2",
     "axios": "^1.2.1",
     "core-js": "^3.8.3",
     "mavon-editor": "^2.10.4",
     "moment": "^2.29.4",
     "nanoid": "^4.0.1",
+    "node-sass": "^4.14.1",
     "vue": "^2.6.14",
     "vue-get-code": "^1.1.4",
     "vue-infinite-scroll": "^2.0.2",
@@ -30,7 +33,6 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
-    "node-sass": "^8.0.0",
     "sass-loader": "^13.2.0",
     "vue-template-compiler": "^2.6.14"
   },

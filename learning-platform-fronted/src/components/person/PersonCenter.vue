@@ -46,7 +46,6 @@
         async created() {
             const user = await userJs.getCurrentUser();
             this.user = user;
-            console.log(user)
             this.user.createTime = moment(new Date(this.user.createTime)).format('YYYY-MM-DD')
 
         },

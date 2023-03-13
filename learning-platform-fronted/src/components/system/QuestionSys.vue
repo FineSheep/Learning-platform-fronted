@@ -70,7 +70,7 @@
                  <a style="color: red">删除</a>
                      </a-popconfirm>
                        <a-modal
-                               title="增加题目"
+                               title="修改题目"
                                :visible="visible"
                                :confirm-loading="confirmLoading"
                                @ok="update"
@@ -250,7 +250,7 @@
             this.getData(param);
         },
         methods: {
-            deleteQuestion(record,index){
+            deleteQuestion(record, index) {
                 this.data.splice(index, 1)
                 myAxios.get(`/sysQues/removeQuestion?id=${record.id}`)
             },
@@ -262,16 +262,13 @@
                 e.preventDefault();
                 this.updateForm.validateFields((error, values) => {
                     if (!error) {
-                        console.log(values)
-                        if (values.correct.length != 1) {
-                            let correctArr = values.correct.sort();
-                            let correct = "";
-                            for (let item of correctArr) {
-                                correct += item;
-                            }
-                            values.correct = correct
-                        }
 
+                        let correctArr = values.correct.sort();
+                        let correct = "";
+                        for (let item of correctArr) {
+                            correct += item;
+                        }
+                        values.correct = correct
                         const form = {
                             id: values.id,
                             content: values.content,
@@ -282,12 +279,6 @@
                             correct: values.correct,
                             type: values.correct.length == 1 ? 0 : 1
                         }
-                        this.confirmLoading = true;
-                        setTimeout(() => {
-                            this.visible = false;
-                            this.confirmLoading = false;
-                            myAxios.post('/sysQues/saveOrUpdateQues',form)
-                        }, 1000);
                         this.$set(this.data, this.index, {
                             id: values.id,
                             content: values.content,
@@ -298,13 +289,19 @@
                             correct: values.correct,
                             type: values.correct.length == 1 ? 0 : 1
                         })
+                        this.confirmLoading = true;
+                        setTimeout(() => {
+                            this.visible = false;
+                            this.confirmLoading = false;
+                            myAxios.post('/sysQues/saveOrUpdateQues', form)
+                        }, 1000);
                         this.$message.success('修改成功');
                     }
 
                 });
             },
             checkUpdate(record, index) {
-                console.log(record)
+
                 this.visible = true;
                 this.index = index
                 this.$nextTick(() => {
@@ -323,7 +320,7 @@
                 const that = this;
                 myAxios.post(`/sysQues/listQuestion`, param)
                     .then(function (res) {
-                        console.log(res.data)
+
                         that.data = res.data
                     })
             },

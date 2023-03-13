@@ -12,6 +12,15 @@
                             <a href="javascript:void(0)"
                                :id="'card-'+item.id"
                                class="number"
+                               v-if="upper(item.userAnswer)===item.correct"
+                               @click="linkTo(item.id)">
+                                {{index+1}}
+                            </a>
+                            <a href="javascript:void(0)"
+                               :id="'card-'+item.id"
+                               class="number"
+                               style="background-color:red;"
+                               v-else
                                @click="linkTo(item.id)">
                                 {{index+1}}
                             </a>
@@ -27,6 +36,15 @@
                             <a href="javascript:void(0)"
                                :id="'card-'+item.id"
                                class="number"
+                               v-if="upper(item.userAnswer)===item.correct"
+                               @click="linkTo(item.id)">
+                                {{index+1}}
+                            </a>
+                            <a href="javascript:void(0)"
+                               :id="'card-'+item.id"
+                               class="number"
+                               style="background-color:red;"
+                               v-else
                                @click="linkTo(item.id)">
                                 {{index+1}}
                             </a>
@@ -47,7 +65,15 @@
                     <a-radio value="D" class="option" v-if="item.optionD!=null">{{item.optionD}}</a-radio>
                 </a-radio-group>
                 <p style="font-weight: bold;font-size: 14px;">
-                    正确答案：{{item.correct}},你的答案：{{item.userAnswer}}
+                    正确答案：{{item.correct}},你的答案：{{upper(item.userAnswer)}}
+
+                    <a-tooltip>
+                        <template slot="title">
+                            觉得答案有问题，点击反馈
+                        </template>
+                        <a-icon type="warning" @click="showModel(item.id)"/>
+                    </a-tooltip>
+
                 </p>
                 <a-divider :dashed="true"/>
             </div>
@@ -64,17 +90,40 @@
                     <a-checkbox value="d" class="option checkBox" v-if="item.optionD!=null">{{item.optionD}}
                     </a-checkbox>
                 </a-checkbox-group>
+                <p style="font-weight: bold;font-size: 14px;">
+                    正确答案：{{item.correct}},你的答案：{{item.userAnswer}}
+                    <a-tooltip>
+                        <template slot="title">
+                            觉得答案有问题，点击反馈
+                        </template>
+                        <a-icon type="warning" @click="showModel(item.id)"/>
+                    </a-tooltip>
+                </p>
             </div>
         </div>
+        <a-modal
+                title="反馈"
+                :visible="visible"
+                @ok="handleOk"
+                @cancel="handleCancel"
+        >
+            <a-textarea placeholder="反馈信息....." :rows="4" v-model="content"/>
+        </a-modal>
     </div>
 </template>
 
 <script>
+    import myAxios from "@/axios/myAxios";
+
     export default {
         name: "PracticeRecord",
         props: ['radio', 'mulChoice'],
         data() {
-            return {}
+            return {
+                id: undefined,
+                visible: false,
+                content: undefined
+            }
         }
         , computed: {
             hasRadio() {
@@ -85,6 +134,29 @@
             },
         },
         methods: {
+            handleOk() {
+                if (this.content==undefined || this.content.length==0){
+                    this.$message.error("请输入信息")
+                    return
+                }else {
+                    // myAxios.post('/message/reportPost',this.report)
+                    this.$message.success("提交成功，等待管理员处理")
+                    this.visible = false
+                }
+            },
+            handleCancel() {
+                this.visible = false
+            },
+            showModel(id) {
+                this.visible = true;
+                this.id = id;
+            },
+            upper(str) {
+                if (str == null) {
+                    return '无';
+                }
+                return str.toUpperCase();
+            },
             linkTo(id) {
                 var anchor = document.getElementById(id);
                 // chrome

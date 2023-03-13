@@ -16,7 +16,7 @@
                                 正在审核
                             </a-tag>
                             <div v-if="item.reviewStatus==2">
-                                <a-tag color="red" @click="showDrawer" class="point">
+                                <a-tag color="red" @click="showDrawer(item.id,index)" class="point">
                                     审核失败(点击查看原因)
                                 </a-tag>
                                 <a-drawer
@@ -28,6 +28,11 @@
                                         destroyOnClose
                                 >
                                     <p>{{item.reviewMessage}}</p>
+                                    <div style="position: absolute;bottom: 10px;right:10px">
+                                        <a-button type="primary" @click="recheck">
+                                            再次审核
+                                        </a-button>
+                                    </div>
                                 </a-drawer>
                             </div>
                             <a-tag v-if="item.reviewStatus==1" color="green">
@@ -71,7 +76,9 @@
             return {
                 data: [],
                 finish: false,
-                visible: false
+                visible: false,
+                id: '',
+                index: -1
             }
         },
         watch: {
@@ -80,6 +87,14 @@
             },
         },
         methods: {
+            recheck() {
+                const res = this.data[this.index]
+                res.reviewStatus = 0
+                this.$set(this.data, this.index, res)
+                myAxios.get(`/post/recheck?id=${this.id}`)
+
+
+            },
             editArticle(id) {
                 const route = this.$router.resolve({
                     path: '/writeArticle',
@@ -101,11 +116,13 @@
             confirm(index, id) {
                 this.data.splice(index, 1)
                 this.$message.success('删除成功')
-                console.log(id)
+
                 myAxios.get('post/deletePost?postId=' + id)
             },
-            showDrawer() {
+            showDrawer(id, index) {
                 this.visible = true;
+                this.id = id
+                this.index = index
             },
             onClose() {
                 this.visible = false;

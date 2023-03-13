@@ -8,10 +8,10 @@
                 首页
             </a-menu-item>
             <a-menu-item key="practiceIndex">
-                练习
+                答题冲刺
             </a-menu-item>
             <a-menu-item key="news">
-                资讯
+                在线资讯
             </a-menu-item>
             <a-menu-item v-if="user.userRole" key="sysUser">
                 <img class="sys-img" :src="sys" />
@@ -25,6 +25,10 @@
                 <img class="sys-img" :src="sys"/>
                 题库管理
             </a-menu-item>
+            <a-menu-item v-if="user.userRole" key="sysInfo">
+                <img class="sys-img" :src="sys"/>
+                资讯管理
+            </a-menu-item>
             <a-sub-menu v-if="user.userRole">
                 <span slot="title" class="submenu-title-wrapper" >
                  <img class="sys-img" :src="sys"/>
@@ -34,7 +38,7 @@
                     消息发送
                 </a-menu-item>
                 <a-menu-item key="message/accept">
-                    消息接受
+                    消息接收
                 </a-menu-item>
             </a-sub-menu>
 
@@ -88,7 +92,7 @@
         name: "MenuSearch",
         async mounted() {
             const user = await userJs.getCurrentUser();
-            console.log(user)
+
             if (user == null) {
                 this.isLogin = false;
             } else {

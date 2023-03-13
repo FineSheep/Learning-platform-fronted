@@ -18,9 +18,6 @@
         <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
-        <div>
-            <a-back-top/>
-        </div>
     </div>
 </template>
 <script>
@@ -35,13 +32,12 @@
                 data: [],
                 loading: false,
                 busy: false,
-                curPage: 1,
+                curPage: 0,
                 pageSize: 10,
             };
         },
         methods: {
             toHtml(id) {
-                console.log(id)
                 this.$router.push({
                     query: {
                         postId: id,
@@ -52,12 +48,11 @@
             async fetchData() {
                 this.curPage++;
                 const data = await myAxios.get(`/information/getInfo?curPage=${this.curPage}&pageSize=${this.pageSize}`)
-                console.log(data)
+
                 return data.data;
             },
             async getData() {
                 const data = await this.fetchData()
-                console.log(data)
                 this.loading = true;
                 this.data = [...this.data, ...data]
                 this.loading = false;

@@ -99,7 +99,7 @@
             confirm(index, id) {
                 this.data.splice(index, 1)
                 this.$message.success('删除成功')
-                console.log(id)
+
                 myAxios.get('post/deletePost?postId=' + id)
             },
             onLoadMore() {
@@ -125,7 +125,6 @@
                         that.loadingMore = true;
                         that.loading = true;
                         that.data = [...that.data, ...res.data]
-                        console.log(res.data)
                         that.loadingMore = false;
                         that.loading = false;
                     })

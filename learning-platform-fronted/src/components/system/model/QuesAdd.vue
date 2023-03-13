@@ -120,7 +120,6 @@
                         headers: {'Content-Type': 'multipart/form-data'},
                     })
                 if (res.code == 0) {
-                    console.log(res.data)
                     // 调用组件内方法, 设置为成功状态
                     file.onSuccess(res, file.file);
                     file.status = 'done';
@@ -137,7 +136,6 @@
             handleOk(e) {
                 this.form.validateFields((error, values) => {
                     if (!error) {
-                        console.log(values)
                         let correctArr = values.correct.sort();
                         let correct = "";
                         for (let item of correctArr) {

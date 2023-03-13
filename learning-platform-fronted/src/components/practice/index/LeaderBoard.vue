@@ -41,11 +41,11 @@
         methods: {
             async getLeader() {
                 const res = await myAxios.get('/leader/getLeader');
-                console.log(res.data)
+
 
                 this.leaders.day = res.data.day;
                 this.leaders.total = res.data.total;
-                console.log(this.leaders.day, this.leaders.total)
+
             },
             typeDay() {
                 this.list_type = 'day'

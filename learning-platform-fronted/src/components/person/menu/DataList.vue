@@ -74,7 +74,7 @@
             confirm(index, id) {
                 this.data.splice(index, 1)
                 this.$message.success('删除成功')
-                console.log(id)
+
                 if (this.type == 'thumb') {
                     myAxios.get(`coTh/thumb?postId=${id}`)
                 } else {

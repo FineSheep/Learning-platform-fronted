@@ -1,9 +1,9 @@
 <template>
     <div>
+        <a-modal v-model="visible" :title="item.title" @ok="hideModal">
+            <p v-html="item.content"></p>
+        </a-modal>
         <div v-for="(item,index) in dataList" :key="item.messageId">
-            <a-modal v-model="visible" :title="item.title" @ok="hideModal">
-                <p> {{item.content}}</p>
-            </a-modal>
             <div>
                 <a-row align="top">
                     <a-col :span="21">
@@ -17,7 +17,7 @@
                             </div>
                         </a-space>
                         <a class="word" @click="showModal(item)">
-                            {{item.content}}
+                            <span v-html="item.content"></span>
                         </a>
                     </a-col>
                     <a-col :span="3">
@@ -56,7 +56,8 @@
                 visible: false,
                 dataList: [],
                 user: {},
-                newMessage
+                newMessage,
+                item: {}
             }
         },
         watch: {
@@ -72,6 +73,7 @@
                 this.visible = false;
             },
             showModal(item) {
+                this.item = item;
                 const messageId = item.messageId
                 item.isRead = 0
                 myAxios.get(`/message/readMessage?messageId=${messageId}`)

@@ -97,7 +97,7 @@
                             that.$message.warning('暂无数据');
                         }
                         that.dataList = [...that.dataList, ...res.data]
-                        console.log(res.data)
+
                         that.loadingMore = false;
                         that.loading = false;
                     })
@@ -107,14 +107,14 @@
                 myAxios.get('/tag/getTags')
                     .then(function (res) {
                         that.tags = res.data
-                        console.log(that.tags)
+
                     })
             },
             tagChange(value) {
                 this.selectActions.tags = value;
             },
             onChange(date, dateString) {
-                console.log(date, dateString);
+
                 this.selectActions.startTime = moment(dateString[0]);
                 this.selectActions.endTime = moment(dateString[1]);
             },

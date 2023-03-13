@@ -298,7 +298,7 @@
                 window.open(route.href, '_blank');//打开新的窗口
             },
             selectChange(value) {
-                // console.log(value)
+
                 this.single.reviewStatus = value
             },
             showModal() {

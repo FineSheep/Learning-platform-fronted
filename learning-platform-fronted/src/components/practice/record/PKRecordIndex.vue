@@ -50,7 +50,7 @@
                 const id = this.$route.query.recordId;
                 myAxios.get(`/question/getPkDetails?recordId=${id}`)
                     .then(function (res) {
-                        console.log(res.data)
+
                         that.radio = res.data.radio
                         that.mulChoice = res.data.multi
                         that.opponentUrl = res.data.opponentUrl

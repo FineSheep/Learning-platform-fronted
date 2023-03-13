@@ -263,7 +263,6 @@
         },
         data() {
             return {
-                expand: false,
                 form: this.$form.createForm(this, {name: 'advanced_search'}),
                 dataList: [],
                 columns,
@@ -327,8 +326,7 @@
                 const that = this;
                 e.preventDefault();
                 this.form.validateFields((error, values) => {
-                    console.log('error', error);
-                    console.log('Received values of form: ', values);
+
                     const form = {
                         'userId': values.userId,
                         'gender': values.gender,

@@ -89,10 +89,10 @@
             },
             isVisible(id) {
                 if (this.answer.get(id) === undefined) {
-                    console.log(true);
+
                     return true;
                 }
-                console.log(false);
+
                 return false;
             },
             radioChange(e, id) {

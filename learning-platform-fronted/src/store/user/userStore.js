@@ -3,7 +3,6 @@ export default {
     actions: {},
     mutations: {
         storeUser(state, value) {
-            console.log(value)
             state.user = value
         }
 

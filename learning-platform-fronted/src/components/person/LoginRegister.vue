@@ -106,8 +106,8 @@
         },
         data() {
             return {
-                passwordForm:this.$form.createForm(this, {name: 'normal_login'}),
-                codeForm:this.$form.createForm(this, {name: 'codeForm'}),
+                passwordForm: this.$form.createForm(this, {name: 'normal_login'}),
+                codeForm: this.$form.createForm(this, {name: 'codeForm'}),
                 tabListNoTitle: [
                     {
                         key: 'code',
@@ -123,7 +123,7 @@
         },
         methods: {
             onTabChange(key, type) {
-                // console.log(key, type);
+
                 this[type] = key;
             },
             loginByPassword(e) {
@@ -137,8 +137,8 @@
                         }).then(function (res) {
                             if (res.code == 0) {
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
-                                that.$store.commit('user/storeUser',res.data)
-                                localStorage.setItem('user',JSON.stringify(res.data))
+                                that.$store.commit('user/storeUser', res.data)
+                                localStorage.setItem('user', JSON.stringify(res.data))
                                 that.$router.push("/index");
                                 // that.$router.push("/index");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
@@ -152,19 +152,18 @@
             loginOrRegister(e) {
                 e.preventDefault();
                 this.codeForm.validateFields((err, values) => {
-                    console.log(values)
                     if (!err) {
                         const that = this;
                         myAxios.post('user/loginOrRegister', {
                             'email': values.emailByCode,
                             'code': values.codeByCode
                         }).then(function (res) {
-                            console.log(res)
+
                             if (res.code === 0) {
-                                console.log(res.data)
+
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
                                 // this.$store.commit('user/storeUser',res.data)
-                                localStorage.setItem('user',res.data)
+                                localStorage.setItem('user', res.data)
                                 that.$router.push("/index");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
@@ -175,12 +174,10 @@
                 });
             },
             getCode() {
-                this.form.validateFields((err, values) => {
-                    console.log(values)
-                    if (!err) {
+                this.codeForm.validateFields((err, values) => {
+                    if (values.emailByCode != undefined) {
                         const that = this;
                         myAxios.get(`user/getCode?email=${values.emailByCode}`).then(function (res) {
-                            console.log(res)
                             if (res.code === 0) {
                                 that.$message.success(res.data)
                             } else {

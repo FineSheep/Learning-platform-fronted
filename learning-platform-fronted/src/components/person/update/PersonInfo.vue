@@ -87,30 +87,26 @@
         async mounted() {
             const user = await userJs.getCurrentUser();
             this.user = user;
-            // console.log(user)
             this.form.setFieldsValue({
                 username: user.username,
                 phone: user.phone,
                 profile: user.profile,
                 gender: user.gender,
-                birthday: moment(user.birthday,'YYYY-MM-DD')
+                birthday: user.birthday == undefined ? undefined : moment(user.birthday, 'YYYY-MM-DD')
             })
         },
         methods: {
             birthday(date, dateString) {
-                console.log(date, dateString);
             },
             async upload(file) {
                 const form = new FormData()
                 form.append('file', file.file)
-                // console.log(form)
                 const res = await myAxios.post('/img/personUrl',
                     form,
                     {
                         headers: {'Content-Type': 'multipart/form-data'},
                     })
                 if (res.code == 0) {
-                    console.log(res.data)
                     // 调用组件内方法, 设置为成功状态
                     file.onSuccess(res, file.file);
                     file.status = 'done';

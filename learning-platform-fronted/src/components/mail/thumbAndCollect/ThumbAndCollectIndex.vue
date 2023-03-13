@@ -65,7 +65,7 @@
                                 return;
                             }
                         }
-                        console.log(res.data)
+
                         that.data = res.data.data
                         that.total = res.data.count
                     })

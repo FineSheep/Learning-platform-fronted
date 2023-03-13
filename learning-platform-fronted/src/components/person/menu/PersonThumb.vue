@@ -28,7 +28,6 @@
             this.getThumb()
         },
         beforeDestroy() {
-            console.log("销毁了thumb")
             // this.$store.commit('post/destroyPost')
         },
         methods: {
@@ -40,7 +39,6 @@
                             that.isEmpty = true;
                         } else {
                             that.data = res.data
-                            console.log("tttttttttttttttttt",that.data)
                             // that.$store.commit('post/post', res.data)
                         }
                     })

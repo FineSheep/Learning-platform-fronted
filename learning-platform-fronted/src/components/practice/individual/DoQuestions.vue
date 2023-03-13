@@ -26,11 +26,10 @@
                 source: this.$route.query.source,
                 sum: this.$route.query.sum
             }
-            console.log(req)
             const res = await myAxios.post('/question/getQuesBy', req);
             this.questions.radio = res.data[0];
             this.questions.mulChoice = res.data[1];
-            console.log(this.questions)
+
         }
     }
 </script>

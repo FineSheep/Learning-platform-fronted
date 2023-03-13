@@ -1,6 +1,7 @@
 var websocket = null;
 var global_callback = null;
-const ip = `ws://127.0.0.1:8080//game/match/${localStorage.getItem('userId')}`
+//todo 更换环境
+const ip = `ws://43.139.90.246:9001/game/match/${localStorage.getItem('userId')}`
 
 
 function initWebSocket() { //初始化weosocket

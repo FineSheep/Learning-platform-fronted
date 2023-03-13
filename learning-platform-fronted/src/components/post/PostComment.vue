@@ -38,7 +38,6 @@
         async mounted() {
             let user = await userJs.getCurrentUser();
             this.current = user;
-            console.log(user)
             this.loadComment()
         },
         methods: {
@@ -64,13 +63,7 @@
                 return currentId === this.currentPost.userId ? 1 : 0;
             },
             submitComment(item) {
-/*                if (item.content.length > 100) {
-                    console.log("====")
-                    // alert("sssss")
-                    this.$message.warning("文字过长");
-                    return
-                }*/
-                console.log("item: ", item);
+
                 const author = this.isAdmin(this.current.id);
                 const id = nanoid(10);
                 const content = item.content;

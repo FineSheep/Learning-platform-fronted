@@ -9,7 +9,7 @@
                     style="background-color: white; padding: 20px"
             >
                 <div v-if="records.length!=0">
-                    <a-list :grid="{  column: 3}" :data-source="records">
+                    <a-list :grid="{  column: 4}" :data-source="records">
                         <a-list-item slot="renderItem" slot-scope="item, index">
                             <a-card hoverable style="width: 200px;margin-left: 20px" @click="getRecord(item.id)">
                                 <a-card-meta :title="title">
@@ -58,15 +58,16 @@
                 records: [],
                 loading: false,
                 busy: false,
-                curPage: 1,
+                curPage: 0,
                 pageSize: 10,
                 count: 0
             }
         },
         methods: {
             async fetchData() {
+                this.curPage++;
                 const res = await myAxios.get(`/records/getRecords?curPage=${this.curPage}&pageSize=${this.pageSize}`);
-                console.log('records', res)
+
                 return res.data;
             },
             async getData() {

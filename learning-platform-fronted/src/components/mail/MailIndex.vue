@@ -48,8 +48,6 @@
                 myAxios.get(`/message/dotMessageAll`)
                     .then(function (res) {
                         that.data = res.data;
-                        console.log(res.data)
-                        console.log(that.data)
                     })
             }
         },

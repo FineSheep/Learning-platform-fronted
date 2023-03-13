@@ -13,8 +13,14 @@
                     <router-view/>
                 </a-layout-content>
             </a-layout>
+            <a-back-top/>
             <a-layout-footer style="text-align: center">
-                站长©finesheep
+                <a-space>
+                    <div>站长©finesheep</div>
+                    <a-icon type="github" @click="github"/>
+                    <a href="https://beian.miit.gov.cn/#/Integrated/recordQuery">湘ICP备2022021885号</a>
+                </a-space>
+
             </a-layout-footer>
         </a-layout>
     </div>
@@ -28,7 +34,12 @@
 
     export default {
         name: "LayOut",
-        components: {MenuSearch}
+        components: {MenuSearch},
+        methods:{
+            github(){
+                location.href='https://github.com/FineSheep/learning-platform-banckend'
+            }
+        }
     }
 </script>
 <style scoped>
@@ -37,5 +48,6 @@
         margin: 0 auto;
         /*padding-left: 20px;*/
         padding: 20px;
+        min-height: 580px;
     }
 </style>

@@ -93,7 +93,6 @@
             },
             putAnswer() {
                 this.quesIds();
-                console.log(this.answer.quesIds)
                 this.$bus.$emit('send');
                 const time = moment().diff(this.startTime) / 1000// 返回秒数
                 myAxios.post('/question/putAnswer', {

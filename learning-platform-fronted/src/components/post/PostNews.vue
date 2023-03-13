@@ -36,7 +36,7 @@
                 const postId = this.$route.query.postId;
                 myAxios.get('/information/getNewById?id=' + postId)
                     .then(function (res) {
-                        console.log(res.data)
+
                         that.news = res.data;
                     })
             }

@@ -11,7 +11,6 @@ import webIndex from "@/components/WebIndex";
 import PracticeIndex from "@/components/practice/index/PracticeIndex";
 import PersonPractice from "@/components/practice/index/PersonPractice";
 import PK from "@/components/practice/PK/PK";
-import WriteArticle from "@/components/postCenter/create/WriteArticle";
 import ResultSuccess from "@/components/result/ResultSuccess";
 import PostSpecific from "@/components/post/PostSpecific";
 import PKExercise from "@/components/practice/PK/PKExercise";
@@ -32,6 +31,8 @@ import PostSys from "@/components/system/PostSys";
 import QuestionSys from "@/components/system/QuestionSys";
 import MessSend from "@/components/system/message/MessSend";
 import MessAccept from "@/components/system/message/MessAccept";
+import ArticleCreate from "@/components/postCenter/create/ArticleCreate";
+import SysInformation from "@/components/system/SysInformation";
 
 const routes = [
 
@@ -46,29 +47,35 @@ const routes = [
                     children: [
                         {
                             component: CommentIndex,
-                            path: ''
+                            path: '',
+                            meta: {title: '消息'}
                         },
                         {
                             component: ThumbAndCollectIndex,
-                            path: 'thumbAndCollect'
+                            path: 'thumbAndCollect',
+                            meta: {title: '点赞、收藏'}
                         },
                         {
                             component: SystemIndex,
-                            path: 'system'
+                            path: 'system',
+                            meta: {title: '系统通知'}
                         }
                     ]
                 },
                 {
                     component: ListCard,
-                    path: ''
+                    path: '',
+                    meta: {title: '首页'}
                 },
                 {
                     component: PostSpecific,
-                    path: '/post'
+                    path: '/post',
+                    meta: {title: '文章'}
                 },
                 {
                     component: PostNews,
-                    path: "/postNews"
+                    path: "/postNews",
+                    meta: {title: '资讯'}
                 },
                 {
                     component: personCenter,
@@ -76,24 +83,29 @@ const routes = [
                     children: [
                         {
                             component: PersonPost,
-                            path: ""
+                            path: "",
+                            meta: {title: '个人中心'}
                         },
                         {
                             component: PersonThumb,
-                            path: 'personThumb'
+                            path: 'personThumb',
+                            meta: {title: '点赞'}
                         }, {
                             component: PersonCollect,
-                            path: 'personCollect'
+                            path: 'personCollect',
+                            meta: {title: '收藏'}
                         }
                     ]
                 },
                 {
                     component: ListNews,
-                    path: '/news'
+                    path: '/news',
+                    meta: {title: '资讯'}
                 },
                 {
                     component: ContentManager,
-                    path: '/content'
+                    path: '/content',
+                    meta: {title: '创作中心'}
                 },
                 {
                     component: PracticeIndex,
@@ -101,11 +113,13 @@ const routes = [
                     children: [
                         {
                             component: PersonPractice,
-                            path: ''
+                            path: '',
+                            meta: {title: '练习'}
                         },
                         {
                             component: PK,
-                            path: 'pk'
+                            path: 'pk',
+                            meta: {title: '对战'}
                         },
                     ]
                 },
@@ -116,69 +130,89 @@ const routes = [
                         [
                             {
                                 component: PersonInfo,
-                                path: ''
+                                path: '',
+                                meta: {title: '修改信息'}
                             },
                             {
                                 component: AccountSetting,
-                                path: 'accountSetting'
+                                path: 'accountSetting',
+                                meta: {title: '账户修改'}
                             }]
                 },
                 {
                     component: UserSys,
-                    path: '/sysUser'
+                    path: '/sysUser',
+                    meta: {title: '用户管理'}
                 },
                 {
                     component: PostSys,
-                    path: '/sysPost'
+                    path: '/sysPost',
+                    meta: {title: '帖子管理'}
                 },
                 {
                     component: QuestionSys,
-                    path: '/sysQues'
+                    path: '/sysQues',
+                    meta: {title: '题库管理'}
+                },
+                {
+                    component: SysInformation,
+                    path: '/sysInfo',
+                    meta: {title: '资讯管理'}
                 },
                 {
                     component: MessSend,
-                    path: "/mesaage/send"
+                    path: "/mesaage/send",
+                    meta: {title: '消息发送'}
                 },
                 {
-                component: MessAccept,
-                path: "/message/accept"
-            },
+                    component: MessAccept,
+                    path: "/message/accept",
+                    meta: {title: '消息接收'}
+                },
             ]
 
     },
     {
         component: webIndex,
-        path: "/"
+        path: "/",
+        meta: {title: '首页'}
     },
 
     {
         component: RecordIndex,
-        path: '/record'
+        path: '/record',
+        meta: {title: '做题记录'}
     },
     {
         component: PKRecordIndex,
-        path: '/pkRecord'
+        path: '/pkRecord',
+        meta: {title: '做题记录'}
     },
     {
         component: LoginRegister,
-        path: '/LoginRegister'
+        path: '/LoginRegister',
+        meta: {title: '登录'}
     },
     {
-        component: WriteArticle,
-        path: '/writeArticle'
+        component: ArticleCreate,
+        path: '/writeArticle',
+        meta: {title: '写文章'}
     },
     {
         component: ResultSuccess,
-        path: '/successful'
+        path: '/successful',
+        meta: {title: '结果'}
     },
 
     {
         component: DoQuestions,
         path: '/questions',
+        meta: {title: '练习'}
     },
     {
         component: PKExercise,
-        path: '/pkExercise'
+        path: '/pkExercise',
+        meta: {title: '对战'}
     },
 
 
@@ -187,5 +221,10 @@ const routes = [
 const router = new VueRouter({
     routes: routes
 })
-
+router.beforeEach((to, from, next) => {
+    if (to.meta.title) {
+        document.title ='识骗-'+to.meta.title
+    }
+    next();
+})
 export default router

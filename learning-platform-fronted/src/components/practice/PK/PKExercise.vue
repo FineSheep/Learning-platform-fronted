@@ -101,7 +101,7 @@
             },
             async getInfo() {
                 let opponent = this.$route.query.opponent;
-                console.log(opponent)
+
                 //从远程处获取用户信息
                 const opponentInfo = await myAxios.get("/user/person?personId=" + opponent);
                 if (opponentInfo.code == 0) {
@@ -133,7 +133,7 @@
                 this.quesIds();
                 this.$bus.$emit('send');
                 const time = moment().diff(this.startTime) / 1000// 返回秒数
-                console.log(time)
+
                 let userAnswer = {
                     type: 'GAME_OVER',
                     quesIds: this.answer.quesIds,

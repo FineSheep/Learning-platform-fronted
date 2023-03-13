@@ -14,13 +14,26 @@
             <a-icon type="star" style="margin-right: 8px" @click="collectOrCancel(item)"
                     v-else/>
                     {{item.collectNum}}
-        </span><span>
+        </span>
+                    <span>
           <a-icon type="like" style="margin-right: 8px" theme="filled" v-if="item.thumbed" @click="thumb(item)"/>
           <a-icon type="like" style="margin-right: 8px" @click="thumb(item)" v-else/>
           {{item.thumbNum}}
-        </span><span>
+        </span>
+                    <span>
           <a-icon type="message" style="margin-right: 8px"/>
           {{ item.commentNum }}
+        </span>
+                    <span>
+            <a-icon type="warning" @click="showModel(item.id)"/>
+            <a-modal
+                    title="举报"
+                    :visible="visible"
+                    @ok="handleOk"
+                    @cancel="handleCancel"
+            >
+           <a-textarea placeholder="输入举报理由....." :rows="4" v-model="report.content"/>
+             </a-modal>
         </span>
                 </template>
                 <img
@@ -49,9 +62,6 @@
         <div v-if="loading && !busy" class="demo-infinite-container">
             <a-spin/>
         </div>
-        <div>
-            <a-back-top/>
-        </div>
     </div>
 
 </template>
@@ -66,15 +76,37 @@
         directives: {infiniteScroll},
         data() {
             return {
+                report: {
+                    id: null,
+                    content: undefined
+                },
                 pageSize: 10,
                 curPage: 0,
                 data: [],
                 loading: false,
                 busy: false,
-                personCoTh: {}
+                personCoTh: {},
+                visible: false
             };
         },
         methods: {
+            handleOk() {
+                if (this.report.content==undefined || this.report.content.length==0){
+                    this.$message.error("请输入信息")
+                    return
+                }else {
+                    myAxios.post('/message/reportPost',this.report)
+                    this.$message.success("举报成功，等待管理员处理")
+                    this.visible = false
+                }
+            },
+            handleCancel() {
+                this.visible = false
+            },
+            showModel(id) {
+                this.visible = true;
+                this.report.id = id;
+            },
             toHtml(item) {
                 const id = item.id;
                 this.$router.push({
@@ -121,7 +153,7 @@
                     this.$message.warning("数据加载完毕！");
                     this.busy = true;
                     this.loading = false;
-                    return ;
+                    return;
                 }
                 this.loading = true;
                 this.data = [...this.data, ...data]
@@ -146,4 +178,8 @@
         overflow-y: auto;
     }
 
+    img {
+        width: 250px;
+        height: 150px;
+    }
 </style>
