@@ -53,7 +53,9 @@
             },
             readAll() {
                 myAxios.get(`/message/readAllComment`)
-                this.getComment()
+                for (let i = 0; i < this.data.length; i++) {
+                    this.data[i].isRead = 1
+                }
             },
             getComment() {
                 const that = this;

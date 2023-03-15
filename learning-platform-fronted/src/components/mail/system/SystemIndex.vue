@@ -53,7 +53,9 @@
             },
             readAll() {
                 myAxios.get(`/message/readAllSystemMessage`)
-                this.systemMessage()
+                for (let i = 0; i < this.data.length; i++) {
+                    this.data[i].isRead = 1
+                }
             },
             systemMessage() {
                 const that = this;
@@ -65,7 +67,6 @@
                                 return;
                             }
                         }
-
                         that.data = res.data.data
                         that.total = res.data.count
                     })

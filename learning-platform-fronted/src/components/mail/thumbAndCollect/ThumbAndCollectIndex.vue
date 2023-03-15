@@ -53,7 +53,9 @@
             },
             readAll() {
                 myAxios.get(`/message/readAllThumbCollectMessage`)
-                this.getThumbCollect()
+                for (let i = 0; i < this.data.length; i++) {
+                    this.data[i].isRead = 1
+                }
             },
             getThumbCollect() {
                 const that = this;
