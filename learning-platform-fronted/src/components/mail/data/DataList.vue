@@ -67,7 +67,7 @@
         methods: {
             toPost(item) {
                 const id =item.postId;
-                const messageId =item.id;
+                const messageId =item.messageId;
                 myAxios.get(`/message/readMessage?messageId=${messageId}`)
                 this.$router.push({
                     query: {

@@ -38,26 +38,29 @@
         async mounted() {
             let user = await userJs.getCurrentUser();
             this.current = user;
+
             this.loadComment()
         },
         methods: {
             loadComment() {
                 const that = this;
-                myAxios.get(`comment/getAllComments?postId=${this.currentPost.postId}`)
-                    .then(function (res) {
-                        const comments = res.data;
-                        for (let comment of comments) {
-                            that.commentDatas.push({
-                                id: comment.id,
-                                isAdmin: that.isAdmin(comment.userId),
-                                avatar: comment.avatar,
-                                create_time: moment(comment.createTime).startOf('minute').fromNow(),
-                                nickname: comment.username,
-                                parentId: comment.parentId,
-                                content: comment.content,
-                            })
-                        }
-                    })
+                this.$nextTick(()=>{
+                    myAxios.get(`comment/getAllComments?postId=${this.currentPost.postId}`)
+                        .then(function (res) {
+                            const comments = res.data;
+                            for (let comment of comments) {
+                                that.commentDatas.push({
+                                    id: comment.id,
+                                    isAdmin: that.isAdmin(comment.userId),
+                                    avatar: comment.avatar,
+                                    create_time: moment(comment.createTime).startOf('minute').fromNow(),
+                                    nickname: comment.username,
+                                    parentId: comment.parentId,
+                                    content: comment.content,
+                                })
+                            }
+                        })
+                })
             },
             isAdmin(currentId) {
                 return currentId === this.currentPost.userId ? 1 : 0;
