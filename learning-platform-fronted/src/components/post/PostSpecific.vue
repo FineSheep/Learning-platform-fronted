@@ -12,9 +12,6 @@
         <div>
             <post-comment :post="post"/>
         </div>
-        <div>
-            <a-back-top/>
-        </div>
     </div>
 </template>
 

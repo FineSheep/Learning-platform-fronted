@@ -1,20 +1,25 @@
 <template>
     <div>
-        <a-button type="primary" @click="plus">
-            <a-icon type="plus" @click="plus"/>
-            增加
-        </a-button>
-        <a-upload
-                name="file"
-                :multiple="false"
-                :customRequest="upload"
-        >
-            <a-button :style="{ marginLeft: '8px' }">
-                <a-icon type="upload" />
-                上传
+        <a-space>
+            <a-button type="primary" @click="plus">
+                <a-icon type="plus" @click="plus"/>
+                增加
             </a-button>
-        </a-upload>
-
+            <a-upload
+                    name="file"
+                    :multiple="false"
+                    :customRequest="upload"
+            >
+                <a-button :style="{ marginLeft: '8px' }">
+                    <a-icon type="upload"/>
+                    上传
+                </a-button>
+            </a-upload>
+            <a-button type="primary" @click="templateDownload">
+                <a-icon type="vertical-align-bottom"/>
+                模板下载
+            </a-button>
+        </a-space>
         <a-modal
                 title="增加题目"
                 :visible="visible"
@@ -111,6 +116,22 @@
             }
         },
         methods: {
+            templateDownload() {
+                /* 在axios请求中加入responseType: 'blob'参数,表示接收的数据为二进制文件流 */
+                myAxios.get(`sysQues/downloadTemplate`, {responseType: 'blob'}).then(res => {
+                    const blob = new Blob([res]);//处理文档流
+                    const fileName = '题目模板.xlsx';
+                    const elink = document.createElement('a');
+                    elink.download = fileName;
+                    elink.style.display = 'none';
+                    elink.href = URL.createObjectURL(blob);
+                    document.body.appendChild(elink);
+                    elink.click();
+                    URL.revokeObjectURL(elink.href); // 释放URL 对象
+                    document.body.removeChild(elink);
+                })
+
+            },
             async upload(file) {
                 const form = new FormData()
                 form.append('file', file.file)
@@ -156,7 +177,7 @@
                         setTimeout(() => {
                             this.visible = false;
                             this.confirmLoading = false;
-                            myAxios.post('/sysQues/saveOrUpdateQues',form)
+                            myAxios.post('/sysQues/saveOrUpdateQues', form)
                         }, 1000);
                         this.$message.success('添加成功');
                     }

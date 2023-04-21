@@ -3,6 +3,7 @@ import router from "@/router/routes";
 import {message} from 'ant-design-vue'
 // Set config defaults when creating the instance
 const isDev = process.env.NODE_ENV === 'development';
+//todo 更换地址
 const myAxios = axios.create({
     baseURL: isDev ? 'http://127.0.0.1:9001' : 'http://www.haoyang666.fun:9001',
 

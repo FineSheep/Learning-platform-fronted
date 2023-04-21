@@ -65,10 +65,11 @@ function websocketClose(e) {
 
 function websocketOpen(e) {
     console.log("连接成功");
-    /*        setInterval(() => {
-                const ping = {"type": "PING"};
-                websocketSend(ping);
-            }, 5000)*/
+    setInterval(() => {
+        console.log("心跳检查");
+        const ping = {"type": "PING"};
+        websocketSend(ping);
+    }, 5000)
 }
 
 initWebSocket();

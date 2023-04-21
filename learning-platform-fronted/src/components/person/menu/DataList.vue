@@ -22,7 +22,7 @@
                         <a> 删除</a>
                     </a-popconfirm>
                 </a>
-                <a slot="actions">更多</a>
+                <a slot="actions" @click="toPost(item.id)">更多</a>
                 <a-list-item-meta
                         :description="item.description"
                 >
@@ -41,7 +41,7 @@
 
     export default {
         name: "DataList",
-        props: ['type','dataList'],
+        props: ['type', 'dataList'],
         data() {
             return {
                 loading: true,
@@ -53,8 +53,8 @@
                 finish: false
             }
         },
-        watch:{
-            dataList(){
+        watch: {
+            dataList() {
                 this.data = this.dataList;
             }
         },
@@ -65,6 +65,14 @@
             this.loading = false;
         },
         methods: {
+            toPost(id) {
+                this.$router.push({
+                    query: {
+                        postId: id,
+                    },
+                    path: '/post'
+                })
+            },
             showDrawer() {
                 this.visible = true;
             },

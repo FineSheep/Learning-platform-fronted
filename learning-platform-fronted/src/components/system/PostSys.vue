@@ -137,45 +137,46 @@
                     <a @click="watchPost(record.id)">查看</a>
                      <a-divider type="vertical"/>
                     <a @click="check(record,index)">审核</a>
-                        <a-modal
-                                title="审核信息"
-                                :visible="visible"
-                                :confirm-loading="confirmLoading"
-                                @ok="handleOk"
-                                @cancel="handleCancel"
-                        >
-                     <a-form layout="horizontal" :label-col="{span:4}" :wrapper-col="{span:14}">
-                        <a-form-item
-                                label="编号">
-                            <a-input v-model="single.id" disabled/>
-                        </a-form-item>
-                        <a-form-item
-                                label="标题">
-                            <a-input v-model="single.title" disabled/>
-                        </a-form-item>
-                         <a-form-item
-                                 label="详细信息">
-                            <a @click="watchPost(single.id)">点击跳转</a>
-                        </a-form-item>
-                         <a-form-item
-                                 label="审核">
-                            <a-select :default-value="reviewStatus[single.reviewStatus]" @change="selectChange">
-                                <a-select-option key="0">待审核</a-select-option>
-                                <a-select-option key="1">通过</a-select-option>
-                                <a-select-option key="2">拒绝</a-select-option>
-                            </a-select>
-                        </a-form-item>
-                         <a-form-item
-                                 label="审核信息">
-                             <a-textarea v-model="single.reviewMessage"></a-textarea>
-                         </a-form-item>
-                    </a-form>
-                     </a-modal>
                 </span>
                 <span slot="tagsName" slot-scope="tagsName">
                         <a-tag v-for="item in tagsName" :key="item">{{item}}</a-tag>
                 </span>
             </a-table>
+            <a-modal
+                    title="审核信息"
+                    :visible="visible"
+                    :confirm-loading="confirmLoading"
+                    @ok="handleOk"
+                    @cancel="handleCancel"
+            >
+                <a-form layout="horizontal" :label-col="{span:4}" :wrapper-col="{span:14}">
+                    <a-form-item
+                            label="编号">
+                        <a-input v-model="single.id" disabled/>
+                    </a-form-item>
+                    <a-form-item
+                            label="标题">
+                        <a-input v-model="single.title" disabled/>
+                    </a-form-item>
+                    <a-form-item
+                            label="详细信息">
+                        <a @click="watchPost(single.id)">点击跳转</a>
+                    </a-form-item>
+                    <a-form-item
+                            label="审核">
+                        <a-select :default-value="reviewStatus[single.reviewStatus]" @change="selectChange">
+                            <a-select-option key="0">待审核</a-select-option>
+                            <a-select-option key="1">通过</a-select-option>
+                            <a-select-option key="2">拒绝</a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <a-form-item
+                            label="审核信息">
+                        <a-textarea v-model="single.reviewMessage"></a-textarea>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
+
         </div>
     </div>
 </template>

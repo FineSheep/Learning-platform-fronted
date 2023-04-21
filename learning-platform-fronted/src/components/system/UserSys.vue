@@ -124,40 +124,7 @@
                 <span slot="gender" slot-scope="gender">{{gender===0?'男':'女'}}</span>
                 <span slot="action" slot-scope="action, record,index">
                   <a @click="vis(record,index)">修改</a>
-                    <a-modal
-                            title="修改信息"
-                            :visible="visible"
-                            :confirm-loading="confirmLoading"
-                            @ok="handleOk(record)"
-                            @cancel="handleCancel"
-                    >
-                    <a-form layout="horizontal">
-                        <a-form-item
-                                :label-col="{span:4}"
-                                :wrapper-col="{span:14}"
-                                label="编号">
-                            <a-input disabled v-model="single.id"/>
-                        </a-form-item>
-                        <a-form-item
-                                :label-col="{span:4}"
-                                :wrapper-col="{span:14}"
-                                label="昵称">
-                            <a-input v-model="single.username"/>
-                        </a-form-item>
-                        <a-form-item
-                                :label-col="{span:4}"
-                                :wrapper-col="{span:14}"
-                                label="邮箱">
-                            <a-input disabled v-model="single.email"/>
-                        </a-form-item>
-                        <a-form-item
-                                :label-col="{span:4}"
-                                :wrapper-col="{span:14}"
-                                label="简介">
-                            <a-input type="textarea" v-model="single.profile"/>
-                        </a-form-item>
-                    </a-form>
-                </a-modal>
+
                   <a-divider type="vertical"/>
                      <a-popconfirm
                              title="确认删除吗？"
@@ -170,6 +137,40 @@
 
                 </span>
             </a-table>
+            <a-modal
+                    title="修改信息"
+                    :visible="visible"
+                    :confirm-loading="confirmLoading"
+                    @ok="handleOk()"
+                    @cancel="handleCancel"
+            >
+                <a-form layout="horizontal">
+                    <a-form-item
+                            :label-col="{span:4}"
+                            :wrapper-col="{span:14}"
+                            label="编号">
+                        <a-input disabled v-model="single.id"/>
+                    </a-form-item>
+                    <a-form-item
+                            :label-col="{span:4}"
+                            :wrapper-col="{span:14}"
+                            label="昵称">
+                        <a-input v-model="single.username"/>
+                    </a-form-item>
+                    <a-form-item
+                            :label-col="{span:4}"
+                            :wrapper-col="{span:14}"
+                            label="邮箱">
+                        <a-input disabled v-model="single.email"/>
+                    </a-form-item>
+                    <a-form-item
+                            :label-col="{span:4}"
+                            :wrapper-col="{span:14}"
+                            label="简介">
+                        <a-input type="textarea" v-model="single.profile"/>
+                    </a-form-item>
+                </a-form>
+            </a-modal>
         </div>
 
     </div>
@@ -293,7 +294,7 @@
                 this.single = {...record};
                 this.index = index
             },
-            handleOk(record) {
+            handleOk() {
                 const that = this;
                 this.confirmLoading = true;
                 this.$set(this.dataList, this.index, this.single)
