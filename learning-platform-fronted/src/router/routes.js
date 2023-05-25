@@ -1,12 +1,11 @@
 import VueRouter from 'vue-router'
 import LayOut from "@/components/layout/LayOut";
-import ListCard from "@/components/case/ListCard";
+import crawList from "@/components/case/crawList/index"
 import personCenter from "@/components/person/PersonCenter"
 import editPerson from '@/components/search/EditPerson'
 import LoginRegister from "@/components/person/LoginRegister";
 import PersonInfo from "@/components/person/update/PersonInfo";
 import AccountSetting from "@/components/person/update/AccountSetting";
-import ListNews from "@/components/case/ListNews";
 import webIndex from "@/components/WebIndex";
 import PracticeIndex from "@/components/practice/index/PracticeIndex";
 import PersonPractice from "@/components/practice/index/PersonPractice";
@@ -26,19 +25,13 @@ import ThumbAndCollectIndex from "@/components/mail/thumbAndCollect/ThumbAndColl
 import SystemIndex from "@/components/mail/system/SystemIndex";
 import RecordIndex from "@/components/practice/record/RecordIndex";
 import PKRecordIndex from "@/components/practice/record/PKRecordIndex";
-import UserSys from "@/components/system/UserSys";
-import PostSys from "@/components/system/PostSys";
-import QuestionSys from "@/components/system/QuestionSys";
-import MessSend from "@/components/system/message/MessSend";
-import MessAccept from "@/components/system/message/MessAccept";
 import ArticleCreate from "@/components/postCenter/create/ArticleCreate";
-import SysInformation from "@/components/system/SysInformation";
-
+import caseIndex from "@/components/case/card/index"
 const routes = [
 
     {
         component: LayOut,
-        path: '/index',
+        path: '/',
         children:
             [
                 {
@@ -63,8 +56,13 @@ const routes = [
                     ]
                 },
                 {
-                    component: ListCard,
-                    path: '',
+                    component: webIndex,
+                    path: '/',
+                    meta: {title: '首页'}
+                },
+                {
+                    component: caseIndex,
+                    path: '/index',
                     meta: {title: '首页'}
                 },
                 {
@@ -98,7 +96,7 @@ const routes = [
                     ]
                 },
                 {
-                    component: ListNews,
+                    component: crawList,
                     path: '/news',
                     meta: {title: '资讯'}
                 },
@@ -139,45 +137,14 @@ const routes = [
                                 meta: {title: '账户修改'}
                             }]
                 },
-                {
-                    component: UserSys,
-                    path: '/sysUser',
-                    meta: {title: '用户管理'}
-                },
-                {
-                    component: PostSys,
-                    path: '/sysPost',
-                    meta: {title: '帖子管理'}
-                },
-                {
-                    component: QuestionSys,
-                    path: '/sysQues',
-                    meta: {title: '题库管理'}
-                },
-                {
-                    component: SysInformation,
-                    path: '/sysInfo',
-                    meta: {title: '资讯管理'}
-                },
-                {
-                    component: MessSend,
-                    path: "/mesaage/send",
-                    meta: {title: '消息发送'}
-                },
-                {
-                    component: MessAccept,
-                    path: "/message/accept",
-                    meta: {title: '消息接收'}
-                },
             ]
 
     },
-    {
+/*    {
         component: webIndex,
         path: "/",
         meta: {title: '首页'}
-    },
-
+    },*/
     {
         component: RecordIndex,
         path: '/record',

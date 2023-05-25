@@ -60,9 +60,12 @@
             }
         },
         watch: {
-            data() {
-                this.dataList = this.data;
-            }
+            data: {
+                immediate: true,
+                handler(newVal, oldVal) {
+                    this.dataList = newVal;
+                }
+            },
         },
         methods: {
             toPost(item) {

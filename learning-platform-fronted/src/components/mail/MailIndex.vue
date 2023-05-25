@@ -1,5 +1,5 @@
 <template>
-    <a-layout id="components-layout-demo-responsive">
+    <a-layout id="components-layout-demo-responsive" class="message">
         <a-layout-sider
                 theme="light"
         >
@@ -55,5 +55,8 @@
 </script>
 
 <style scoped>
-
+    .message {
+        width: 80%;
+        margin: 0 auto;
+    }
 </style>

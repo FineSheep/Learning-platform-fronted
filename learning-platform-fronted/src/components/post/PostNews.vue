@@ -65,6 +65,8 @@
     .news {
         background-color: #fff;
         padding: 20px;
+        width: 80%;
+        margin: 0 auto;
     }
 
     .middle {

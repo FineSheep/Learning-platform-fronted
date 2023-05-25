@@ -61,9 +61,13 @@
             }
         },
         watch: {
-            data() {
-                this.dataList = this.data;
-            }
+            data: {
+                immediate: true,
+                handler(newVal, oldVal) {
+                    this.dataList = newVal;
+                    console.log(newVal)
+                }
+            },
         },
         async mounted() {
             this.user = await userJs.getCurrentUser()

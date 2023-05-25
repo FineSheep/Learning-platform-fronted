@@ -3,6 +3,9 @@
         <a-button type="primary" @click="showModal">
             开始训练吧
         </a-button>
+        <span style="color:red">
+            （注意：个人练习由自己选择题目数量，系统随机抽取；PK对战随机匹配在线用户进行游戏答题）
+        </span>
         <a-modal v-model="visible" title="题目设置" @ok="handleOK" ok-text="确认" cancel-text="取消">
             <a-row>
                 <a-col :span="4"><p style="margin-top: 10px">题目数量：</p></a-col>

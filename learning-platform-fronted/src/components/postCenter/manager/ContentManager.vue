@@ -1,19 +1,10 @@
 <template>
-    <div style="background-color:#fff; padding: 20px">
+    <div class="postCenter">
         <div style="margin: 20px">
             <a-space size="large">
                 <a-button style="width: 100px" type="primary" block @click="article"> 写文章</a-button>
                 <a-range-picker @change="onChange" :locale="locale" style="width: 200px"/>
-                <!--                <a-select
-                                        mode="multiple"
-                                        style="width: 200px"
-                                        placeholder="请选择标签"
-                                        @change="tagChange"
-                                >
-                                    <a-select-option v-for="item in tags" :key="item.id">
-                                        {{item.tagName}}
-                                    </a-select-option>
-                                </a-select>-->
+
                 <a-button type="primary" @click="search">搜索</a-button>
             </a-space>
         </div>
@@ -123,5 +114,10 @@
 </script>
 
 <style scoped>
-
+    .postCenter {
+        width: 80%;;
+        background-color: #fff;
+        padding: 20px;
+        margin: 0 auto;
+    }
 </style>

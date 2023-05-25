@@ -5,7 +5,7 @@ import {message} from 'ant-design-vue'
 const isDev = process.env.NODE_ENV === 'development';
 //todo 更换地址
 const myAxios = axios.create({
-    baseURL: isDev ? 'http://127.0.0.1:9001' : 'http://www.haoyang666.fun:9001',
+    baseURL: isDev ? 'http://127.0.0.1:9001' : '',
 
 });
 myAxios.defaults.withCredentials = true; // 允许携带 cookie

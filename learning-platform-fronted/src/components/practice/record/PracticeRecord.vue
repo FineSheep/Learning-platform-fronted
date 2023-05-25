@@ -82,16 +82,16 @@
                     多选
                 </a-tag>
                 <div style="font-weight: bold;font-size: 14px;">{{index+1}}. {{item.content}}</div>
-                <a-checkbox-group style="width: 100%">
-                    <a-checkbox value="a" class="option checkBox">{{item.optionA}}</a-checkbox>
-                    <a-checkbox value="b" class="option checkBox">{{item.optionB}}</a-checkbox>
-                    <a-checkbox value="c" class="option checkBox" v-if="item.optionC!=null">{{item.optionC}}
+                <a-checkbox-group style="width: 100%" :value="toArr(item.correct)">
+                    <a-checkbox value="A" class="option checkBox">{{item.optionA}}</a-checkbox>
+                    <a-checkbox value="B" class="option checkBox">{{item.optionB}}</a-checkbox>
+                    <a-checkbox value="C" class="option checkBox" v-if="item.optionC!=null">{{item.optionC}}
                     </a-checkbox>
-                    <a-checkbox value="d" class="option checkBox" v-if="item.optionD!=null">{{item.optionD}}
+                    <a-checkbox value="D" class="option checkBox" v-if="item.optionD!=null">{{item.optionD}}
                     </a-checkbox>
                 </a-checkbox-group>
                 <p style="font-weight: bold;font-size: 14px;">
-                    正确答案：{{item.correct}},你的答案：{{item.userAnswer}}
+                    正确答案：{{item.correct}},你的答案：{{upper(item.userAnswer)}}
                     <a-tooltip>
                         <template slot="title">
                             觉得答案有问题，点击反馈
@@ -117,29 +117,60 @@
 
     export default {
         name: "PracticeRecord",
-        props: ['radio', 'mulChoice'],
+        props: {
+            radio: {
+                type: Array,
+            },
+            mulChoice: {
+                type: Array,
+            }
+        },
         data() {
             return {
+                radioRecord:[],
+                mulChoiceRecord:[],
                 id: undefined,
                 visible: false,
                 content: undefined
             }
-        }
-        , computed: {
+        },
+        watch:{
+            radio:{
+                immediate:true,
+                handler(newVal,oldVal){
+                    this.radioRecord = newVal;
+                    // console.log(this.radioRecord )
+                }
+            },
+            mulChoice:{
+                immediate:true,
+                handler(newVal,oldVal){
+                    this.mulChoiceRecord = newVal;
+                    // console.log(this.mulChoiceRecord)
+                }
+            }
+        },
+        computed: {
             hasRadio() {
-                return this.radio != null && this.radio.length !== 0;
+                return this.radioRecord != null && this.radioRecord.length !== 0;
             },
             hasMulChoice() {
-                return this.mulChoice != null && this.mulChoice.length !== 0;
+                return this.mulChoiceRecord != null && this.mulChoiceRecord.length !== 0;
             },
         },
+
         methods: {
+            toArr(str) {
+                console.log(str)
+                let arr = Array.from(str);
+                return arr;
+            },
             handleOk() {
-                if (this.content==undefined || this.content.length==0){
+                if (this.content == undefined || this.content.length == 0) {
                     this.$message.error("请输入信息")
                     return
-                }else {
-                    myAxios.post('/message/reportPost',this.report)
+                } else {
+                    myAxios.post('/message/reportPost', this.report)
                     this.$message.success("提交成功，等待管理员处理")
                     this.visible = false
                 }

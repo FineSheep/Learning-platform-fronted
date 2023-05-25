@@ -54,7 +54,7 @@
             readAll() {
                 myAxios.get(`/message/readAllSystemMessage`)
                 for (let i = 0; i < this.data.length; i++) {
-                    this.data[i].isRead = 1
+                    this.data[i].isRead = 0
                 }
             },
             systemMessage() {

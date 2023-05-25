@@ -1,48 +1,26 @@
 <template>
     <div>
-        <div class="logo"/>
+        <div id="logo" class="logo" @click="toPage"/>
         <a-menu mode="horizontal"
                 class="ant-menu"
                 @click="menuSearch">
-            <a-menu-item key="index">
+            <a-menu-item key="">
+                <a-icon type="bank"/>
                 首页
             </a-menu-item>
+            <a-menu-item key="index">
+                <a-icon type="fork"/>
+                博文游览
+            </a-menu-item>
             <a-menu-item key="practiceIndex">
+                <a-icon type="radar-chart"/>
                 答题冲刺
             </a-menu-item>
             <a-menu-item key="news">
+                <a-icon type="sliders"/>
                 在线资讯
             </a-menu-item>
-            <a-menu-item v-if="user.userRole" key="sysUser">
-                <img class="sys-img" :src="sys" />
-                用户管理
-            </a-menu-item>
-            <a-menu-item v-if="user.userRole" key="sysPost">
-                <img class="sys-img" :src="sys"/>
-                帖子管理
-            </a-menu-item>
-            <a-menu-item v-if="user.userRole" key="sysQues">
-                <img class="sys-img" :src="sys"/>
-                题库管理
-            </a-menu-item>
-            <a-menu-item v-if="user.userRole" key="sysInfo">
-                <img class="sys-img" :src="sys"/>
-                资讯管理
-            </a-menu-item>
-            <a-sub-menu v-if="user.userRole">
-                <span slot="title" class="submenu-title-wrapper" >
-                 <img class="sys-img" :src="sys"/>
-                消息反馈
-                </span>
-                <a-menu-item key="mesaage/send">
-                    消息发送
-                </a-menu-item>
-                <a-menu-item key="message/accept">
-                    消息接收
-                </a-menu-item>
-            </a-sub-menu>
 
-            <a-menu-item style="flex: 1;border: none" key="none"/>
             <a-menu-item key="mail" style="border: none">
                 <div>
                     <a-badge :dot="show">
@@ -57,6 +35,10 @@
                     <a-icon type="edit"/>
                     内容创作
                 </div>
+            </a-menu-item>
+            <a-menu-item style="flex: 1;border: none" key="none"/>
+            <a-menu-item style="border: none" key="none-1">
+                <concat/>
             </a-menu-item>
             <a-menu-item style="border: none" key="personCenter">
                 <a-dropdown v-if="isLogin">
@@ -83,13 +65,16 @@
 
 
 <script>
-
+    import concat from "@/components/concat"
     import userJs from "@/userJs/user"
     import myAxios from "@/axios/myAxios";
     import sys from '@/assets/system/system.svg'
 
     export default {
         name: "MenuSearch",
+        components: {
+            concat
+        },
         async mounted() {
             const user = await userJs.getCurrentUser();
 
@@ -109,7 +94,11 @@
                 sys
             };
         },
+
         methods: {
+            toPage() {
+                this.$router.push(`/`)
+            },
             toPersonCenter() {
                 this.$router.push(`/personCenter`)
             },
@@ -123,7 +112,7 @@
                 this.$router.push("/LoginRegister")
             },
             menuSearch(e) {
-                if (e.key != 'personCenter' && e.key != 'none') {
+                if (e.key != 'personCenter' && e.key != 'none' && e.key != 'none-1') {
                     this.$router.push(`/${e.key}`)
                 }
             },
@@ -143,10 +132,11 @@
 
 
 <style scoped>
-    .sys-img{
+    .sys-img {
         height: 15px;
         width: 15px;
     }
+
     .logo {
         width: 200px;
         height: 40px;
@@ -156,6 +146,10 @@
         margin-right: 20px;
         float: left;
         display: inline-block;
+    }
+
+    #logo{
+        cursor: pointer;
     }
 
     .ant-menu {

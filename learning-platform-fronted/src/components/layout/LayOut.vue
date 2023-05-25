@@ -35,19 +35,24 @@
     export default {
         name: "LayOut",
         components: {MenuSearch},
-        methods:{
-            github(){
-                location.href='https://github.com/FineSheep/learning-platform-banckend'
+        methods: {
+            github() {
+                location.href = 'https://github.com/FineSheep/learning-platform-banckend'
             }
         }
     }
 </script>
 <style scoped>
     .context {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         /*padding-left: 20px;*/
-        padding: 20px;
+        padding-top: 10px;
         min-height: 580px;
+        /*background-image: url("../../assets/background2.png");*/
+/*        background: linear-gradient(180deg, #ecfafa, #f8f8f8);
+        background-repeat: no-repeat;
+        background-size: 100% 600px;*/
     }
+
 </style>

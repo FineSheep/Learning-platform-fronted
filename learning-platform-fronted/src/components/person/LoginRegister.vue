@@ -91,8 +91,13 @@
                 </p>
             </a-card>
         </div>
-
+        <a-space class="bottom">
+            <div>站长©finesheep</div>
+            <a-icon type="github" @click="github"/>
+            <a href="https://beian.miit.gov.cn/#/Integrated/recordQuery">湘ICP备2022021885号</a>
+        </a-space>
     </div>
+
 </template>
 
 <script>
@@ -122,6 +127,9 @@
             };
         },
         methods: {
+            github() {
+                location.href = 'https://github.com/FineSheep/learning-platform-banckend'
+            },
             onTabChange(key, type) {
 
                 this[type] = key;
@@ -136,10 +144,11 @@
                             'password': values.passwordByPass
                         }).then(function (res) {
                             if (res.code == 0) {
+                                console.log(res)
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
                                 that.$store.commit('user/storeUser', res.data)
                                 localStorage.setItem('user', JSON.stringify(res.data))
-                                that.$router.push("/index");
+                                that.$router.push("/");
                                 // that.$router.push("/index");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
@@ -164,7 +173,7 @@
                                 localStorage.setItem("userId", JSON.stringify(res.data.id));
                                 // this.$store.commit('user/storeUser',res.data)
                                 localStorage.setItem('user', res.data)
-                                that.$router.push("/index");
+                                that.$router.push("/");
                                 that.$message.success(`欢迎登录，${res.data.username}`);
                             } else {
                                 that.$message.error(res.description)
@@ -194,6 +203,12 @@
 </script>
 
 <style scoped>
+    .bottom {
+        position: absolute;
+        bottom: 50px;
+        left: 40%;
+    }
+
     .container {
         width: 100%;
         height: 100%;

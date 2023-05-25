@@ -2,7 +2,7 @@ var websocket = null;
 var global_callback = null;
 //todo 更换环境
 const isDev = process.env.NODE_ENV === 'development';
-const baseURL = isDev ? '127.0.0.1:9001' : 'www.haoyang666.fun:9001';
+const baseURL = isDev ? '127.0.0.1:9001' : '';
 const ip = `ws://${baseURL}/game/match/${localStorage.getItem('userId')}`
 
 
@@ -65,11 +65,11 @@ function websocketClose(e) {
 
 function websocketOpen(e) {
     console.log("连接成功");
-    setInterval(() => {
+/*    setInterval(() => {
         console.log("心跳检查");
         const ping = {"type": "PING"};
         websocketSend(ping);
-    }, 5000)
+    }, 5000)*/
 }
 
 initWebSocket();
