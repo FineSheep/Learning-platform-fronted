@@ -23,7 +23,7 @@
 - jwt续约以及强制登录
 - 邮件发送
 - 定时任务+爬虫
-- easy-excel实现excelsa'hsah上传
+- easy-excel实现excel上传
 - websocket实现匹配对战
 - knife4j接口文档
 - aop实现简单的权限控制（后面弃用，改用ruoyi:cold_sweat:）
